@@ -9,6 +9,18 @@ import java.util.List;
 public interface OrganizationComponent {
 
   /**
+   * Returns the ID of the organization component.
+   * @return the ID of the organization component
+   */
+  long getId();
+
+  /**
+   * Returns the name of the organization component.
+   * @return the name of the organization component
+   */
+  String getName();
+
+  /**
    * Adds a child component to the organization.
    * @param organizationComponent the child component to add
    * @return true if the child component was added, false otherwise
@@ -21,18 +33,6 @@ public interface OrganizationComponent {
    * @return true if the child component was removed, false otherwise
    */
   boolean remove(OrganizationComponent organizationComponent);
-
-  /**
-   * Returns the ID of the organization component.
-   * @return the ID of the organization component
-   */
-  long getId();
-
-  /**
-   * Returns the name of the organization component.
-   * @return the name of the organization component
-   */
-  String getName();
 
   /**
    * Returns the number of children of the organization component.

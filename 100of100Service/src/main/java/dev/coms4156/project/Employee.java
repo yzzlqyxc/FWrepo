@@ -13,6 +13,12 @@ public class Employee implements OrganizationComponent {
   private final String name;
   private final Date hireDate;
 
+  /**
+   * Constructs an employee with the given ID, name, and hire date.
+   * @param id the ID of the employee
+   * @param name the name of the employee
+   * @param hireDate the hire date of the employee
+   */
   public Employee(int id, String name, Date hireDate) {
     this.id = id;
     this.name = name;
@@ -23,6 +29,7 @@ public class Employee implements OrganizationComponent {
    * Returns the ID of the employee.
    * @return the ID of the employee
    */
+  @Override
   public long getId() {
     return this.id;
   }
@@ -31,6 +38,7 @@ public class Employee implements OrganizationComponent {
    * Returns the name of the employee.
    * @return the name of the employee
    */
+  @Override
   public String getName() {
     return this.name;
   }
@@ -48,6 +56,7 @@ public class Employee implements OrganizationComponent {
    * @return null
    * @throws UnsupportedOperationException since employees cannot have children structure
    */
+  @Override
   public boolean add(OrganizationComponent organizationComponent) {
     throw new UnsupportedOperationException("Employee doesn't support adding children.");
   }
@@ -57,6 +66,7 @@ public class Employee implements OrganizationComponent {
    * @return null
    * @throws UnsupportedOperationException since employees cannot have children structure
    */
+  @Override
   public boolean remove(OrganizationComponent organizationComponent) {
     throw new UnsupportedOperationException("Employee doesn't support removing children.");
   }
@@ -65,6 +75,7 @@ public class Employee implements OrganizationComponent {
    * Returns the number of child structure of the employee.
    * @return 0
    */
+  @Override
   public int getNumChildren() {
     return 0;
   }
@@ -73,6 +84,7 @@ public class Employee implements OrganizationComponent {
    * Returns the child structure of the employee.
    * @return an empty list
    */
+  @Override
   public List<OrganizationComponent> getChildren() {
     return new ArrayList<OrganizationComponent>();
   }
@@ -81,6 +93,7 @@ public class Employee implements OrganizationComponent {
    * Returns the basic information of the employee, including the name and ID.
    * @return the string representation of the employee
    */
+  @Override
   public String toString() {
     return "Employee: " + this.name + " (ID: " + this.id + ")";
   }
