@@ -25,7 +25,7 @@ public class Employee implements OrganizationComponent {
     this.db = db;
     this.id = id;
     this.name = name;
-    this.hireDate = hireDate;
+    this.hireDate = new Date(hireDate.getTime());
   }
 
   /**
@@ -60,7 +60,7 @@ public class Employee implements OrganizationComponent {
    * @return the hire date of the employee
    */
   public Date getHireDate() {
-    return this.hireDate;
+    return new Date(this.hireDate.getTime());
   }
 
 
