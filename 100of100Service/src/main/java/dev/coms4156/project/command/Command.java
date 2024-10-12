@@ -1,4 +1,4 @@
-package dev.coms4156.project;
+package dev.coms4156.project.command;
 
 /**
  * Interface for service logics.

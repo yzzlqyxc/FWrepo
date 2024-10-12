@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Organization extends OrganizationComposite {
   private final List<Employee> employees;
+  private final List<Department> departments;
 
   /**
    * Constructs an organization with the given ID and name.
@@ -15,6 +16,7 @@ public class Organization extends OrganizationComposite {
   public Organization(HRDatabaseFacade db, long id, String name) {
     super(db, id, name);
     this.employees = new ArrayList<>();
+    this.departments = new ArrayList<>();
   }
 
   /**
@@ -33,6 +35,15 @@ public class Organization extends OrganizationComposite {
    */
   public boolean removeEmployee(Employee employee) {
     return this.employees.remove(employee);
+  }
+
+  /**
+   * Add a new department from the organization.
+   * @param department department to be added to this organization
+   * @return true if the department is added, false otherwise
+   */
+  public boolean addDepartment(Department department) {
+    return this.departments.add(department);
   }
 
   /**

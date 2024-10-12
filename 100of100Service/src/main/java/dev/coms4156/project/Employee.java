@@ -60,7 +60,7 @@ public class Employee implements OrganizationComponent {
    * @return the hire date of the employee
    */
   public Date getHireDate() {
-    return this.hireDate;
+    return new Date(this.hireDate.getTime());
   }
 
 

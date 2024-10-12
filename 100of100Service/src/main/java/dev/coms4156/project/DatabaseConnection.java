@@ -1,6 +1,10 @@
 package dev.coms4156.project;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A singleton class of database connection.
@@ -9,24 +13,52 @@ import java.util.List;
  */
 public class DatabaseConnection {
   private volatile static DatabaseConnection instance;
+  // for testing purpose
+  private final Map<Integer, List<Employee>> testEmployees = new HashMap<>();
+  private final Map<Integer, List<Department>> testDepartments = new HashMap<>();
+  private final Map<Integer, Organization> testOrganizations = new HashMap<>();
 
   private DatabaseConnection() {
     // TODO: Initialize the MySQL database connection, maybe ip, user name, and password here?
+    initializeTestData(); // test
   }
 
   public List<Employee> getEmployees(int clientId) {
     // TODO: Maybe some basic SQL query?
-    return null;
+    return testEmployees.getOrDefault(clientId, new ArrayList<>()); // test
+    // return null;
   }
 
   public List<Department> getDepartments(int clientId) {
     // TODO: Maybe some basic SQL query?
-    return null;
+    return testDepartments.getOrDefault(clientId, new ArrayList<>());
+    // return null;
   }
 
   public Organization getOrganization(int clientId) {
     // TODO: Maybe some basic SQL query?
-    return null;
+    return testOrganizations.getOrDefault(clientId, new Organization(null, clientId, "Unknown"));
+    // return null;
+  }
+
+  private void initializeTestData() {
+    List<Employee> employees = List.of(
+      new Employee(null, 1, "Alice", new Date()),
+      new Employee(null, 2, "Bob", new Date())
+    );
+    // Create a fake department and assign it some employees
+    Department engineering = new Department(null, 1L, "Engineering");
+    Department hr = new Department(null, 2L, "HR");
+
+    // Add departments to the organization
+    Organization organization = new Organization(null, 1L, "Test Organization");
+    organization.addDepartment(engineering);
+    organization.addDepartment(hr);
+
+    // Store employees, departments, and organizations in the fake database
+    testEmployees.put(1, employees);
+    testDepartments.put(1, List.of(engineering, hr));
+    testOrganizations.put(1, organization);
   }
 
   /**
