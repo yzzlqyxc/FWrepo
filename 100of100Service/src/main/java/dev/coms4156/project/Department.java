@@ -98,4 +98,17 @@ public class Department implements OrganizationComponent{
   public List<OrganizationComponent> getChildren() {
     return this.children;
   }
+
+  /**
+   * Returns the basic information of the Department, including the name, ID, and head.
+   * @return the string representation of the department
+   */
+  @Override
+  public String toString() {
+    if (this.head != null) {
+      return "Department: " + this.name + " (ID: " + this.id + ") Head: " + this.head.getName();
+    } else {
+      return "Department: " + this.name + " (ID: " + this.id + ")";
+    }
+  }
 }
