@@ -9,17 +9,20 @@ import java.util.List;
  * Designed under the Composite Design Pattern.
  */
 public class Employee implements OrganizationComponent {
+  private final HRDatabaseFacade db;
   private final int id;
   private final String name;
   private final Date hireDate;
 
   /**
    * Constructs an employee with the given ID, name, and hire date.
+   * @param db the HR database facade that manages the employee
    * @param id the ID of the employee
    * @param name the name of the employee
    * @param hireDate the hire date of the employee
    */
-  public Employee(int id, String name, Date hireDate) {
+  public Employee(HRDatabaseFacade db, int id, String name, Date hireDate) {
+    this.db = db;
     this.id = id;
     this.name = name;
     this.hireDate = hireDate;

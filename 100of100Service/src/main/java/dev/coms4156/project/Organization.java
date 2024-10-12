@@ -8,11 +8,12 @@ public class Organization extends OrganizationComposite {
 
   /**
    * Constructs an organization with the given ID and name.
+   * @param db the HR database facade that manages the organization
    * @param id the ID of the organization
    * @param name the name of the organization
    */
-  public Organization(long id, String name) {
-    super(id, name);
+  public Organization(HRDatabaseFacade db, long id, String name) {
+    super(db, id, name);
     this.employees = new ArrayList<>();
   }
 
