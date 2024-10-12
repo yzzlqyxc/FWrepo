@@ -22,6 +22,7 @@ public class SetDeptHeadCommand implements Command {
     HRDatabaseFacade db = HRDatabaseFacade.getInstance(this.clientId);
     Department department = db.getDepartment(this.departmentId);
     Employee employee = db.getEmployee(this.employeeId);
+    // TODO: error checking on Dept and Emp, and how to return HTTP 404
     return department.setHead(employee);
   }
 }
