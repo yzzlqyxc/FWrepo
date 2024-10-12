@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * This class represents an employee in the organization.
+ * Designed under the Composite Design Pattern.
+ */
 public class Employee implements OrganizationComponent {
   private final int id;
   private final String name;
