@@ -44,6 +44,15 @@ public class Employee implements OrganizationComponent {
   }
 
   /**
+   * Returns the child structure of the employee.
+   * @return an empty list
+   */
+  @Override
+  public List<OrganizationComponent> getChildren() {
+    return new ArrayList<>();
+  }
+
+  /**
    * Returns the hire date of the employee.
    * @return the hire date of the employee
    */
@@ -51,43 +60,6 @@ public class Employee implements OrganizationComponent {
     return this.hireDate;
   }
 
-  /**
-   * Returns the number of child structure of the employee.
-   * @return null
-   * @throws UnsupportedOperationException since employees cannot have children structure
-   */
-  @Override
-  public boolean add(OrganizationComponent organizationComponent) {
-    throw new UnsupportedOperationException("Employee doesn't support adding children.");
-  }
-
-  /**
-   * Returns the number of child structure of the employee.
-   * @return null
-   * @throws UnsupportedOperationException since employees cannot have children structure
-   */
-  @Override
-  public boolean remove(OrganizationComponent organizationComponent) {
-    throw new UnsupportedOperationException("Employee doesn't support removing children.");
-  }
-
-  /**
-   * Returns the number of child structure of the employee.
-   * @return 0
-   */
-  @Override
-  public int getNumChildren() {
-    return 0;
-  }
-
-  /**
-   * Returns the child structure of the employee.
-   * @return an empty list
-   */
-  @Override
-  public List<OrganizationComponent> getChildren() {
-    return new ArrayList<OrganizationComponent>();
-  }
 
   /**
    * Returns the basic information of the employee, including the name and ID.

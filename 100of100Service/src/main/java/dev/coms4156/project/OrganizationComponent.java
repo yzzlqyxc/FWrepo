@@ -21,26 +21,6 @@ public interface OrganizationComponent {
   String getName();
 
   /**
-   * Adds a child component to the organization.
-   * @param organizationComponent the child component to add
-   * @return true if the child component was added, false otherwise
-   */
-  boolean add(OrganizationComponent organizationComponent);
-
-  /**
-   * Removes a child component from the organization.
-   * @param organizationComponent the child component to remove
-   * @return true if the child component was removed, false otherwise
-   */
-  boolean remove(OrganizationComponent organizationComponent);
-
-  /**
-   * Returns the number of children of the organization component.
-   * @return the number of children of the organization component
-   */
-  int getNumChildren();
-
-  /**
    * Returns the children of the organization component.
    * @return the children of the organization component
    */

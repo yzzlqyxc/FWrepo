@@ -1,8 +1,10 @@
 package dev.coms4156.project;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -17,6 +19,25 @@ public class RouteController {
   @GetMapping({"/", "/index", "/home"})
   public String index() {
     return "Welcome, in order to make an API call direct your browser or Postman to an endpoint.";
+  }
+
+  /**
+   * Gets the information of an employee.
+   * @param clientId the client ID
+   * @param employeeId the employee ID
+   * @return the information of the employee
+   */
+  @GetMapping(value = "/getEmpInfo", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> getEmployee(
+      @RequestParam("cid") int clientId,
+      @RequestParam("eid") int employeeId
+  ) {
+    try {
+      Command command = new GetEmployeeInfoCommand(clientId, employeeId);
+      return new ResponseEntity<>(command.execute(), HttpStatus.OK);
+    } catch (Exception e) {
+      return handleException(e);
+    }
   }
 
 
