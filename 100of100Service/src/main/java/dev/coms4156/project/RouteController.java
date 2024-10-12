@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,6 +35,27 @@ public class RouteController {
   ) {
     try {
       Command command = new GetEmployeeInfoCommand(clientId, employeeId);
+      return new ResponseEntity<>(command.execute(), HttpStatus.OK);
+    } catch (Exception e) {
+      return handleException(e);
+    }
+  }
+
+  /**
+   * Sets the head of a department.
+   * @param clientId the client ID
+   * @param departmentId the department ID
+   * @param employeeId the employee ID
+   * @return true if the head is set, false otherwise
+   */
+  @PatchMapping(value = "/setDeptHead", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> setDeptHead(
+      @RequestParam("cid") int clientId,
+      @RequestParam("did") long departmentId,
+      @RequestParam("eid") int employeeId
+  ) {
+    try {
+      Command command = new SetDeptHeadCommand(clientId, departmentId, employeeId);
       return new ResponseEntity<>(command.execute(), HttpStatus.OK);
     } catch (Exception e) {
       return handleException(e);

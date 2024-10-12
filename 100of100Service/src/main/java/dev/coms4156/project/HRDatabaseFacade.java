@@ -37,7 +37,7 @@ public class HRDatabaseFacade {
    * @return the employees
    */
   public Employee getEmployee(int employeeId) {
-    // TODO: Check the in-memory cache
+    // Check the in-memory cache
     Employee employee = employees
         .stream()
         .filter(e -> e.getId() == employeeId)
@@ -46,6 +46,22 @@ public class HRDatabaseFacade {
         ;
     // TODO: If not find, do some query to get the employee from the database
     return employee;
+  }
+
+  /**
+   * Returns the departments of the client.
+   * @return the departments
+   */
+  public Department getDepartment(long departmentId) {
+    // Check the in-memory cache
+    Department department = departments
+          .stream()
+          .filter(d -> d.getId() == departmentId)
+          .findFirst()
+          .orElse(null)
+          ;
+    // TODO: If not find, do some query to get the department from the database
+    return department;
   }
 
   /**

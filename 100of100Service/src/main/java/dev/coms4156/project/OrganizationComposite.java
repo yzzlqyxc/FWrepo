@@ -4,16 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class OrganizationComposite implements OrganizationComponent {
+  protected final HRDatabaseFacade db;
   protected final long id;
   protected final String name;
   protected final List<OrganizationComponent> children;
 
   /**
    * Constructs an organization composite with the given ID and name.
+   * @param db the HR database facade
    * @param id the ID of the organization composite
    * @param name the name of the organization composite
    */
-  public OrganizationComposite(long id, String name) {
+  public OrganizationComposite(HRDatabaseFacade db, long id, String name) {
+    this.db = db;
     this.id = id;
     this.name = name;
     this.children = new ArrayList<>();
