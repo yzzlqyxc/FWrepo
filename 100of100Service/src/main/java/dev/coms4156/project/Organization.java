@@ -3,10 +3,7 @@ package dev.coms4156.project;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Organization implements OrganizationComponent{
-  private final long id;
-  private final String name;
-  private final List<OrganizationComponent> children;
+public class Organization extends OrganizationComposite {
   private final List<Employee> employees;
 
   /**
@@ -15,66 +12,8 @@ public class Organization implements OrganizationComponent{
    * @param name the name of the organization
    */
   public Organization(long id, String name) {
-    this.id = id;
-    this.name = name;
-    this.children = new ArrayList<>();
+    super(id, name);
     this.employees = new ArrayList<>();
-  }
-
-  /**
-   * Returns the ID of the organization.
-   * @return the ID of the organization
-   */
-  @Override
-  public long getId() {
-    return this.id;
-  }
-
-  /**
-   * Returns the name of the organization.
-   * @return the name of the organization
-   */
-  @Override
-  public String getName() {
-    return this.name;
-  }
-
-  /**
-   * Adds a child to the organization.
-   * @param organizationComponent the child to add
-   * @return true if the child is added successfully, false otherwise
-   */
-  @Override
-  public boolean add(OrganizationComponent organizationComponent) {
-    return this.children.add(organizationComponent);
-  }
-
-  /**
-   * Removes a child from the organization.
-   * @param organizationComponent the child to remove
-   * @return true if the child is removed successfully, false otherwise
-   */
-  @Override
-  public boolean remove(OrganizationComponent organizationComponent) {
-    return this.children.remove(organizationComponent);
-  }
-
-  /**
-   * Returns the departments of the organization.
-   * @return the departments of the organization
-   */
-  @Override
-  public List<OrganizationComponent> getChildren() {
-    return this.children;
-  }
-
-  /**
-   * Returns the number of children of the organization.
-   * @return the number of children of the organization
-   */
-  @Override
-  public int getNumChildren() {
-    return this.children.size();
   }
 
   /**
