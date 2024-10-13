@@ -70,6 +70,6 @@ public class Employee implements OrganizationComponent {
    */
   @Override
   public String toString() {
-    return "Employee: " + this.name + " (ID: " + this.id + ")";
+    return "Employee: " + this.name + " (ID: " + this.id + ")" + " Hired at: " + this.hireDate;
   }
 }

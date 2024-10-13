@@ -25,7 +25,8 @@ public class Organization extends OrganizationComposite {
    * @return true if the employee is onboarded, false otherwise
    */
   public boolean addEmployee(Employee employee) {
-    return this.employees.add(employee);
+     this.employees.add(employee);
+     return this.add(employee);
   }
 
   /**
@@ -43,7 +44,8 @@ public class Organization extends OrganizationComposite {
    * @return true if the department is added, false otherwise
    */
   public boolean addDepartment(Department department) {
-    return this.departments.add(department);
+    this.departments.add(department);
+    return this.add(department);
   }
 
   /**
@@ -69,9 +71,15 @@ public class Organization extends OrganizationComposite {
    * @return a string representation of the hierarchical structure of the organization
    */
   public static String displayStructure(OrganizationComponent component, int depth) {
-    // TODO: Need to test this method, I write it according to my mind
+    // Tested - add clarification to Dept or Employee
     StringBuilder sb = new StringBuilder();
-    sb.append(" ".repeat(depth * 2)).append("- ").append(component.getName()).append("\n");
+    if (component instanceof Department) {
+      sb.append(" ".repeat(depth * 2)).append("- Dept: ").append(component.getName()).append("\n");
+    } else if (component instanceof Employee) {
+      sb.append(" ".repeat(depth * 2)).append("- Employee: ").append(component.getName()).append("\n");
+    } else {
+      sb.append(" ".repeat(depth * 2)).append("- ").append(component.getName()).append("\n");
+    }
     for (OrganizationComponent child : component.getChildren()) {
       sb.append(displayStructure(child, depth + 1));
     }

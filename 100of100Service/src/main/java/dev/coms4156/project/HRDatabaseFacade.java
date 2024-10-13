@@ -65,6 +65,15 @@ public class HRDatabaseFacade {
   }
 
   /**
+   * Returns the organization of the client.
+   * @return the organization
+   */
+  public Organization getOrganization() {
+    // Check the in-memory cache (this.organization was initialized in constructor)
+    return organization;
+  }
+
+  /**
    * Updates the department information of the client.
    * @param department the department
    * @return true if the department is updated successfully, false otherwise

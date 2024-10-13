@@ -42,21 +42,34 @@ public class DatabaseConnection {
   }
 
   private void initializeTestData() {
-    List<Employee> employees = List.of(
-      new Employee(null, 1, "Alice", new Date()),
-      new Employee(null, 2, "Bob", new Date())
-    );
-    // Create a fake department and assign it some employees
-    Department engineering = new Department(null, 1L, "Engineering");
-    Department hr = new Department(null, 2L, "HR");
+
+    // create test employees and departments
+    Employee alice = new Employee(null, 1, "Alice", new Date());
+    Employee bob = new Employee(null, 2, "Bob", new Date());
+    Employee max = new Employee(null, 3, "Max", new Date());
+    Employee lina = new Employee(null, 4, "Lina", new Date());
+    Employee john = new Employee(null, 5, "John", new Date());
+    Employee jane = new Employee(null, 6, "Jane", new Date());
+    Employee emily = new Employee(null, 7, "Emily", new Date());
+
+    Department engineering = new Department(null, 1L, "Engineering", new ArrayList<>());
+    Department hr = new Department(null, 2L, "HR", new ArrayList<>());
 
     // Add departments to the organization
     Organization organization = new Organization(null, 1L, "Test Organization");
     organization.addDepartment(engineering);
     organization.addDepartment(hr);
+    organization.addEmployee(max);
+
+    engineering.addEmployee(alice);
+    engineering.addEmployee(lina);
+    engineering.addEmployee(john);
+    hr.addEmployee(bob);
+    hr.addEmployee(jane);
+    hr.addEmployee(emily);
 
     // Store employees, departments, and organizations in the fake database
-    testEmployees.put(1, employees);
+    testEmployees.put(1, List.of(alice, bob, max, lina, john, jane, emily));
     testDepartments.put(1, List.of(engineering, hr));
     testOrganizations.put(1, organization);
   }

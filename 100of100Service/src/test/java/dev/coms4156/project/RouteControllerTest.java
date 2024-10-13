@@ -1,7 +1,8 @@
 package dev.coms4156.project;
 
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
@@ -28,7 +29,53 @@ public class RouteControllerTest {
         .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andReturn();
 
-    String content1 = mvcResult1.getResponse().getContentAsString();
-    System.out.println("Response Content: " + content1);
+//    String expected = "Employee: Alice (ID: 1)";
+    String content = mvcResult1.getResponse().getContentAsString();
+    System.out.println(content);
+  }
+
+  @Test
+  public void testGetDeptInfo() throws Exception {
+    MvcResult mvcResult1 = mockMvc.perform(get("/getDeptInfo")
+        .param("cid", "1")
+        .param("did", "1")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andReturn();
+
+    String content = mvcResult1.getResponse().getContentAsString();
+    System.out.println(content);
+  }
+
+  @Test
+  public void testGetOrganizationInfo() throws Exception {
+    MvcResult mvcResult1 = mockMvc.perform(get("/getOrgInfo")
+        .param("cid", "1")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andReturn();
+
+//    String expected = "Department: Engineering (ID: 1)";
+    String content = mvcResult1.getResponse().getContentAsString();
+    System.out.println(content);
+  }
+
+  @Test
+  public void testSetDeptHead() throws Exception {
+    // patch for test
+    mockMvc.perform(patch("/setDeptHead")
+        .param("cid", "1")
+        .param("did", "1")
+        .param("eid", "1")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andReturn();
+
+    // get department to check if head is set
+    MvcResult mvcResult1 = mockMvc.perform(get("/getDeptInfo")
+        .param("cid", "1")
+        .param("did", "1")
+        .accept(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk()).andReturn();
+
+    String content = mvcResult1.getResponse().getContentAsString();
+    System.out.println(content);
   }
 }
