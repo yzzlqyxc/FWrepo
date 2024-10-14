@@ -83,6 +83,11 @@ public class DatabaseConnection {
     return null;
   }
 
+  /**
+   * Returns the unique instance of the database connection.
+   * Designed with "double-checked locking" mechanism to ensure thread safety.
+   * @return the database connection instance
+   */
   public static DatabaseConnection getInstance() {
     if (instance == null) {
       synchronized (DatabaseConnection.class) {

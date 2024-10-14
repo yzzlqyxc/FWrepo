@@ -47,6 +47,15 @@ public class Employee implements OrganizationComponent {
   }
 
   /**
+   * Returns the type name of the employee.
+   * @return the type name of the employee
+   */
+  @Override
+  public String getTypeName() {
+    return "Employee";
+  }
+
+  /**
    * Returns the child structure of the employee.
    * @return an empty list
    */
@@ -70,6 +79,6 @@ public class Employee implements OrganizationComponent {
    */
   @Override
   public String toString() {
-    return "Employee: " + this.name + " (ID: " + this.id + ")";
+    return "Employee: " + this.name + " (ID: " + this.id + ")" + " Hired at: " + this.hireDate;
   }
 }

@@ -1,4 +1,7 @@
-package dev.coms4156.project;
+package dev.coms4156.project.command;
+
+import dev.coms4156.project.Employee;
+import dev.coms4156.project.HRDatabaseFacade;
 
 public class GetEmployeeInfoCommand implements Command {
   private final int clientId;

@@ -8,6 +8,7 @@ public abstract class OrganizationComposite implements OrganizationComponent {
   protected final long id;
   protected final String name;
   protected final List<OrganizationComponent> children;
+  protected String typeName;
 
   /**
    * Constructs an organization composite with the given ID and name.
@@ -20,6 +21,7 @@ public abstract class OrganizationComposite implements OrganizationComponent {
     this.id = id;
     this.name = name;
     this.children = new ArrayList<>();
+    this.typeName = "Abstract";
   }
 
   @Override
@@ -30,6 +32,11 @@ public abstract class OrganizationComposite implements OrganizationComponent {
   @Override
   public String getName() {
     return this.name;
+  }
+
+  @Override
+  public String getTypeName() {
+    return this.typeName;
   }
 
   @Override

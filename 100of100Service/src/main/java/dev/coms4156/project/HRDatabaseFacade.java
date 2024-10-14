@@ -11,6 +11,9 @@ import java.util.Map;
  */
 public class HRDatabaseFacade {
   private final static Map<Integer, HRDatabaseFacade> instances = new HashMap<>();
+  // This boolean is used to switch between the real database and the test database
+  private static boolean isTestMode = false;
+  private static DatabaseConnection dbConnectionStub = null;
 
   private final DatabaseConnection dbConnection;
   private final int organizationId;
@@ -23,7 +26,7 @@ public class HRDatabaseFacade {
    * @param organizationId the organization id
    */
   private HRDatabaseFacade(int organizationId) {
-    this.dbConnection = DatabaseConnection.getInstance();
+    this.dbConnection = isTestMode ? dbConnectionStub : DatabaseConnection.getInstance();
     this.organizationId = organizationId;
     // Initialize the in-memory cache
     this.employees = dbConnection.getEmployees(organizationId);
@@ -94,6 +97,15 @@ public class HRDatabaseFacade {
   }
 
   /**
+   * Returns the organization of the client.
+   * @return the organization
+   */
+  public Organization getOrganization() {
+    // Check the in-memory cache (this.organization was initialized in constructor)
+    return organization;
+  }
+
+  /**
    * Updates the department information.
    * @param department the department
    * @return true if the department is updated successfully, false otherwise
@@ -118,5 +130,21 @@ public class HRDatabaseFacade {
       }
     }
     return instances.get(organizationId);
+  }
+
+  /**
+   * Sets the test mode and test database for the HR database facade.
+   * @param testDatabaseConnection the test database connection
+   *                               (null to disable the test mode)
+   */
+  public static void setTestMode(DatabaseConnection testDatabaseConnection) {
+    if (testDatabaseConnection != null) {
+      isTestMode = true;
+      HRDatabaseFacade.dbConnectionStub = testDatabaseConnection;
+    }
+    else {
+      isTestMode = false;
+      HRDatabaseFacade.dbConnectionStub = null;
+    }
   }
 }

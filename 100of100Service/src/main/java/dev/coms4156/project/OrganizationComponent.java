@@ -21,6 +21,12 @@ public interface OrganizationComponent {
   String getName();
 
   /**
+   * Returns the type name of the organization component.
+   * @return the type name of the organization component
+   */
+  String getTypeName();
+
+  /**
    * Returns the children of the organization component.
    * @return the children of the organization component
    */
