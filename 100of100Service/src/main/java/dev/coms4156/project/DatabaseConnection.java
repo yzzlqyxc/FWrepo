@@ -13,11 +13,11 @@ public class DatabaseConnection {
   private volatile static DatabaseConnection instance;
   private Connection connection;
 
-  private DatabaseConnection() {
+  protected DatabaseConnection() {
     try {
       String url = "jdbc:mysql://database-100-team.c7mqy28ys9uq.us-east-1.rds.amazonaws.com:3306/organization_management";
       String user = "admin";
-      String password = "password";
+      String password = "sxy6cJEmv6iLT61qs7DO";
       this.connection = DriverManager.getConnection(url, user, password);
     } catch (SQLException e) {
       e.printStackTrace();
@@ -54,8 +54,9 @@ public class DatabaseConnection {
       while (rs.next()) {
         Department department = new Department(
                 null, // HRDatabaseFacade instance, passing null for now
-                rs.getLong("department_id"),
-                rs.getString("name")
+                rs.getInt("department_id"),
+                rs.getString("name"),
+                getEmployeesForDepartment(rs.getLong("department_id"))
         );
         departments.add(department);
       }
@@ -81,6 +82,30 @@ public class DatabaseConnection {
       e.printStackTrace();
     }
     return null;
+  }
+
+  private List<Employee> getEmployeesForDepartment(long departmentId) {
+    List<Employee> employees = new ArrayList<>();
+    String query = "SELECT * FROM employees WHERE department_id = ?";
+
+    try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+      pstmt.setLong(1, departmentId);
+      ResultSet rs = pstmt.executeQuery();
+
+      while (rs.next()) {
+        Employee employee = new Employee(
+          null,  // HRDatabaseFacade instance, passing null for now
+          rs.getInt("employee_id"),
+          rs.getString("name"),
+          rs.getDate("hire_date")
+        );
+        employees.add(employee);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    return employees;
   }
 
   /**
