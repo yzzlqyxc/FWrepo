@@ -1,10 +1,12 @@
 package dev.coms4156.project;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import dev.coms4156.project.stubs.DatabaseConnectionStub;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,6 +22,16 @@ public class RouteControllerTest {
 
   @Autowired
   private MockMvc mockMvc;
+
+  /**
+   * Set up the test environment.
+   * Set the database connection to the stub, and flag the TestMode.
+   */
+  @BeforeAll
+  public static void setUp() {
+    DatabaseConnection dbConnectionStub = DatabaseConnectionStub.getInstance();
+    HRDatabaseFacade.setTestMode(dbConnectionStub);
+  }
 
   @Test
   public void testGetEmployeeInfo() throws Exception {
@@ -77,5 +89,14 @@ public class RouteControllerTest {
 
     String content = mvcResult1.getResponse().getContentAsString();
     System.out.println(content);
+  }
+
+  /**
+   * Tear down the test environment.
+   * Reset the database connection to the real database.
+   */
+  @AfterAll
+  public static void tearDown() {
+    HRDatabaseFacade.setTestMode(null);
   }
 }
