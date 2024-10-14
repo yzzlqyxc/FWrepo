@@ -92,7 +92,7 @@ public class RouteController {
   @PatchMapping(value = "/setDeptHead", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> setDeptHead(
       @RequestParam("cid") int clientId,
-      @RequestParam("did") long departmentId,
+      @RequestParam("did") int departmentId,
       @RequestParam("eid") int employeeId
   ) {
     try {

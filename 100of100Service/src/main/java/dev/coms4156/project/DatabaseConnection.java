@@ -1,5 +1,7 @@
 package dev.coms4156.project;
 
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,26 +11,77 @@ import java.util.List;
  */
 public class DatabaseConnection {
   private volatile static DatabaseConnection instance;
+  private Connection connection;
 
-  protected DatabaseConnection() {
-    // TODO: Initialize the MySQL database connection, maybe ip, user name, and password here?
+  private DatabaseConnection() {
+    try {
+      String url = "jdbc:mysql://database-100-team.c7mqy28ys9uq.us-east-1.rds.amazonaws.com:3306/organization_management";
+      String user = "admin";
+      String password = "password";
+      this.connection = DriverManager.getConnection(url, user, password);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
-  public List<Employee> getEmployees(int clientId) {
-    // TODO: Maybe some basic SQL query?
+  public List<Employee> getEmployees(int organizationId) {
+    List<Employee> employees = new ArrayList<>();
+    String query = "SELECT * FROM employees WHERE organization_id = ?";
+    try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+      pstmt.setInt(1, organizationId);
+      ResultSet rs = pstmt.executeQuery();
+      while (rs.next()) {
+        Employee employee = new Employee(
+                null, // HRDatabaseFacade instance, passing null for now
+                rs.getInt("employee_id"),
+                rs.getString("name"),
+                rs.getDate("hire_date") // Assuming this field exists
+        );
+        employees.add(employee);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return employees;
+  }
+
+  public List<Department> getDepartments(int organizationId) {
+    List<Department> departments = new ArrayList<>();
+    String query = "SELECT * FROM departments WHERE organization_id = ?";
+    try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+      pstmt.setInt(1, organizationId);
+      ResultSet rs = pstmt.executeQuery();
+      while (rs.next()) {
+        Department department = new Department(
+                null, // HRDatabaseFacade instance, passing null for now
+                rs.getLong("department_id"),
+                rs.getString("name")
+        );
+        departments.add(department);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return departments;
+  }
+
+  public Organization getOrganization(int organizationId) {
+    String query = "SELECT * FROM organizations WHERE organization_id = ?";
+    try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+      pstmt.setInt(1, organizationId);
+      ResultSet rs = pstmt.executeQuery();
+      if (rs.next()) {
+        return new Organization(
+                null, // HRDatabaseFacade instance, passing null for now
+                rs.getLong("organization_id"),
+                rs.getString("name")
+        );
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
     return null;
   }
-
-  public List<Department> getDepartments(int clientId) {
-    // TODO: Maybe some basic SQL query?
-    return null;
-  }
-
-  public Organization getOrganization(int clientId) {
-    // TODO: Maybe some basic SQL query?
-    return null;
-  }
-
 
   /**
    * Returns the unique instance of the database connection.
