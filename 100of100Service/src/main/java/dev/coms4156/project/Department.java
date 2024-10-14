@@ -20,6 +20,7 @@ public class Department extends OrganizationComposite {
    */
   public Department(HRDatabaseFacade db, long id, String name, List<Employee> employees) {
     super(db, id, name);
+    this.typeName = "Department";
     this.employees = new ArrayList<>();
     this.head = null;
   }

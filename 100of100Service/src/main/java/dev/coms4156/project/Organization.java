@@ -15,6 +15,7 @@ public class Organization extends OrganizationComposite {
    */
   public Organization(HRDatabaseFacade db, long id, String name) {
     super(db, id, name);
+    this.typeName = "Organization";
     this.employees = new ArrayList<>();
     this.departments = new ArrayList<>();
   }
@@ -73,13 +74,8 @@ public class Organization extends OrganizationComposite {
   public static String displayStructure(OrganizationComponent component, int depth) {
     // Tested - add clarification to Dept or Employee
     StringBuilder sb = new StringBuilder();
-    if (component instanceof Department) {
-      sb.append(" ".repeat(depth * 2)).append("- Dept: ").append(component.getName()).append("\n");
-    } else if (component instanceof Employee) {
-      sb.append(" ".repeat(depth * 2)).append("- Employee: ").append(component.getName()).append("\n");
-    } else {
-      sb.append(" ".repeat(depth * 2)).append("- ").append(component.getName()).append("\n");
-    }
+    sb.append(" ".repeat(depth * 2)).append("- ").append(component.getTypeName())
+        .append(": ").append(component.getName()).append("\n");
     for (OrganizationComponent child : component.getChildren()) {
       sb.append(displayStructure(child, depth + 1));
     }
