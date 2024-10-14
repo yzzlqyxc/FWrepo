@@ -2,7 +2,7 @@ package dev.coms4156.project;
 
 public class SetDeptHeadCommand implements Command {
   private final int clientId;
-  private final long departmentId;
+  private final int departmentId;
   private final int employeeId;
 
   /**
@@ -11,7 +11,7 @@ public class SetDeptHeadCommand implements Command {
    * @param departmentId the department ID
    * @param employeeId the employee ID
    */
-  public SetDeptHeadCommand(int clientId, long departmentId, int employeeId) {
+  public SetDeptHeadCommand(int clientId, int departmentId, int employeeId) {
     this.clientId = clientId;
     this.departmentId = departmentId;
     this.employeeId = employeeId;
