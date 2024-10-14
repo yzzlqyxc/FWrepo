@@ -9,33 +9,25 @@ import java.util.*;
 
 public class DatabaseConnectionStub extends DatabaseConnection {
   private volatile static DatabaseConnection instance;
-  // for testing purpose
+
   private final Map<Integer, List<Employee>> testEmployees = new HashMap<>();
   private final Map<Integer, List<Department>> testDepartments = new HashMap<>();
   private final Map<Integer, Organization> testOrganizations = new HashMap<>();
 
   private DatabaseConnectionStub() {
-    System.out.println("DatabaseConnection-Stub constructor called");
     initializeTestData(); // test
   }
 
   public List<Employee> getEmployees(int clientId) {
-    // TODO: Maybe some basic SQL query?
     return testEmployees.getOrDefault(clientId, new ArrayList<>()); // test
-    // return null;
   }
 
   public List<Department> getDepartments(int clientId) {
-    // TODO: Maybe some basic SQL query?
     return testDepartments.getOrDefault(clientId, new ArrayList<>());
-    // return null;
   }
 
   public Organization getOrganization(int clientId) {
-    // TODO: Maybe some basic SQL query?
-    System.out.println("DatabaseConnection-Stub getOrganization called");
     return testOrganizations.getOrDefault(clientId, new Organization(null, clientId, "Unknown"));
-    // return null;
   }
 
   private void initializeTestData() {
@@ -69,6 +61,11 @@ public class DatabaseConnectionStub extends DatabaseConnection {
     testEmployees.put(1, List.of(alice, bob, max, lina, john, jane, emily));
     testDepartments.put(1, List.of(engineering, hr));
     testOrganizations.put(1, organization);
+  }
+
+  @Override
+  public String toString() {
+    return "Test-stub of DatabaseConnection, using in-memory data only.";
   }
 
   /**
