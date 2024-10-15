@@ -75,8 +75,9 @@ public class EmployeeTest {
   @Test
   @Order(8)
   public void testGetEmployeeInfoWithNullDate() {
+    Date current = new Date();
     Employee employeeNullDate = new Employee(dbf, 1, "TestND", null);
-    String expected = "Employee: TestND (ID: 1) Hired at: null";
+    String expected = "Employee: TestND (ID: 1) Hired at: " + current;
     Assertions.assertEquals(expected, employeeNullDate.toString());
   }
 
