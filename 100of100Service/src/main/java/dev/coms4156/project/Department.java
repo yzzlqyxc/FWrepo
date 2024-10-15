@@ -13,15 +13,29 @@ public class Department extends OrganizationComposite {
 
   /**
    * Constructs a department with the given ID and name.
+   * @param db the HR database facade that manages the department
+   * @param id the ID of the department
+   * @param name the name of the department
+   */
+  public Department(HRDatabaseFacade db, int id, String name) {
+    super(db, id, name);
+    this.typeName = "Department";
+    this.employees = new ArrayList<>();
+    this.head = null;
+  }
+
+  /**
+   * Constructs a department with the given ID, name, and list of employees.
    *
    * @param db   the HR database facade that manages the department
    * @param id   the ID of the department
    * @param name the name of the department
+   * @param employees the list of existing employees in the department
    */
   public Department(HRDatabaseFacade db, int id, String name, List<Employee> employees) {
     super(db, id, name);
     this.typeName = "Department";
-    this.employees = new ArrayList<>();
+    this.employees = employees;
     this.head = null;
   }
 
@@ -53,7 +67,9 @@ public class Department extends OrganizationComposite {
    * @return the list of employees
    */
   public List<Employee> getEmployees() {
-    return new ArrayList<>(this.employees); // Return a copy of the employee list
+    // We choose to return the list itself, not a copy, for performance reasons
+    // caller can make the decision to copy the list if needed
+    return this.employees;
   }
 
   /**
@@ -89,8 +105,7 @@ public class Department extends OrganizationComposite {
     StringBuilder sb = new StringBuilder();
 
     // add employee infos in the toString()
-    sb.append("Department: ").append(this.name)
-      .append(" (ID: ").append(this.id).append(")");
+    sb.append("Department: ").append(this.name).append(" (ID: ").append(this.id).append(")");
     if (this.head != null) {
       sb.append(" Head: ").append(this.head.getName());
     }
