@@ -1,5 +1,10 @@
 package dev.coms4156.project;
 
+import dev.coms4156.project.command.Command;
+import dev.coms4156.project.command.GetDeptInfoCommand;
+import dev.coms4156.project.command.GetEmployeeInfoCommand;
+import dev.coms4156.project.command.GetOrganizationInfoCommand;
+import dev.coms4156.project.command.SetDeptHeadCommand;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +47,42 @@ public class RouteController {
   }
 
   /**
+   * Gets the information of a department.
+   * @param clientId the client ID
+   * @param departmentId the department ID
+   * @return the information of the department
+   */
+  @GetMapping(value = "/getDeptInfo", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> getDepartment(
+    @RequestParam("cid") int clientId,
+    @RequestParam("did") long departmentId
+  ) {
+    try {
+      Command command = new GetDeptInfoCommand(clientId, departmentId);
+      return new ResponseEntity<>(command.execute(), HttpStatus.OK);
+    } catch (Exception e) {
+      return handleException(e);
+    }
+  }
+
+  /**
+   * Gets the information of an organization.
+   * @param clientId the client ID
+   * @return the information of the organization
+   */
+  @GetMapping(value = "/getOrgInfo", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> getOrganization(
+    @RequestParam("cid") int clientId
+  ) {
+    try {
+      Command command = new GetOrganizationInfoCommand(clientId);
+      return new ResponseEntity<>(command.execute(), HttpStatus.OK);
+    } catch (Exception e) {
+      return handleException(e);
+    }
+  }
+
+  /**
    * Sets the head of a department.
    * @param clientId the client ID
    * @param departmentId the department ID
@@ -51,7 +92,7 @@ public class RouteController {
   @PatchMapping(value = "/setDeptHead", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> setDeptHead(
       @RequestParam("cid") int clientId,
-      @RequestParam("did") long departmentId,
+      @RequestParam("did") int departmentId,
       @RequestParam("eid") int employeeId
   ) {
     try {

@@ -11,86 +11,140 @@ import java.util.Map;
  */
 public class HRDatabaseFacade {
   private final static Map<Integer, HRDatabaseFacade> instances = new HashMap<>();
+  // This boolean is used to switch between the real database and the test database
+  private static boolean isTestMode = false;
+  private static DatabaseConnection dbConnectionStub = null;
 
   private final DatabaseConnection dbConnection;
-  private final int clientId;
-  // TODO: Do you want the cache to be List or Map?
-  private final List<Employee> employees;
-  private final List<Department> departments;
-  private final Organization organization;
+  private final int organizationId;
+  private List<Employee> employees;
+  private List<Department> departments;
+  private Organization organization;
 
   /**
-   * Constructs a HR database facade instance for a specific client.
-   * @param cid the client id
+   * Constructs a HR database facade instance for a specific organization.
+   * @param organizationId the organization id
    */
-  private HRDatabaseFacade(int cid) {
-    this.dbConnection = DatabaseConnection.getInstance();
-    this.clientId = cid;
+  private HRDatabaseFacade(int organizationId) {
+    this.dbConnection = isTestMode ? dbConnectionStub : DatabaseConnection.getInstance();
+    this.organizationId = organizationId;
     // Initialize the in-memory cache
-    this.employees = dbConnection.getEmployees(cid);
-    this.departments = dbConnection.getDepartments(cid);
-    this.organization = dbConnection.getOrganization(cid);
+    this.employees = dbConnection.getEmployees(organizationId);
+    this.departments = dbConnection.getDepartments(organizationId);
+    this.organization = dbConnection.getOrganization(organizationId);
   }
 
   /**
-   * Returns the employees of the client.
-   * @return the employees
+   * Returns the employee with the specified ID.
+   * @param employeeId the employee ID
+   * @return the employee
    */
   public Employee getEmployee(int employeeId) {
     // Check the in-memory cache
     Employee employee = employees
-        .stream()
-        .filter(e -> e.getId() == employeeId)
-        .findFirst()
-        .orElse(null)
-        ;
-    // TODO: If not find, do some query to get the employee from the database
+            .stream()
+            .filter(e -> e.getId() == employeeId)
+            .findFirst()
+            .orElse(null);
+
+    if (employee == null) {
+      // If not found in cache, query the database
+      List<Employee> updatedEmployees = dbConnection.getEmployees(this.organizationId);
+      employee = updatedEmployees
+              .stream()
+              .filter(e -> e.getId() == employeeId)
+              .findFirst()
+              .orElse(null);
+
+      if (employee != null) {
+        // Update the cache
+        this.employees = updatedEmployees;
+      }
+    }
+
     return employee;
   }
 
   /**
-   * Returns the departments of the client.
-   * @return the departments
+   * Returns the department with the specified ID.
+   * @param departmentId the department ID
+   * @return the department
    */
-  public Department getDepartment(long departmentId) {
+  public Department getDepartment(int departmentId) {
     // Check the in-memory cache
     Department department = departments
-          .stream()
-          .filter(d -> d.getId() == departmentId)
-          .findFirst()
-          .orElse(null)
-          ;
-    // TODO: If not find, do some query to get the department from the database
+            .stream()
+            .filter(d -> d.getId() == departmentId)
+            .findFirst()
+            .orElse(null);
+
+    if (department == null) {
+      // If not found in cache, query the database
+      List<Department> updatedDepartments = dbConnection.getDepartments(this.organizationId);
+      department = updatedDepartments
+              .stream()
+              .filter(d -> d.getId() == departmentId)
+              .findFirst()
+              .orElse(null);
+
+      if (department != null) {
+        // Update the cache
+        this.departments = updatedDepartments;
+      }
+    }
+
     return department;
   }
 
   /**
-   * Updates the department information of the client.
+   * Returns the organization of the client.
+   * @return the organization
+   */
+  public Organization getOrganization() {
+    // Check the in-memory cache (this.organization was initialized in constructor)
+    return organization;
+  }
+
+  /**
+   * Updates the department information.
    * @param department the department
    * @return true if the department is updated successfully, false otherwise
    */
   public boolean updateDepartment(Department department) {
-    // TODO: Alter the on-disk database with this new information
+    // TODO: Implement database update logic
     return true;
   }
 
-  // TODO: Add more methods to interact with the database
-
   /**
-   * Returns the unique instance of the HR database facade for a specific client.
+   * Returns the unique instance of the HR database facade for a specific organization.
    * Designed with "double-checked locking" mechanism to ensure thread safety.
-   * @param clientId the client id
+   * @param organizationId the organization id
    * @return the HR database facade instance
    */
-  public static HRDatabaseFacade getInstance(int clientId) {
-    if (!instances.containsKey(clientId)) {
+  public static HRDatabaseFacade getInstance(int organizationId) {
+    if (!instances.containsKey(organizationId)) {
       synchronized (HRDatabaseFacade.class) {
-        if (!instances.containsKey(clientId)) {
-          instances.put(clientId, new HRDatabaseFacade(clientId));
+        if (!instances.containsKey(organizationId)) {
+          instances.put(organizationId, new HRDatabaseFacade(organizationId));
         }
       }
     }
-    return instances.get(clientId);
+    return instances.get(organizationId);
   }
 
+  /**
+   * Sets the test mode and test database for the HR database facade.
+   * @param testDatabaseConnection the test database connection
+   *                               (null to disable the test mode)
+   */
+  public static void setTestMode(DatabaseConnection testDatabaseConnection) {
+    if (testDatabaseConnection != null) {
+      isTestMode = true;
+      HRDatabaseFacade.dbConnectionStub = testDatabaseConnection;
+    }
+    else {
+      isTestMode = false;
+      HRDatabaseFacade.dbConnectionStub = null;
+    }
+  }
 }

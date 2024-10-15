@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Organization extends OrganizationComposite {
   private final List<Employee> employees;
+  private final List<Department> departments;
 
   /**
    * Constructs an organization with the given ID and name.
@@ -14,7 +15,9 @@ public class Organization extends OrganizationComposite {
    */
   public Organization(HRDatabaseFacade db, long id, String name) {
     super(db, id, name);
+    this.typeName = "Organization";
     this.employees = new ArrayList<>();
+    this.departments = new ArrayList<>();
   }
 
   /**
@@ -23,7 +26,8 @@ public class Organization extends OrganizationComposite {
    * @return true if the employee is onboarded, false otherwise
    */
   public boolean addEmployee(Employee employee) {
-    return this.employees.add(employee);
+     this.employees.add(employee);
+     return this.add(employee);
   }
 
   /**
@@ -33,6 +37,16 @@ public class Organization extends OrganizationComposite {
    */
   public boolean removeEmployee(Employee employee) {
     return this.employees.remove(employee);
+  }
+
+  /**
+   * Add a new department from the organization.
+   * @param department department to be added to this organization
+   * @return true if the department is added, false otherwise
+   */
+  public boolean addDepartment(Department department) {
+    this.departments.add(department);
+    return this.add(department);
   }
 
   /**
@@ -58,9 +72,10 @@ public class Organization extends OrganizationComposite {
    * @return a string representation of the hierarchical structure of the organization
    */
   public static String displayStructure(OrganizationComponent component, int depth) {
-    // TODO: Need to test this method, I write it according to my mind
+    // Tested - add clarification to Dept or Employee
     StringBuilder sb = new StringBuilder();
-    sb.append(" ".repeat(depth * 2)).append("- ").append(component.getName()).append("\n");
+    sb.append(" ".repeat(depth * 2)).append("- ").append(component.getTypeName())
+        .append(": ").append(component.getName()).append("\n");
     for (OrganizationComponent child : component.getChildren()) {
       sb.append(displayStructure(child, depth + 1));
     }

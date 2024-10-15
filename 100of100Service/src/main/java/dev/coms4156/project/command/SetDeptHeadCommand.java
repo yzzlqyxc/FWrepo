@@ -1,8 +1,12 @@
-package dev.coms4156.project;
+package dev.coms4156.project.command;
+
+import dev.coms4156.project.Department;
+import dev.coms4156.project.Employee;
+import dev.coms4156.project.HRDatabaseFacade;
 
 public class SetDeptHeadCommand implements Command {
   private final int clientId;
-  private final long departmentId;
+  private final int departmentId;
   private final int employeeId;
 
   /**
@@ -11,7 +15,7 @@ public class SetDeptHeadCommand implements Command {
    * @param departmentId the department ID
    * @param employeeId the employee ID
    */
-  public SetDeptHeadCommand(int clientId, long departmentId, int employeeId) {
+  public SetDeptHeadCommand(int clientId, int departmentId, int employeeId) {
     this.clientId = clientId;
     this.departmentId = departmentId;
     this.employeeId = employeeId;
