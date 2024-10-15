@@ -5,9 +5,9 @@ import dev.coms4156.project.HRDatabaseFacade;
 
 public class GetDeptInfoCommand implements Command {
   private final int clientId;
-  private final long departmentId;
+  private final int departmentId;
 
-  public GetDeptInfoCommand(int clientId, long departmentId) {
+  public GetDeptInfoCommand(int clientId, int departmentId) {
     this.clientId = clientId;
     this.departmentId = departmentId;
   }

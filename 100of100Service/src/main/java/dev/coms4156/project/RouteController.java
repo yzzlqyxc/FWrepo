@@ -55,7 +55,7 @@ public class RouteController {
   @GetMapping(value = "/getDeptInfo", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> getDepartment(
     @RequestParam("cid") int clientId,
-    @RequestParam("did") long departmentId
+    @RequestParam("did") int departmentId
   ) {
     try {
       Command command = new GetDeptInfoCommand(clientId, departmentId);

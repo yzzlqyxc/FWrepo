@@ -18,7 +18,7 @@ public class Department extends OrganizationComposite {
    * @param id   the ID of the department
    * @param name the name of the department
    */
-  public Department(HRDatabaseFacade db, long id, String name, List<Employee> employees) {
+  public Department(HRDatabaseFacade db, int id, String name, List<Employee> employees) {
     super(db, id, name);
     this.typeName = "Department";
     this.employees = new ArrayList<>();
