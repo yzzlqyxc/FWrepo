@@ -41,8 +41,8 @@ public class DatabaseConnectionStub extends DatabaseConnection {
     Employee jane = new Employee(null, 6, "Jane", new Date());
     Employee emily = new Employee(null, 7, "Emily", new Date());
 
-    Department engineering = new Department(null, 1L, "Engineering", new ArrayList<>());
-    Department hr = new Department(null, 2L, "HR", new ArrayList<>());
+    Department engineering = new Department(null, 1, "Engineering", new ArrayList<>());
+    Department hr = new Department(null, 2, "HR", new ArrayList<>());
 
     // Add departments to the organization
     Organization organization = new Organization(null, 1L, "Test Organization");
