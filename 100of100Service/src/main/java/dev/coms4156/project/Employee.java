@@ -25,7 +25,11 @@ public class Employee implements OrganizationComponent {
     this.db = db;
     this.id = id;
     this.name = name;
-    this.hireDate = new Date(hireDate.getTime());
+    if (hireDate == null) {
+      this.hireDate = new Date();
+    } else {
+      this.hireDate = new Date(hireDate.getTime());
+    }
   }
 
   /**
