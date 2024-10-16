@@ -148,8 +148,7 @@ public class HrDatabaseFacade {
     if (testDatabaseConnection != null) {
       isTestMode = true;
       HrDatabaseFacade.dbConnectionStub = testDatabaseConnection;
-    }
-    else {
+    } else {
       isTestMode = false;
       HrDatabaseFacade.dbConnectionStub = null;
     }
