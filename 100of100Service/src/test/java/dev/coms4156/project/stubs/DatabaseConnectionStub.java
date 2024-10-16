@@ -34,12 +34,12 @@ public class DatabaseConnectionStub extends DatabaseConnection {
 
     // create test employees and departments
     Employee alice = new Employee(null, 1, "Alice", new Date());
-    Employee bob = new Employee(null, 2, "Bob", new Date());
-    Employee max = new Employee(null, 3, "Max", new Date());
-    Employee lina = new Employee(null, 4, "Lina", new Date());
-    Employee john = new Employee(null, 5, "John", new Date());
-    Employee jane = new Employee(null, 6, "Jane", new Date());
-    Employee emily = new Employee(null, 7, "Emily", new Date());
+    Employee bob = new Employee(null, 1, "Bob", new Date());
+    Employee max = new Employee(null, 4, "Max", new Date());
+    Employee lina = new Employee(null, 2, "Lina", new Date());
+    Employee john = new Employee(null, 3, "John", new Date());
+    Employee jane = new Employee(null, 2, "Jane", new Date());
+    Employee emily = new Employee(null, 3, "Emily", new Date());
 
     Department engineering = new Department(null, 1, "Engineering", new ArrayList<>());
     Department hr = new Department(null, 2, "HR", new ArrayList<>());
