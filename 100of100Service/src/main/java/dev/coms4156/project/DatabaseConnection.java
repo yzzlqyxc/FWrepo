@@ -29,6 +29,12 @@ public class DatabaseConnection {
     }
   }
 
+  /**
+   * Returns a list of employees in a given organization.
+   *
+   * @param organizationId the organization id
+   * @return a list of employees in the organization
+   */
   public List<Employee> getEmployees(int organizationId) {
     List<Employee> employees = new ArrayList<>();
     String query = "SELECT * FROM employees WHERE organization_id = ?";
@@ -50,6 +56,12 @@ public class DatabaseConnection {
     return employees;
   }
 
+  /**
+   * Returns a list of departments in a given organization.
+   *
+   * @param organizationId the organization id
+   * @return a list of departments in the organization
+   */
   public List<Department> getDepartments(int organizationId) {
     List<Department> departments = new ArrayList<>();
     String query = "SELECT * FROM departments WHERE organization_id = ?";
@@ -71,6 +83,12 @@ public class DatabaseConnection {
     return departments;
   }
 
+  /**
+   * Returns an organization with the given organization id.
+   *
+   * @param organizationId the organization id
+   * @return the organization with the given organization id
+   */
   public Organization getOrganization(int organizationId) {
     String query = "SELECT * FROM organizations WHERE organization_id = ?";
     try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -89,6 +107,12 @@ public class DatabaseConnection {
     return null;
   }
 
+  /**
+   * Returns a list of employees in a given department.
+   *
+   * @param departmentId the department id
+   * @return a list of employees in the department
+   */
   private List<Employee> getEmployeesForDepartment(long departmentId) {
     List<Employee> employees = new ArrayList<>();
     String query = "SELECT * FROM employees WHERE department_id = ?";

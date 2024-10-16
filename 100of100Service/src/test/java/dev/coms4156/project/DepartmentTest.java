@@ -19,7 +19,9 @@ public class DepartmentTest {
   private static Employee employee1;
   private static Employee employee2;
 
-
+  /**
+   * Set up the test environment.
+   */
   @BeforeAll
   public static void setUp() {
     DatabaseConnection dbConnectionStub = DatabaseConnectionStub.getInstance();

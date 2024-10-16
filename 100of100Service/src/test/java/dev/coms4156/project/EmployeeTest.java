@@ -19,6 +19,9 @@ public class EmployeeTest {
   private static HrDatabaseFacade dbf;
   private static Employee employee;
 
+  /**
+   * Set up the test environment.
+   */
   @BeforeAll
   public static void setUp() {
     DatabaseConnection dbConnectionStub = DatabaseConnectionStub.getInstance();
