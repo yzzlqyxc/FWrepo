@@ -14,7 +14,7 @@ import java.util.List;
  * Designed under the Singleton Design Pattern.
  */
 public class DatabaseConnection {
-  private volatile static DatabaseConnection instance;
+  private static volatile DatabaseConnection instance;
   private Connection connection;
 
   protected DatabaseConnection() {

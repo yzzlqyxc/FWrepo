@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public class DatabaseConnectionStub extends DatabaseConnection {
-  private volatile static DatabaseConnection instance;
+  private static volatile DatabaseConnection instance;
 
   private final Map<Integer, List<Employee>> testEmployees = new HashMap<>();
   private final Map<Integer, List<Department>> testDepartments = new HashMap<>();

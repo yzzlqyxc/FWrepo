@@ -10,7 +10,7 @@ import java.util.Map;
  * Designed under the Singleton Design Pattern.
  */
 public class HRDatabaseFacade {
-  private final static Map<Integer, HRDatabaseFacade> instances = new HashMap<>();
+  private static final Map<Integer, HRDatabaseFacade> instances = new HashMap<>();
   // This boolean is used to switch between the real database and the test database
   private static boolean isTestMode = false;
   private static DatabaseConnection dbConnectionStub = null;
