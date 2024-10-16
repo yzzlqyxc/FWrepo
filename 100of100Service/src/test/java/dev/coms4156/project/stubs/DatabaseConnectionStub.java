@@ -31,31 +31,29 @@ public class DatabaseConnectionStub extends DatabaseConnection {
   }
 
   private void initializeTestData() {
-
     // create test employees and departments
+    Department engineering = new Department(null, 1, "Engineering", new ArrayList<>());
     Employee alice = new Employee(null, 1, "Alice", new Date());
-    Employee bob = new Employee(null, 2, "Bob", new Date());
-    Employee max = new Employee(null, 3, "Max", new Date());
     Employee lina = new Employee(null, 4, "Lina", new Date());
     Employee john = new Employee(null, 5, "John", new Date());
+    engineering.addEmployee(alice);
+    engineering.addEmployee(lina);
+    engineering.addEmployee(john);
+
+    Department hr = new Department(null, 2, "HR", new ArrayList<>());
+    Employee bob = new Employee(null, 2, "Bob", new Date());
     Employee jane = new Employee(null, 6, "Jane", new Date());
     Employee emily = new Employee(null, 7, "Emily", new Date());
-
-    Department engineering = new Department(null, 1, "Engineering", new ArrayList<>());
-    Department hr = new Department(null, 2, "HR", new ArrayList<>());
+    hr.addEmployee(bob);
+    hr.addEmployee(jane);
+    hr.addEmployee(emily);
 
     // Add departments to the organization
+    Employee max = new Employee(null, 3, "Max", new Date());
     Organization organization = new Organization(null, 1L, "Test Organization");
     organization.addDepartment(engineering);
     organization.addDepartment(hr);
     organization.addEmployee(max);
-
-    engineering.addEmployee(alice);
-    engineering.addEmployee(lina);
-    engineering.addEmployee(john);
-    hr.addEmployee(bob);
-    hr.addEmployee(jane);
-    hr.addEmployee(emily);
 
     // Store employees, departments, and organizations in the fake database
     testEmployees.put(1, List.of(alice, bob, max, lina, john, jane, emily));
