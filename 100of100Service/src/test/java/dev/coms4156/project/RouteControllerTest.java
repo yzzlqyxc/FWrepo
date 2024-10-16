@@ -85,7 +85,7 @@ public class RouteControllerTest {
         .param("cid", "1")
         .param("did", "1")
         .accept(MediaType.APPLICATION_JSON))
-      .andExpect(status().isOk()).andReturn();
+        .andExpect(status().isOk()).andReturn();
 
     String content = mvcResult1.getResponse().getContentAsString();
     System.out.println(content);

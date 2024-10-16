@@ -26,8 +26,8 @@ public class Organization extends OrganizationComposite {
    * @return true if the employee is onboarded, false otherwise
    */
   public boolean addEmployee(Employee employee) {
-     this.employees.add(employee);
-     return this.add(employee);
+    this.employees.add(employee);
+    return this.add(employee);
   }
 
   /**

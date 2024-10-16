@@ -94,10 +94,10 @@ public class DatabaseConnection {
 
       while (rs.next()) {
         Employee employee = new Employee(
-          null,  // HRDatabaseFacade instance, passing null for now
-          rs.getInt("employee_id"),
-          rs.getString("name"),
-          rs.getDate("hire_date")
+              null,  // HRDatabaseFacade instance, passing null for now
+            rs.getInt("employee_id"),
+            rs.getString("name"),
+            rs.getDate("hire_date")
         );
         employees.add(employee);
       }
