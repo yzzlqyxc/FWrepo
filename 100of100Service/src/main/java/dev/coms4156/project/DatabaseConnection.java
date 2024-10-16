@@ -19,7 +19,8 @@ public class DatabaseConnection {
 
   protected DatabaseConnection() {
     try {
-      String url = "jdbc:mysql://database-100-team.c7mqy28ys9uq.us-east-1.rds.amazonaws.com:3306/organization_management";
+      String url = "jdbc:mysql://database-100-team.c7mqy28ys9uq.us-east-1.rds.amazonaws.com:3306/" +
+          "organization_management";
       String user = "admin";
       String password = "sxy6cJEmv6iLT61qs7DO";
       this.connection = DriverManager.getConnection(url, user, password);

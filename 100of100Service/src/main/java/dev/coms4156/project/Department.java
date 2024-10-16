@@ -97,7 +97,8 @@ public class Department extends OrganizationComposite {
   }
 
   /**
-   * Returns the basic information of the Department, including the name, ID, list of employees, and head.
+   * Returns the basic information of the Department,
+   * including the name, ID, list of employees, and head.
    *
    * @return the string representation of the department
    */
