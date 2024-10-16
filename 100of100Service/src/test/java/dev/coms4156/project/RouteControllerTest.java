@@ -30,7 +30,7 @@ public class RouteControllerTest {
   @BeforeAll
   public static void setUp() {
     DatabaseConnection dbConnectionStub = DatabaseConnectionStub.getInstance();
-    HRDatabaseFacade.setTestMode(dbConnectionStub);
+    HrDatabaseFacade.setTestMode(dbConnectionStub);
   }
 
   @Test
@@ -97,6 +97,6 @@ public class RouteControllerTest {
    */
   @AfterAll
   public static void tearDown() {
-    HRDatabaseFacade.setTestMode(null);
+    HrDatabaseFacade.setTestMode(null);
   }
 }

@@ -1,6 +1,6 @@
 package dev.coms4156.project.command;
 
-import dev.coms4156.project.HRDatabaseFacade;
+import dev.coms4156.project.HrDatabaseFacade;
 import dev.coms4156.project.Organization;
 
 public class GetOrganizationInfoCommand implements Command {
@@ -12,7 +12,7 @@ public class GetOrganizationInfoCommand implements Command {
 
   @Override
   public String execute() {
-    HRDatabaseFacade db = HRDatabaseFacade.getInstance(this.clientId);
+    HrDatabaseFacade db = HrDatabaseFacade.getInstance(this.clientId);
     Organization organization = db.getOrganization();
     return Organization.displayStructure(organization, 0);
   }

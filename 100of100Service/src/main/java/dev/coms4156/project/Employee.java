@@ -9,7 +9,7 @@ import java.util.List;
  * Designed under the Composite Design Pattern.
  */
 public class Employee implements OrganizationComponent {
-  private final HRDatabaseFacade db;
+  private final HrDatabaseFacade db;
   private final int id;
   private final String name;
   private final Date hireDate;
@@ -22,7 +22,7 @@ public class Employee implements OrganizationComponent {
    * @param name the name of the employee
    * @param hireDate the hire date of the employee
    */
-  public Employee(HRDatabaseFacade db, int id, String name, Date hireDate) {
+  public Employee(HrDatabaseFacade db, int id, String name, Date hireDate) {
     this.db = db;
     this.id = id;
     this.name = name;

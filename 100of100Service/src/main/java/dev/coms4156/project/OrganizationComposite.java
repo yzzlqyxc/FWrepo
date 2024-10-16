@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class OrganizationComposite implements OrganizationComponent {
-  protected final HRDatabaseFacade db;
+  protected final HrDatabaseFacade db;
   protected final long id;
   protected final String name;
   protected final List<OrganizationComponent> children;
@@ -17,7 +17,7 @@ public abstract class OrganizationComposite implements OrganizationComponent {
    * @param id the ID of the organization composite
    * @param name the name of the organization composite
    */
-  public OrganizationComposite(HRDatabaseFacade db, long id, String name) {
+  public OrganizationComposite(HrDatabaseFacade db, long id, String name) {
     this.db = db;
     this.id = id;
     this.name = name;

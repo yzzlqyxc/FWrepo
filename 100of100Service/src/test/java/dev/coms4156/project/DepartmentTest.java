@@ -14,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class DepartmentTest {
-  private static HRDatabaseFacade dbf;
+  private static HrDatabaseFacade dbf;
   private static Department department;
   private static Employee employee1;
   private static Employee employee2;
@@ -23,8 +23,8 @@ public class DepartmentTest {
   @BeforeAll
   public static void setUp() {
     DatabaseConnection dbConnectionStub = DatabaseConnectionStub.getInstance();
-    HRDatabaseFacade.setTestMode(dbConnectionStub);
-    dbf = HRDatabaseFacade.getInstance(1);
+    HrDatabaseFacade.setTestMode(dbConnectionStub);
+    dbf = HrDatabaseFacade.getInstance(1);
     employee1 = new Employee(dbf, 1, "John", new Date());
     employee2 = new Employee(dbf, 2, "Jake", new Date());
   }
@@ -113,7 +113,7 @@ public class DepartmentTest {
 
   @AfterAll
   public static void tearDown() {
-    HRDatabaseFacade.setTestMode(null);
+    HrDatabaseFacade.setTestMode(null);
   }
 
 }

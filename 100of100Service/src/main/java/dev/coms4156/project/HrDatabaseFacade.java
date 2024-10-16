@@ -9,8 +9,8 @@ import java.util.Map;
  * This class is responsible for creating and managing the connection to the HR database.
  * Designed under the Singleton Design Pattern.
  */
-public class HRDatabaseFacade {
-  private static final Map<Integer, HRDatabaseFacade> instances = new HashMap<>();
+public class HrDatabaseFacade {
+  private static final Map<Integer, HrDatabaseFacade> instances = new HashMap<>();
   // This boolean is used to switch between the real database and the test database
   private static boolean isTestMode = false;
   private static DatabaseConnection dbConnectionStub = null;
@@ -26,7 +26,7 @@ public class HRDatabaseFacade {
    *
    * @param organizationId the organization id
    */
-  private HRDatabaseFacade(int organizationId) {
+  private HrDatabaseFacade(int organizationId) {
     this.dbConnection = isTestMode ? dbConnectionStub : DatabaseConnection.getInstance();
     this.organizationId = organizationId;
     // Initialize the in-memory cache
@@ -127,11 +127,11 @@ public class HRDatabaseFacade {
    * @param organizationId the organization id
    * @return the HR database facade instance
    */
-  public static HRDatabaseFacade getInstance(int organizationId) {
+  public static HrDatabaseFacade getInstance(int organizationId) {
     if (!instances.containsKey(organizationId)) {
-      synchronized (HRDatabaseFacade.class) {
+      synchronized (HrDatabaseFacade.class) {
         if (!instances.containsKey(organizationId)) {
-          instances.put(organizationId, new HRDatabaseFacade(organizationId));
+          instances.put(organizationId, new HrDatabaseFacade(organizationId));
         }
       }
     }
@@ -147,11 +147,11 @@ public class HRDatabaseFacade {
   public static void setTestMode(DatabaseConnection testDatabaseConnection) {
     if (testDatabaseConnection != null) {
       isTestMode = true;
-      HRDatabaseFacade.dbConnectionStub = testDatabaseConnection;
+      HrDatabaseFacade.dbConnectionStub = testDatabaseConnection;
     }
     else {
       isTestMode = false;
-      HRDatabaseFacade.dbConnectionStub = null;
+      HrDatabaseFacade.dbConnectionStub = null;
     }
   }
 }

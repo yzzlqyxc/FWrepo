@@ -1,7 +1,7 @@
 package dev.coms4156.project.command;
 
 import dev.coms4156.project.Employee;
-import dev.coms4156.project.HRDatabaseFacade;
+import dev.coms4156.project.HrDatabaseFacade;
 
 public class GetEmployeeInfoCommand implements Command {
   private final int clientId;
@@ -20,7 +20,7 @@ public class GetEmployeeInfoCommand implements Command {
 
   @Override
   public Object execute() {
-    HRDatabaseFacade db = HRDatabaseFacade.getInstance(this.clientId);
+    HrDatabaseFacade db = HrDatabaseFacade.getInstance(this.clientId);
     Employee employee = db.getEmployee(this.employeeId);
     return employee.toString();
   }
