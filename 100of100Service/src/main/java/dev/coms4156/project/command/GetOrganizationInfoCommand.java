@@ -1,7 +1,7 @@
 package dev.coms4156.project.command;
 
-import dev.coms4156.project.Organization;
 import dev.coms4156.project.HRDatabaseFacade;
+import dev.coms4156.project.Organization;
 
 public class GetOrganizationInfoCommand implements Command {
   private final int clientId;
