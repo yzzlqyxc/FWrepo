@@ -15,7 +15,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-
+/**
+ * An integration test class for the RouteController class.
+ */
 @SpringBootTest
 @AutoConfigureMockMvc
 public class RouteControllerTest {

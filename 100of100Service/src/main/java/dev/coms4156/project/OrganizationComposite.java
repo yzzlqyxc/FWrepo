@@ -3,6 +3,10 @@ package dev.coms4156.project;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * An organization composite in the HR system.
+ * Just an abstract class that implements the OrganizationComponent interface.
+ */
 public abstract class OrganizationComposite implements OrganizationComponent {
   protected final HrDatabaseFacade db;
   protected final long id;

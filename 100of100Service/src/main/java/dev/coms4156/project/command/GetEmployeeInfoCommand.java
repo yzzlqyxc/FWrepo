@@ -3,6 +3,9 @@ package dev.coms4156.project.command;
 import dev.coms4156.project.Employee;
 import dev.coms4156.project.HrDatabaseFacade;
 
+/**
+ * A command to get the information of an employee.
+ */
 public class GetEmployeeInfoCommand implements Command {
   private final int clientId;
   private final int employeeId;

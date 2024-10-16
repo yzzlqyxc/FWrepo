@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * A test-stub of the database connection class, using in-memory data only.
+ */
 public class DatabaseConnectionStub extends DatabaseConnection {
   private static volatile DatabaseConnection instance;
 

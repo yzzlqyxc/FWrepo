@@ -7,6 +7,9 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * A unit test class for the DatabaseConnection class.
+ */
 public class DatabaseConnectionTest {
 
   private DatabaseConnection dbConnection;

@@ -3,6 +3,10 @@ package dev.coms4156.project;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * An organization in the HR system.
+ * An organization is a composite of employees and departments.
+ */
 public class Organization extends OrganizationComposite {
   private final List<Employee> employees;
   private final List<Department> departments;

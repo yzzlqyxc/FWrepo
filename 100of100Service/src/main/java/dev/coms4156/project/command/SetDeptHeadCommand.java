@@ -4,6 +4,9 @@ import dev.coms4156.project.Department;
 import dev.coms4156.project.Employee;
 import dev.coms4156.project.HrDatabaseFacade;
 
+/**
+ * A command to set the head of a department.
+ */
 public class SetDeptHeadCommand implements Command {
   private final int clientId;
   private final int departmentId;
