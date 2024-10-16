@@ -10,24 +10,28 @@ public interface OrganizationComponent {
 
   /**
    * Returns the ID of the organization component.
+   *
    * @return the ID of the organization component
    */
   long getId();
 
   /**
    * Returns the name of the organization component.
+   *
    * @return the name of the organization component
    */
   String getName();
 
   /**
    * Returns the type name of the organization component.
+   *
    * @return the type name of the organization component
    */
   String getTypeName();
 
   /**
    * Returns the children of the organization component.
+   *
    * @return the children of the organization component
    */
   List<OrganizationComponent> getChildren();

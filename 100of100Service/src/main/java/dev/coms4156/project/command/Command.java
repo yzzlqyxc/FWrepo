@@ -8,6 +8,7 @@ public interface Command {
 
   /**
    * Executes the command.
+   *
    * @return The result of the command.
    */
   Object execute();

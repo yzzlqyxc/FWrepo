@@ -11,6 +11,7 @@ public class SetDeptHeadCommand implements Command {
 
   /**
    * Constructs a command to set the head of a department.
+   *
    * @param clientId the client ID
    * @param departmentId the department ID
    * @param employeeId the employee ID

@@ -13,6 +13,7 @@ public class Department extends OrganizationComposite {
 
   /**
    * Constructs a department with the given ID and name.
+   *
    * @param db the HR database facade that manages the department
    * @param id the ID of the department
    * @param name the name of the department

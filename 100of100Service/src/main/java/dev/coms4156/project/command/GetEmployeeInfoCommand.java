@@ -9,6 +9,7 @@ public class GetEmployeeInfoCommand implements Command {
 
   /**
    * Constructs a command to get employee information.
+   *
    * @param clientId the client ID
    * @param employeeId the employee ID
    */

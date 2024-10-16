@@ -71,6 +71,7 @@ public class DatabaseConnectionStub extends DatabaseConnection {
   /**
    * Returns the unique instance of the database connection.
    * Designed with "double-checked locking" mechanism to ensure thread safety.
+   *
    * @return the database connection instance
    */
   public static DatabaseConnection getInstance() {

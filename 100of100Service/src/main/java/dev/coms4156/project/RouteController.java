@@ -29,6 +29,7 @@ public class RouteController {
 
   /**
    * Gets the information of an employee.
+   *
    * @param clientId the client ID
    * @param employeeId the employee ID
    * @return the information of the employee
@@ -48,6 +49,7 @@ public class RouteController {
 
   /**
    * Gets the information of a department.
+   *
    * @param clientId the client ID
    * @param departmentId the department ID
    * @return the information of the department
@@ -67,6 +69,7 @@ public class RouteController {
 
   /**
    * Gets the information of an organization.
+   *
    * @param clientId the client ID
    * @return the information of the organization
    */
@@ -84,6 +87,7 @@ public class RouteController {
 
   /**
    * Sets the head of a department.
+   *
    * @param clientId the client ID
    * @param departmentId the department ID
    * @param employeeId the employee ID

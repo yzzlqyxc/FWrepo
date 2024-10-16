@@ -23,6 +23,7 @@ public class HRDatabaseFacade {
 
   /**
    * Constructs a HR database facade instance for a specific organization.
+   *
    * @param organizationId the organization id
    */
   private HRDatabaseFacade(int organizationId) {
@@ -36,6 +37,7 @@ public class HRDatabaseFacade {
 
   /**
    * Returns the employee with the specified ID.
+   *
    * @param employeeId the employee ID
    * @return the employee
    */
@@ -67,6 +69,7 @@ public class HRDatabaseFacade {
 
   /**
    * Returns the department with the specified ID.
+   *
    * @param departmentId the department ID
    * @return the department
    */
@@ -98,6 +101,7 @@ public class HRDatabaseFacade {
 
   /**
    * Returns the organization of the client.
+   *
    * @return the organization
    */
   public Organization getOrganization() {
@@ -107,6 +111,7 @@ public class HRDatabaseFacade {
 
   /**
    * Updates the department information.
+   *
    * @param department the department
    * @return true if the department is updated successfully, false otherwise
    */
@@ -118,6 +123,7 @@ public class HRDatabaseFacade {
   /**
    * Returns the unique instance of the HR database facade for a specific organization.
    * Designed with "double-checked locking" mechanism to ensure thread safety.
+   *
    * @param organizationId the organization id
    * @return the HR database facade instance
    */
@@ -134,6 +140,7 @@ public class HRDatabaseFacade {
 
   /**
    * Sets the test mode and test database for the HR database facade.
+   *
    * @param testDatabaseConnection the test database connection
    *                               (null to disable the test mode)
    */
