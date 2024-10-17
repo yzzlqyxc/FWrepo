@@ -4,11 +4,13 @@ import dev.coms4156.project.DatabaseConnection;
 import dev.coms4156.project.Department;
 import dev.coms4156.project.Employee;
 import dev.coms4156.project.Organization;
-import java.util.*;
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-/**
- * A test-stub of the database connection class, using in-memory data only.
- */
 public class DatabaseConnectionStub extends DatabaseConnection {
   private static volatile DatabaseConnection instance;
 
@@ -17,7 +19,7 @@ public class DatabaseConnectionStub extends DatabaseConnection {
   private final Map<Integer, Organization> testOrganizations = new HashMap<>();
 
   private DatabaseConnectionStub() {
-    initializeTestData(); // test
+    initializeTestData();
   }
 
   public Employee getEmployee(int organizationId, int externalEmployeeId) {
@@ -45,7 +47,7 @@ public class DatabaseConnectionStub extends DatabaseConnection {
   }
 
   public List<Employee> getEmployees(int organizationId) {
-    return testEmployees.getOrDefault(organizationId, new ArrayList<>()); // test
+    return testEmployees.getOrDefault(organizationId, new ArrayList<>());
   }
 
   public List<Department> getDepartments(int organizationId) {
@@ -57,41 +59,57 @@ public class DatabaseConnectionStub extends DatabaseConnection {
   }
 
   private void initializeTestData() {
-    // create test employees and departments
-    // For clientId = 1
-    int clientId = 1;
-    Department engineering = new Department(null, 1, "Engineering", new ArrayList<>());
-    Employee alice = new Employee(null, 1, "Alice", new Date());
-    Employee bob = new Employee(null, 2, "Bob", new Date());
-    engineering.addEmployee(alice);
-    engineering.addEmployee(bob);
+    // Client 1 Data
+    int clientId1 = 1;
 
-    Department hr = new Department(null, 2, "HR", new ArrayList<>());
-    Employee charlie = new Employee(null, 3, "Charlie", new Date());
-    hr.addEmployee(charlie);
+    // Departments for Client 1
+    Department engineering1 = new Department(null, 1, "Engineering", new ArrayList<>());
+    Department marketing1 = new Department(null, 2, "Marketing", new ArrayList<>());
 
-    // Add departments to the organization
-    Organization organization = new Organization(null, clientId, "Test Organization");
-    organization.addDepartment(engineering);
-    organization.addDepartment(hr);
+    // Employees for Client 1
+    Employee johnDoe = new Employee(null, 1, "John Doe", new Date());
+    Employee janeSmith = new Employee(null, 2, "Jane Smith", new Date());
 
-    // Store employees, departments, and organizations in the fake database
-    testEmployees.put(clientId, Arrays.asList(alice, bob, charlie));
-    testDepartments.put(clientId, Arrays.asList(engineering, hr));
-    testOrganizations.put(clientId, organization);
+    // Add employees to departments for Client 1
+    engineering1.addEmployee(johnDoe);
+    marketing1.addEmployee(janeSmith);
+
+    // Organization for Client 1
+    Organization organization1 = new Organization(null, clientId1, "Organization One");
+    organization1.addDepartment(engineering1);
+    organization1.addDepartment(marketing1);
+
+    // Store data for Client 1
+    testEmployees.put(clientId1, Arrays.asList(johnDoe, janeSmith));
+    testDepartments.put(clientId1, Arrays.asList(engineering1, marketing1));
+    testOrganizations.put(clientId1, organization1);
+
+    // Client 2 Data
+    int clientId2 = 2;
+
+    // Departments for Client 2
+    Department engineering2 = new Department(null, 1, "Engineering", new ArrayList<>());
+    Department marketing2 = new Department(null, 2, "Marketing", new ArrayList<>());
+
+    // Employees for Client 2
+    Employee aliceJohnson = new Employee(null, 1, "Alice Johnson", new Date());
+    Employee bobBrown = new Employee(null, 2, "Bob Brown", new Date());
+
+    // Add employees to departments for Client 2
+    engineering2.addEmployee(aliceJohnson);
+    marketing2.addEmployee(bobBrown);
+
+    // Organization for Client 2
+    Organization organization2 = new Organization(null, clientId2, "Organization Two");
+    organization2.addDepartment(engineering2);
+    organization2.addDepartment(marketing2);
+
+    // Store data for Client 2
+    testEmployees.put(clientId2, Arrays.asList(aliceJohnson, bobBrown));
+    testDepartments.put(clientId2, Arrays.asList(engineering2, marketing2));
+    testOrganizations.put(clientId2, organization2);
   }
 
-  @Override
-  public String toString() {
-    return "Test-stub of DatabaseConnection, using in-memory data only.";
-  }
-
-  /**
-   * Returns the unique instance of the database connection.
-   * Designed with "double-checked locking" mechanism to ensure thread safety.
-   *
-   * @return the database connection instance
-   */
   public static DatabaseConnection getInstance() {
     if (instance == null) {
       synchronized (DatabaseConnectionStub.class) {
