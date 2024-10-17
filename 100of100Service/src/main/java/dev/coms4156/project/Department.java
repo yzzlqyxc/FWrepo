@@ -13,11 +13,12 @@ public class Department extends OrganizationComposite {
 
   /**
    * Constructs a department with the given ID and name.
+   *
    * @param db the HR database facade that manages the department
    * @param id the ID of the department
    * @param name the name of the department
    */
-  public Department(HRDatabaseFacade db, int id, String name) {
+  public Department(HrDatabaseFacade db, int id, String name) {
     super(db, id, name);
     this.typeName = "Department";
     this.employees = new ArrayList<>();
@@ -32,7 +33,7 @@ public class Department extends OrganizationComposite {
    * @param name the name of the department
    * @param employees the list of existing employees in the department
    */
-  public Department(HRDatabaseFacade db, int id, String name, List<Employee> employees) {
+  public Department(HrDatabaseFacade db, int id, String name, List<Employee> employees) {
     super(db, id, name);
     this.typeName = "Department";
     this.employees = employees;
@@ -96,7 +97,8 @@ public class Department extends OrganizationComposite {
   }
 
   /**
-   * Returns the basic information of the Department, including the name, ID, list of employees, and head.
+   * Returns the basic information of the Department,
+   * including the name, ID, list of employees, and head.
    *
    * @return the string representation of the department
    */

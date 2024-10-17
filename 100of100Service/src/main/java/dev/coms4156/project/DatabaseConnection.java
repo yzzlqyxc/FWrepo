@@ -1,6 +1,10 @@
 package dev.coms4156.project;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,12 +14,13 @@ import java.util.List;
  * Designed under the Singleton Design Pattern.
  */
 public class DatabaseConnection {
-  private volatile static DatabaseConnection instance;
+  private static volatile DatabaseConnection instance;
   private Connection connection;
 
   protected DatabaseConnection() {
     try {
-      String url = "jdbc:mysql://database-100-team.c7mqy28ys9uq.us-east-1.rds.amazonaws.com:3306/organization_management";
+      String url = "jdbc:mysql://database-100-team.c7mqy28ys9uq.us-east-1.rds.amazonaws.com:3306/"
+          + "organization_management";
       String user = "admin";
       String password = "sxy6cJEmv6iLT61qs7DO";
       this.connection = DriverManager.getConnection(url, user, password);
@@ -24,6 +29,12 @@ public class DatabaseConnection {
     }
   }
 
+  /**
+   * Returns a list of employees in a given organization.
+   *
+   * @param organizationId the organization id
+   * @return a list of employees in the organization
+   */
   public List<Employee> getEmployees(int organizationId) {
     List<Employee> employees = new ArrayList<>();
     String query = "SELECT * FROM employees WHERE organization_id = ?";
@@ -45,6 +56,12 @@ public class DatabaseConnection {
     return employees;
   }
 
+  /**
+   * Returns a list of departments in a given organization.
+   *
+   * @param organizationId the organization id
+   * @return a list of departments in the organization
+   */
   public List<Department> getDepartments(int organizationId) {
     List<Department> departments = new ArrayList<>();
     String query = "SELECT * FROM departments WHERE organization_id = ?";
@@ -66,6 +83,12 @@ public class DatabaseConnection {
     return departments;
   }
 
+  /**
+   * Returns an organization with the given organization id.
+   *
+   * @param organizationId the organization id
+   * @return the organization with the given organization id
+   */
   public Organization getOrganization(int organizationId) {
     String query = "SELECT * FROM organizations WHERE organization_id = ?";
     try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -84,6 +107,12 @@ public class DatabaseConnection {
     return null;
   }
 
+  /**
+   * Returns a list of employees in a given department.
+   *
+   * @param departmentId the department id
+   * @return a list of employees in the department
+   */
   private List<Employee> getEmployeesForDepartment(long departmentId) {
     List<Employee> employees = new ArrayList<>();
     String query = "SELECT * FROM employees WHERE department_id = ?";
@@ -94,10 +123,10 @@ public class DatabaseConnection {
 
       while (rs.next()) {
         Employee employee = new Employee(
-          null,  // HRDatabaseFacade instance, passing null for now
-          rs.getInt("employee_id"),
-          rs.getString("name"),
-          rs.getDate("hire_date")
+              null,  // HRDatabaseFacade instance, passing null for now
+            rs.getInt("employee_id"),
+            rs.getString("name"),
+            rs.getDate("hire_date")
         );
         employees.add(employee);
       }
@@ -111,6 +140,7 @@ public class DatabaseConnection {
   /**
    * Returns the unique instance of the database connection.
    * Designed with "double-checked locking" mechanism to ensure thread safety.
+   *
    * @return the database connection instance
    */
   public static DatabaseConnection getInstance() {

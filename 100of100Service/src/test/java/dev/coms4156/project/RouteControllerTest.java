@@ -15,7 +15,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-
+/**
+ * An integration test class for the RouteController class.
+ */
 @SpringBootTest
 @AutoConfigureMockMvc
 public class RouteControllerTest {
@@ -30,7 +32,7 @@ public class RouteControllerTest {
   @BeforeAll
   public static void setUp() {
     DatabaseConnection dbConnectionStub = DatabaseConnectionStub.getInstance();
-    HRDatabaseFacade.setTestMode(dbConnectionStub);
+    HrDatabaseFacade.setTestMode(dbConnectionStub);
   }
 
   @Test
@@ -41,7 +43,7 @@ public class RouteControllerTest {
         .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andReturn();
 
-//    String expected = "Employee: Alice (ID: 1)";
+    // String expected = "Employee: Alice (ID: 1)";
     String content = mvcResult1.getResponse().getContentAsString();
     System.out.println(content);
   }
@@ -65,7 +67,7 @@ public class RouteControllerTest {
         .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andReturn();
 
-//    String expected = "Department: Engineering (ID: 1)";
+    // String expected = "Department: Engineering (ID: 1)";
     String content = mvcResult1.getResponse().getContentAsString();
     System.out.println(content);
   }
@@ -85,7 +87,7 @@ public class RouteControllerTest {
         .param("cid", "1")
         .param("did", "1")
         .accept(MediaType.APPLICATION_JSON))
-      .andExpect(status().isOk()).andReturn();
+        .andExpect(status().isOk()).andReturn();
 
     String content = mvcResult1.getResponse().getContentAsString();
     System.out.println(content);
@@ -97,6 +99,6 @@ public class RouteControllerTest {
    */
   @AfterAll
   public static void tearDown() {
-    HRDatabaseFacade.setTestMode(null);
+    HrDatabaseFacade.setTestMode(null);
   }
 }

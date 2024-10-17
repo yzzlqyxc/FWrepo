@@ -29,6 +29,7 @@ public class RouteController {
 
   /**
    * Gets the information of an employee.
+   *
    * @param clientId the client ID
    * @param employeeId the employee ID
    * @return the information of the employee
@@ -48,14 +49,15 @@ public class RouteController {
 
   /**
    * Gets the information of a department.
+   *
    * @param clientId the client ID
    * @param departmentId the department ID
    * @return the information of the department
    */
   @GetMapping(value = "/getDeptInfo", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> getDepartment(
-    @RequestParam("cid") int clientId,
-    @RequestParam("did") int departmentId
+      @RequestParam("cid") int clientId,
+      @RequestParam("did") int departmentId
   ) {
     try {
       Command command = new GetDeptInfoCommand(clientId, departmentId);
@@ -67,12 +69,13 @@ public class RouteController {
 
   /**
    * Gets the information of an organization.
+   *
    * @param clientId the client ID
    * @return the information of the organization
    */
   @GetMapping(value = "/getOrgInfo", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> getOrganization(
-    @RequestParam("cid") int clientId
+      @RequestParam("cid") int clientId
   ) {
     try {
       Command command = new GetOrganizationInfoCommand(clientId);
@@ -84,6 +87,7 @@ public class RouteController {
 
   /**
    * Sets the head of a department.
+   *
    * @param clientId the client ID
    * @param departmentId the department ID
    * @param employeeId the employee ID

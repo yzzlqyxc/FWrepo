@@ -1,6 +1,7 @@
 package dev.coms4156.project;
 
 import dev.coms4156.project.stubs.DatabaseConnectionStub;
+import java.util.Date;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -10,21 +11,24 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Date;
-
-
+/**
+ * A unit test class for the Employee class.
+ */
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class EmployeeTest {
   private static Date date;
-  private static HRDatabaseFacade dbf;
+  private static HrDatabaseFacade dbf;
   private static Employee employee;
 
+  /**
+   * Set up the test environment.
+   */
   @BeforeAll
   public static void setUp() {
     DatabaseConnection dbConnectionStub = DatabaseConnectionStub.getInstance();
-    HRDatabaseFacade.setTestMode(dbConnectionStub);
-    dbf = HRDatabaseFacade.getInstance(1);
+    HrDatabaseFacade.setTestMode(dbConnectionStub);
+    dbf = HrDatabaseFacade.getInstance(1);
     date = new Date();
     employee = new Employee(dbf, 1, "Test", date);
   }
@@ -90,7 +94,7 @@ public class EmployeeTest {
 
   @AfterAll
   public static void tearDown() {
-    HRDatabaseFacade.setTestMode(null);
+    HrDatabaseFacade.setTestMode(null);
   }
 
 }
