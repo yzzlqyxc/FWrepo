@@ -15,7 +15,7 @@ public class Department extends OrganizationComposite {
    * Constructs a department with the given ID and name.
    *
    * @param db the HR database facade that manages the department
-   * @param id the ID of the department
+   * @param id the ID of the department (external ID)
    * @param name the name of the department
    */
   public Department(HrDatabaseFacade db, int id, String name) {
@@ -29,7 +29,7 @@ public class Department extends OrganizationComposite {
    * Constructs a department with the given ID, name, and list of employees.
    *
    * @param db   the HR database facade that manages the department
-   * @param id   the ID of the department
+   * @param id   the ID of the department (external ID)
    * @param name the name of the department
    * @param employees the list of existing employees in the department
    */

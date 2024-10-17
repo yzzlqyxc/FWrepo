@@ -18,7 +18,7 @@ public class Employee implements OrganizationComponent {
    * Constructs an employee with the given ID, name, and hire date.
    *
    * @param db the HR database facade that manages the employee
-   * @param id the ID of the employee
+   * @param id the ID of the employee (external ID)
    * @param name the name of the employee
    * @param hireDate the hire date of the employee
    */
@@ -36,7 +36,7 @@ public class Employee implements OrganizationComponent {
   /**
    * Returns the ID of the employee.
    *
-   * @return the ID of the employee
+   * @return the ID of the employee (external ID)
    */
   @Override
   public long getId() {
@@ -81,7 +81,6 @@ public class Employee implements OrganizationComponent {
   public Date getHireDate() {
     return new Date(this.hireDate.getTime());
   }
-
 
   /**
    * Returns the basic information of the employee, including the name and ID.
