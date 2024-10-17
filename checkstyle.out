@@ -1,0 +1,18 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------< dev.coms4156.project:100of100Service >----------------
+[INFO] Building 100of100Service 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[WARNING] The artifact mysql:mysql-connector-java:jar:8.0.33 has been relocated to com.mysql:mysql-connector-j:jar:8.0.33: MySQL Connector/J artifacts moved to reverse-DNS compliant Maven 2+ coordinates.
+[INFO] 
+[INFO] --- checkstyle:3.2.0:checkstyle (default-cli) @ 100of100Service ---
+[INFO] Rendering content with org.apache.maven.skins:maven-default-skin:jar:1.3 skin.
+[INFO] Starting audit...
+Audit done.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  0.934 s
+[INFO] Finished at: 2024-10-16T19:59:42-04:00
+[INFO] ------------------------------------------------------------------------
