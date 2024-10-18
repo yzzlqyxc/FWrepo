@@ -93,6 +93,54 @@ public class RouteControllerTest {
     System.out.println(content);
   }
 
+  // Test: Client cannot access another client's employee
+  @Test
+  public void testClientCannotAccessAnotherClientsEmployee() throws Exception {
+    // Client 1 tries to access Client 2's Employee ID 1
+    MvcResult mvcResult = mockMvc.perform(get("/getEmpInfo")
+                    .param("cid", "1")
+                    .param("eid", "1")
+                    .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk()).andReturn();
+
+    String content = mvcResult.getResponse().getContentAsString();
+    // Should contain "John Doe", not "Alice Johnson"
+    assert(content.contains("John Doe"));
+    assert(!content.contains("Alice Johnson"));
+  }
+
+  // Test: Accessing a non-existent employee returns an error
+  @Test
+  public void testAccessNonExistentEmployee() throws Exception {
+    // Client 1 tries to access Employee ID 99 (does not exist)
+    mockMvc.perform(get("/getEmpInfo")
+                    .param("cid", "1")
+                    .param("eid", "99")
+                    .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isInternalServerError());
+  }
+
+  // Test: Invalid client ID returns an error
+  @Test
+  public void testInvalidClientId() throws Exception {
+    // Client ID 99 does not exist
+    mockMvc.perform(get("/getEmpInfo")
+                    .param("cid", "99")
+                    .param("eid", "1")
+                    .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isInternalServerError());
+  }
+
+  // Test: Boundary case - negative employee ID
+  @Test
+  public void testNegativeEmployeeId() throws Exception {
+    mockMvc.perform(get("/getEmpInfo")
+                    .param("cid", "1")
+                    .param("eid", "-1")
+                    .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isInternalServerError());
+  }
+
   /**
    * Tear down the test environment.
    * Reset the database connection to the real database.
