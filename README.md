@@ -1,20 +1,10 @@
 # COMS 4156 Service: 100-of-100
-GitHub repository for service of the Team Project associated with COMS 4156 Advanced Software Engineering. 
-Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Alex Xu and Xintong Yu.
-## Building and Running a Local Instance
-In order to build and use the service of the project, you must install the following:
+GitHub repository for service of the Team Project associated with COMS 4156 Advanced Software Engineering.
+Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai Xu and Xintong Yu.
 
-1. [Maven 3.9.5](https://maven.apache.org/download.cgi) Download and follow the installation instructions. Set the bin
-   as a new path variable for both Windows and MacOS.
-2. [JDK 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) used for development.
-3. [IntelliJ IDE](https://www.jetbrains.com/idea/download/?section=windows) Or use other IDE of your preference.
+## [User] Endpoints Documentation
 
-In order to build the project, run under `/100of100Service` directory: `mvn -B package --file pom.xml`.
-## Running Test Suite
-Our unit tests are located under directory `src/test`. After setting up and building the project, run `mvn test`. You may
-also run the tests by right click any class in src/test directory and run to see the results if you are using IntelliJ IDEA as IDE.
-## Endpoints
-### **GET /getEmpInfo**
+### GET `/getEmpInfo`
 - **Expected Input Parameters**:
    - `cid` (int) - The client ID.
    - `eid` (int) - The employee ID.
@@ -26,7 +16,7 @@ also run the tests by right click any class in src/test directory and run to see
    - HTTP 404 Status Code is returned with "Employee Not Found" in the response body.
    - HTTP 500 Status Code is returned with "An unexpected error has occurred" in the response body.
 
-### **GET /getDeptInfo**
+### GET `/getDeptInfo`
 - **Expected Input Parameters**:
    - `cid` (int) - The client ID.
    - `did` (int) - The department ID.
@@ -38,7 +28,7 @@ also run the tests by right click any class in src/test directory and run to see
    - HTTP 404 Status Code is returned with "Department Not Found" in the response body.
    - HTTP 500 Status Code is returned with "An unexpected error has occurred" in the response body.
 
-### **GET /getOrgInfo**
+### GET `/getOrgInfo`
 - **Expected Input Parameters**:
    - `cid` (int) - The client ID.
 - **Expected Output**:
@@ -49,7 +39,7 @@ also run the tests by right click any class in src/test directory and run to see
    - HTTP 404 Status Code is returned with "Organization Not Found" in the response body.
    - HTTP 500 Status Code is returned with "An unexpected error has occurred" in the response body.
 
-### **PATCH /setDeptHead**
+### PATCH `/setDeptHead`
 - **Expected Input Parameters**:
    - `cid` (int) - The client ID.
    - `did` (int) - The department ID.
@@ -62,7 +52,7 @@ also run the tests by right click any class in src/test directory and run to see
    - HTTP 404 Status Code is returned with "Department or Employee Not Found" in the response body.
    - HTTP 500 Status Code is returned with "An unexpected error has occurred" in the response body.
 
-### **POST /addEmployeeToDept**
+### POST `/addEmployeeToDept
 - **Expected Input Parameters**:
    - `cid` (int) - The client ID.
    - `did` (int) - The department ID.
@@ -76,7 +66,7 @@ also run the tests by right click any class in src/test directory and run to see
    - HTTP 404 Status Code is returned with "Department Not Found" in the response body.
    - HTTP 500 Status Code is returned with "An unexpected error has occurred" in the response body.
 
-### **DELETE /removeEmployeeFromDept**
+### DELETE `/removeEmployeeFromDept`
 - **Expected Input Parameters**:
    - `cid` (int) - The client ID.
    - `did` (int) - The department ID.
@@ -89,9 +79,84 @@ also run the tests by right click any class in src/test directory and run to see
    - HTTP 404 Status Code is returned with "Department or Employee Not Found" in the response body.
    - HTTP 500 Status Code is returned with "An unexpected error has occurred" in the response body.
 
-## Style Checking Report
+## [Ops] Deployment instructions
 
-## Branch Coverage Reporting
+### Building and Running a Local Instance
+In order to build and use the service of the project, you must install the following:
 
-## Tool Used
-Maven, JUnit, JaCoCo, Maven Checkstyle.
+1. [Maven 3.9.5](https://maven.apache.org/download.cgi) Download and follow the installation instructions. Set the bin as a new path variable for both Windows and MacOS.
+2. [JDK 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) used for development.
+3. [IntelliJ IDE](https://www.jetbrains.com/idea/download/?section=windows) Or use other IDE of your preference.
+
+In order to build the project, run under `./100of100Service` directory:
+```bash
+mvn -B package --file pom.xml
+```
+
+## [Developer] Development Notice
+
+### Service Design
+At the beginning of the development of our services, we first carried out a careful design, in which we focus on the adoption of the following design patterns to decompose the modules, making it easier to extend and maintain the code in the future.
+
+#### Command Pattern
+Instead of directly calling the service methods from the Springboot routes, we use the command pattern to encapsulate the detailed service logic into command objects. This way, we satisfy the Single Responsibility Principle, the route handler only needs to focus on the request and response, and the command object is responsible for implementing the different service logic (Freeman 208).
+
+#### Composite Pattern
+We use the composite pattern to organize the Organization, Department, and Employee hierarchy. This way, we satisfy the Open-Closed Principle, we can traverse the organization structure uniformly, and easily add new types of entities (Freeman 364).
+
+#### Singleton Pattern
+In order to ensure that the database connection is only created once, and to improve its reliability under high concurrency, we use the singleton pattern to make sure database connection only has one instance and provide a global access point to it (Freeman 179).
+
+#### Facade Pattern
+Given the inherent complexity that comes with databases, to ensure the Law of Demeter, we use the facade pattern to encapsulate the database operations. This way, the service logic does not need to know the details of the database operations, and the database operations can be easily replaced in the test and in the future (Freeman 272).
+
+### Running Test Suite
+Our unit tests are located under directory `src/test`. After setting up and building the project, run
+```bash
+mvn test
+```
+You may also run the tests by right click any class in src/test directory and run to see the results if you are using IntelliJ IDEA as IDE.
+
+### Style Checking Report
+In order to make sure the code is following the style guide, we use Maven Checkstyle plugin. To run the checkstyle report, run the following command:
+```bash
+mvn checkstyle:check
+```
+One of the latest checkstyle report is located at `./checkstyle.out` file.
+
+### Branch Coverage Report
+We use JaCoCo Maven plugin to generate the branch coverage report. To generate the report, first make sure you have run the test suite. Then run the following command:
+```bash
+mvn jacoco:report
+```
+The report is located at `./target/site/jacoco/index.html` file.
+
+Currently, the branch coverage is at **TODO-final test** for the service.
+![Branch Coverage](./coverage.png)**TODO-Screenshot**
+
+### Tool Used
+Maven, JUnit, JaCoCo, Maven Checkstyle, **TODO-database**
+
+## [Team] Teamwork and Collaboration
+
+### Project Management
+We use [GitHub Projects](https://github.com/users/Alex-XJK/projects/2) to manage our tasks and progress.
+In the GitHub Projects, we use Kanban board to manage our tasks. We have columns for To Do, In Progress, and Done to keep track of the progress of each task. We also use the GitHub Issues to create tasks and assign them to team members. We use the GitHub Pull Requests to review the code and merge the code into the main branch.
+
+### PR Review Process
+We enforce the PR review process to ensure the quality of the code.
+All changes in the main branch must be made through a pull request. The pull request must be reviewed by at least one team member and make sure all the discussions are resolved before merging.
+
+### Division of Work
+Although the GitHub Projects documents all the tasks done or led by each team member, as per the assignment requirements, we also briefly summarize the general division of work here (please refer to the GitHub Projects for more details):
+
+- **Yifei Luo**: Responsible for the database design, implementation, and its deployment.
+- **Phoebe Wang**: Responsible for the API design, service implementation, testing, and external documentation.
+- **Jiakai Xu**: Responsible for the initial project setup, overall architecture design and implementation, and the internal documentation.
+- **Xintong Yu**: Responsible for the interface integration between service and database.
+
+(names are in alphabetical order)
+
+---
+Works Cited:
+- Freeman, Eric, et al. *Head First Design Patterns*. O’Reilly, 2014.
