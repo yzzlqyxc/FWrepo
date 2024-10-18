@@ -52,7 +52,7 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
    - HTTP 404 Status Code is returned with "Department or Employee Not Found" in the response body.
    - HTTP 500 Status Code is returned with "An unexpected error has occurred" in the response body.
 
-### POST `/addEmployeeToDept
+### POST `/addEmployeeToDept`
 - **Expected Input Parameters**:
    - `cid` (int) - The client ID.
    - `did` (int) - The department ID.
@@ -123,6 +123,7 @@ In order to make sure the code is following the style guide, we use Maven Checks
 mvn checkstyle:check
 ```
 One of the latest checkstyle report is located at `./checkstyle.out` file.
+![CheckStyle Report](./checkstyle.png)
 
 ### Branch Coverage Report
 We use JaCoCo Maven plugin to generate the branch coverage report. To generate the report, first make sure you have run the test suite. Then run the following command:
@@ -131,11 +132,11 @@ mvn jacoco:report
 ```
 The report is located at `./target/site/jacoco/index.html` file.
 
-Currently, the branch coverage is at **TODO-final test** for the service.
-![Branch Coverage](./coverage.png)**TODO-Screenshot**
+Currently, the branch coverage is at 64% for the service.
+![Branch Coverage](./coverage.png)
 
 ### Tool Used
-Maven, JUnit, JaCoCo, Maven Checkstyle, **TODO-database**
+Maven, JUnit, JaCoCo, Maven Checkstyle, AWS RDS, DataGrip
 
 ## [Team] Teamwork and Collaboration
 
