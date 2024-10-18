@@ -92,6 +92,14 @@ In order to build the project, run under `./100of100Service` directory:
 ```bash
 mvn -B package --file pom.xml
 ```
+Or:
+```bash
+mvn clean install
+```
+To run the application, please use:
+```bash
+mvn spring-boot:run
+```
 
 ## [Developer] Development Notice
 
