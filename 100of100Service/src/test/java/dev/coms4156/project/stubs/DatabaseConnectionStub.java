@@ -4,13 +4,17 @@ import dev.coms4156.project.DatabaseConnection;
 import dev.coms4156.project.Department;
 import dev.coms4156.project.Employee;
 import dev.coms4156.project.Organization;
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * A test stub for the DatabaseConnection class.
+ * This stub provides in-memory data for testing purposes without connecting to a real database.
+ */
 public class DatabaseConnectionStub extends DatabaseConnection {
   private static volatile DatabaseConnection instance;
 
@@ -18,10 +22,18 @@ public class DatabaseConnectionStub extends DatabaseConnection {
   private final Map<Integer, List<Department>> testDepartments = new HashMap<>();
   private final Map<Integer, Organization> testOrganizations = new HashMap<>();
 
+  /** Constructs a DatabaseConnectionStub and initializes test data. */
   private DatabaseConnectionStub() {
     initializeTestData();
   }
 
+  /**
+   * Retrieves an employee for a given organization by external employee ID.
+   *
+   * @param organizationId the organization ID (client ID)
+   * @param externalEmployeeId the external employee ID
+   * @return the Employee object if found, null otherwise
+   */
   public Employee getEmployee(int organizationId, int externalEmployeeId) {
     List<Employee> employees = testEmployees.get(organizationId);
     if (employees != null) {
@@ -34,6 +46,13 @@ public class DatabaseConnectionStub extends DatabaseConnection {
     return null;
   }
 
+  /**
+   * Retrieves a department for a given organization by external department ID.
+   *
+   * @param organizationId the organization ID (client ID)
+   * @param externalDepartmentId the external department ID
+   * @return the Department object if found, null otherwise
+   */
   public Department getDepartment(int organizationId, int externalDepartmentId) {
     List<Department> departments = testDepartments.get(organizationId);
     if (departments != null) {
@@ -46,18 +65,38 @@ public class DatabaseConnectionStub extends DatabaseConnection {
     return null;
   }
 
+  /**
+   * Retrieves a list of employees for a given organization.
+   *
+   * @param organizationId the organization ID (client ID)
+   * @return a list of Employee objects
+   */
   public List<Employee> getEmployees(int organizationId) {
     return testEmployees.getOrDefault(organizationId, new ArrayList<>());
   }
 
+  /**
+   * Retrieves a list of departments for a given organization.
+   *
+   * @param organizationId the organization ID (client ID)
+   * @return a list of Department objects
+   */
   public List<Department> getDepartments(int organizationId) {
     return testDepartments.getOrDefault(organizationId, new ArrayList<>());
   }
 
+  /**
+   * Retrieves the organization for a given organization ID.
+   *
+   * @param organizationId the organization ID (client ID)
+   * @return the Organization object
+   */
   public Organization getOrganization(int organizationId) {
-    return testOrganizations.getOrDefault(organizationId, new Organization(null, organizationId, "Unknown"));
+    return testOrganizations.getOrDefault(
+            organizationId, new Organization(null, organizationId, "Unknown"));
   }
 
+  /** Initializes the test data for the stub. */
   private void initializeTestData() {
     // Client 1 Data
     int clientId1 = 1;
@@ -110,6 +149,12 @@ public class DatabaseConnectionStub extends DatabaseConnection {
     testOrganizations.put(clientId2, organization2);
   }
 
+  /**
+   * Returns the unique instance of the database connection.
+   * Designed with "double-checked locking" mechanism to ensure thread safety.
+   *
+   * @return the database connection instance
+   */
   public static DatabaseConnection getInstance() {
     if (instance == null) {
       synchronized (DatabaseConnectionStub.class) {
