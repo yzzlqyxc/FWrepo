@@ -9,6 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * This class configures the web settings for the system.
+ * Design under the Chain of Responsibility pattern.
  * Citation:
  * I used the following tutorial to learn how to create SpringBoot interceptors:
  * <a href="https://www.tutorialspoint.com/spring_boot/spring_boot_interceptor.htm">interceptor</a>
@@ -23,7 +24,7 @@ public class WebConfig implements WebMvcConfigurer {
 
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
-    registry.addInterceptor(parameterDecodingInterceptor).addPathPatterns("/**");
     registry.addInterceptor(rrLoggingInterceptor).addPathPatterns("/**");
+    registry.addInterceptor(parameterDecodingInterceptor).addPathPatterns("/**");
   }
 }
