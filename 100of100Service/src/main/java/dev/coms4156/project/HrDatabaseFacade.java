@@ -111,16 +111,16 @@ public class HrDatabaseFacade {
     return organization;
   }
 
-  /**
-   * Updates the employee information.
-   *
-   * @param employee the updated employee object
-   * @return true if the employee is updated successfully, false otherwise
-   */
-  public boolean updateEmployee(Employee employee) {
-    // TODO: Update the employee information into the database
-    return true;
-  }
+//  /**
+//   * Updates the employee information.
+//   *
+//   * @param employee the updated employee object
+//   * @return true if the employee is updated successfully, false otherwise
+//   */
+//  public boolean updateEmployee(Employee employee) {
+//    // TODO: Update the employee information into the database
+//    return true;
+//  }
 
   /**
    * Updates the department information.
@@ -134,60 +134,60 @@ public class HrDatabaseFacade {
     return true;
   }
 
-  /**
-   * Updates the organization information.
-   *
-   * @param organization the updated organization object
-   * @return true if the organization is updated successfully, false otherwise
-   */
-  public boolean updateOrganization(Organization organization) {
-    // TODO: Update the organization information into the database
-    return true;
-  }
+//  /**
+//   * Updates the organization information.
+//   *
+//   * @param organization the updated organization object
+//   * @return true if the organization is updated successfully, false otherwise
+//   */
+//  public boolean updateOrganization(Organization organization) {
+//    // TODO: Update the organization information into the database
+//    return true;
+//  }
 
-  /**
-   * Inserts a new employee into the database.
-   *
-   * @param employee the partially filled employee object
-   * @return the real employee object with the ID assigned
-   */
-  public Employee insertEmployee(Employee employee) {
-    // TODO: Insert the employee information into the database
-    return employee;
-  }
+//  /**
+//   * Inserts a new employee into the database.
+//   *
+//   * @param employee the partially filled employee object
+//   * @return the real employee object with the ID assigned
+//   */
+//  public Employee insertEmployee(Employee employee) {
+//    // TODO: Insert the employee information into the database
+//    return employee;
+//  }
 
-  /**
-   * Inserts a new department into the database.
-   *
-   * @param department the partially filled department object
-   * @return the real department object with the ID assigned
-   */
-  public Department insertDepartment(Department department) {
-    // TODO: Insert the department information into the database
-    return department;
-  }
+//  /**
+//   * Inserts a new department into the database.
+//   *
+//   * @param department the partially filled department object
+//   * @return the real department object with the ID assigned
+//   */
+//  public Department insertDepartment(Department department) {
+//    // TODO: Insert the department information into the database
+//    return department;
+//  }
 
-  /**
-   * Removes an employee from the database.
-   *
-   * @param employeeId the employee ID
-   * @return true if the employee is removed successfully, false otherwise
-   */
-  public boolean removeEmployee(int employeeId) {
-    // TODO: Remove the employee information from the database
-    return true;
-  }
+//  /**
+//   * Removes an employee from the database.
+//   *
+//   * @param employeeId the employee ID
+//   * @return true if the employee is removed successfully, false otherwise
+//   */
+//  public boolean removeEmployee(int employeeId) {
+//    // TODO: Remove the employee information from the database
+//    return true;
+//  }
 
-  /**
-   * Removes a department from the database.
-   *
-   * @param departmentId the department ID
-   * @return true if the department is removed successfully, false otherwise
-   */
-  public boolean removeDepartment(int departmentId) {
-    // TODO: Remove the department information from the database
-    return true;
-  }
+//  /**
+//   * Removes a department from the database.
+//   *
+//   * @param departmentId the department ID
+//   * @return true if the department is removed successfully, false otherwise
+//   */
+//  public boolean removeDepartment(int departmentId) {
+//    // TODO: Remove the department information from the database
+//    return true;
+//  }
 
   // TODO: How to insert(register) / remove(deregister) an organization?
 
