@@ -121,7 +121,7 @@ public class RouteControllerTest {
                     .param("cid", CLIENT_ID_1)
                     .param("eid", "99")
                     .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isInternalServerError());
+            .andExpect(status().isNotFound());
   }
 
   // Test: Invalid client ID returns an error
@@ -132,7 +132,7 @@ public class RouteControllerTest {
                     .param("cid", CLIENT_ID_99)
                     .param("eid", "1")
                     .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isInternalServerError());
+            .andExpect(status().isNotFound());
   }
 
   // Test: Boundary case - negative employee ID
@@ -142,7 +142,7 @@ public class RouteControllerTest {
                     .param("cid", CLIENT_ID_1)
                     .param("eid", "-1")
                     .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isInternalServerError());
+            .andExpect(status().isNotFound());
   }
 
   /**
