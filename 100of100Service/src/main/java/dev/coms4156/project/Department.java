@@ -90,9 +90,7 @@ public class Department extends OrganizationComposite {
    */
   public boolean setHead(Employee head) {
     // TODO: Any validation? Manager must in the department?
-    // TODO: find a proper way to update database. since it's test database, it's set to null
     this.head = head;
-    //this.db.updateDepartment(this); // Update the department information to the database
     return true;
   }
 
