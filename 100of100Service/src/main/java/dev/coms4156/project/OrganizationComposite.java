@@ -16,11 +16,10 @@ public abstract class OrganizationComposite implements OrganizationComponent {
   /**
    * Constructs an organization composite with the given ID and name.
    *
-   * @param db the HR database facade
    * @param id the ID of the organization composite
    * @param name the name of the organization composite
    */
-  public OrganizationComposite(HrDatabaseFacade db, long id, String name) {
+  public OrganizationComposite(long id, String name) {
     this.id = id;
     this.name = name;
     this.children = new ArrayList<>();
