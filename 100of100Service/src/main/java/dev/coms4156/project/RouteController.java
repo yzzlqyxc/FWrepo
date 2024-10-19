@@ -40,12 +40,8 @@ public class RouteController {
       @RequestAttribute("cid") int clientId,
       @RequestParam("eid") int employeeId
   ) {
-    try {
-      Command command = new GetEmployeeInfoCommand(clientId, employeeId);
-      return new ResponseEntity<>(command.execute(), HttpStatus.OK);
-    } catch (Exception e) {
-      return handleException(e);
-    }
+    Command command = new GetEmployeeInfoCommand(clientId, employeeId);
+    return new ResponseEntity<>(command.execute(), HttpStatus.OK);
   }
 
   /**
@@ -60,12 +56,8 @@ public class RouteController {
       @RequestAttribute("cid") int clientId,
       @RequestParam("did") int departmentId
   ) {
-    try {
-      Command command = new GetDeptInfoCommand(clientId, departmentId);
-      return new ResponseEntity<>(command.execute(), HttpStatus.OK);
-    } catch (Exception e) {
-      return handleException(e);
-    }
+    Command command = new GetDeptInfoCommand(clientId, departmentId);
+    return new ResponseEntity<>(command.execute(), HttpStatus.OK);
   }
 
   /**
@@ -78,12 +70,8 @@ public class RouteController {
   public ResponseEntity<?> getOrganization(
       @RequestAttribute("cid") int clientId
   ) {
-    try {
-      Command command = new GetOrganizationInfoCommand(clientId);
-      return new ResponseEntity<>(command.execute(), HttpStatus.OK);
-    } catch (Exception e) {
-      return handleException(e);
-    }
+    Command command = new GetOrganizationInfoCommand(clientId);
+    return new ResponseEntity<>(command.execute(), HttpStatus.OK);
   }
 
   /**
@@ -100,18 +88,19 @@ public class RouteController {
       @RequestParam("did") int departmentId,
       @RequestParam("eid") int employeeId
   ) {
-    try {
-      Command command = new SetDeptHeadCommand(clientId, departmentId, employeeId);
-      return new ResponseEntity<>(command.execute(), HttpStatus.OK);
-    } catch (Exception e) {
-      return handleException(e);
-    }
+    Command command = new SetDeptHeadCommand(clientId, departmentId, employeeId);
+    return new ResponseEntity<>(command.execute(), HttpStatus.OK);
   }
 
 
   /**
    * Handles any exceptions that occur in controller.
+   *
+   * @param e the exception that occurred
+   * @return the response entity
+   * @deprecated This method is replaced by the global exception handler after 80586a8
    */
+  @Deprecated
   private ResponseEntity<?> handleException(Exception e) {
     System.out.println(e.toString());
     return new ResponseEntity<>("An Error has occurred", HttpStatus.INTERNAL_SERVER_ERROR);

@@ -1,6 +1,8 @@
 package dev.coms4156.project.interceptor;
 
 import java.util.Base64;
+
+import dev.coms4156.project.exception.BadRequestException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -54,7 +56,12 @@ public class ParameterDecodingInterceptor implements HandlerInterceptor {
    * @return the decoded string
    */
   public static String decode(String encoded) {
-    return new String(Base64.getUrlDecoder().decode(encoded));
+    try {
+      return new String(Base64.getUrlDecoder().decode(encoded));
+    } catch (IllegalArgumentException e) {
+      logger.warn("Failed to decode [{}].", encoded);
+      throw new BadRequestException("Invalid client ID [" + encoded + "]");
+    }
   }
 
 }
