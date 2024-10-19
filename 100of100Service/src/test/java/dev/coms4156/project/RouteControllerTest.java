@@ -25,22 +25,24 @@ public class RouteControllerTest {
   @Autowired
   private MockMvc mockMvc;
 
+  private static final String CLIENT_ID_1 = "MQ";
+  private static final String CLIENT_ID_2 = "Mg";
+  private static final String CLIENT_ID_99 = "OTk";
+
   /**
    * Set up the test environment.
    * Set the database connection to the stub, and flag the TestMode.
    */
   @BeforeAll
   public static void setUp() {
-    // DatabaseConnection dbConnectionStub = DatabaseConnectionStub.getInstance();
-    // HrDatabaseFacade.setTestMode(dbConnectionStub);
-    DatabaseConnection dbConnection = DatabaseConnection.getInstance();
-    HrDatabaseFacade.setTestMode(dbConnection);
+    DatabaseConnection dbConnectionStub = DatabaseConnectionStub.getInstance();
+    HrDatabaseFacade.setTestMode(dbConnectionStub);
   }
 
   @Test
   public void testGetEmployeeInfo() throws Exception {
     MvcResult mvcResult1 = mockMvc.perform(get("/getEmpInfo")
-        .param("cid", "1")
+        .param("cid", CLIENT_ID_1)
         .param("eid", "1")
         .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andReturn();
@@ -53,7 +55,7 @@ public class RouteControllerTest {
   @Test
   public void testGetDeptInfo() throws Exception {
     MvcResult mvcResult1 = mockMvc.perform(get("/getDeptInfo")
-        .param("cid", "1")
+        .param("cid", CLIENT_ID_1)
         .param("did", "1")
         .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andReturn();
@@ -65,7 +67,7 @@ public class RouteControllerTest {
   @Test
   public void testGetOrganizationInfo() throws Exception {
     MvcResult mvcResult1 = mockMvc.perform(get("/getOrgInfo")
-        .param("cid", "1")
+        .param("cid", CLIENT_ID_1)
         .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andReturn();
 
@@ -78,7 +80,7 @@ public class RouteControllerTest {
   public void testSetDeptHead() throws Exception {
     // patch for test
     mockMvc.perform(patch("/setDeptHead")
-        .param("cid", "1")
+        .param("cid", CLIENT_ID_1)
         .param("did", "1")
         .param("eid", "1")
         .accept(MediaType.APPLICATION_JSON))
@@ -86,7 +88,7 @@ public class RouteControllerTest {
 
     // get department to check if head is set
     MvcResult mvcResult1 = mockMvc.perform(get("/getDeptInfo")
-        .param("cid", "1")
+        .param("cid", CLIENT_ID_1)
         .param("did", "1")
         .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andReturn();
@@ -100,7 +102,7 @@ public class RouteControllerTest {
   public void testClientCannotAccessAnotherClientsEmployee() throws Exception {
     // Client 1 tries to access Client 2's Employee ID 1
     MvcResult mvcResult = mockMvc.perform(get("/getEmpInfo")
-                    .param("cid", "1")
+                    .param("cid", CLIENT_ID_1)
                     .param("eid", "1")
                     .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk()).andReturn();
@@ -116,7 +118,7 @@ public class RouteControllerTest {
   public void testAccessNonExistentEmployee() throws Exception {
     // Client 1 tries to access Employee ID 99 (does not exist)
     mockMvc.perform(get("/getEmpInfo")
-                    .param("cid", "1")
+                    .param("cid", CLIENT_ID_1)
                     .param("eid", "99")
                     .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isInternalServerError());
@@ -127,7 +129,7 @@ public class RouteControllerTest {
   public void testInvalidClientId() throws Exception {
     // Client ID 99 does not exist
     mockMvc.perform(get("/getEmpInfo")
-                    .param("cid", "99")
+                    .param("cid", CLIENT_ID_99)
                     .param("eid", "1")
                     .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isInternalServerError());
@@ -137,7 +139,7 @@ public class RouteControllerTest {
   @Test
   public void testNegativeEmployeeId() throws Exception {
     mockMvc.perform(get("/getEmpInfo")
-                    .param("cid", "1")
+                    .param("cid", CLIENT_ID_1)
                     .param("eid", "-1")
                     .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isInternalServerError());

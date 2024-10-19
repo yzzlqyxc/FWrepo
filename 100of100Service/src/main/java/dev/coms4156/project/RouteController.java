@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,7 +37,7 @@ public class RouteController {
    */
   @GetMapping(value = "/getEmpInfo", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> getEmployee(
-      @RequestParam("cid") int clientId,
+      @RequestAttribute("cid") int clientId,
       @RequestParam("eid") int employeeId
   ) {
     try {
@@ -56,7 +57,7 @@ public class RouteController {
    */
   @GetMapping(value = "/getDeptInfo", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> getDepartment(
-      @RequestParam("cid") int clientId,
+      @RequestAttribute("cid") int clientId,
       @RequestParam("did") int departmentId
   ) {
     try {
@@ -75,7 +76,7 @@ public class RouteController {
    */
   @GetMapping(value = "/getOrgInfo", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> getOrganization(
-      @RequestParam("cid") int clientId
+      @RequestAttribute("cid") int clientId
   ) {
     try {
       Command command = new GetOrganizationInfoCommand(clientId);
@@ -95,7 +96,7 @@ public class RouteController {
    */
   @PatchMapping(value = "/setDeptHead", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> setDeptHead(
-      @RequestParam("cid") int clientId,
+      @RequestAttribute("cid") int clientId,
       @RequestParam("did") int departmentId,
       @RequestParam("eid") int employeeId
   ) {
