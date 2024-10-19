@@ -30,7 +30,7 @@ public class EmployeeTest {
     HrDatabaseFacade.setTestMode(dbConnectionStub);
     dbf = HrDatabaseFacade.getInstance(1);
     date = new Date();
-    employee = new Employee(dbf, 1, "Test", date);
+    employee = new Employee(1, "Test", date);
   }
 
   @Test
@@ -80,7 +80,7 @@ public class EmployeeTest {
   @Order(8)
   public void testGetEmployeeInfoWithNullDate() {
     Date current = new Date();
-    Employee employeeNullDate = new Employee(dbf, 1, "TestND", null);
+    Employee employeeNullDate = new Employee(1, "TestND", null);
     String expected = "Employee: TestND (ID: 1) Hired at: " + current;
     Assertions.assertEquals(expected, employeeNullDate.toString());
   }

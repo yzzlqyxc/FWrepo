@@ -93,7 +93,7 @@ public class DatabaseConnectionStub extends DatabaseConnection {
    */
   public Organization getOrganization(int organizationId) {
     return testOrganizations.getOrDefault(
-            organizationId, new Organization(null, organizationId, "Unknown"));
+            organizationId, new Organization(organizationId, "Unknown"));
   }
 
   /** Initializes the test data for the stub. */
@@ -102,19 +102,19 @@ public class DatabaseConnectionStub extends DatabaseConnection {
     int clientId1 = 1;
 
     // Departments for Client 1
-    Department engineering1 = new Department(null, 1, "Engineering", new ArrayList<>());
-    Department marketing1 = new Department(null, 2, "Marketing", new ArrayList<>());
+    Department engineering1 = new Department(1, "Engineering", new ArrayList<>());
+    Department marketing1 = new Department(2, "Marketing", new ArrayList<>());
 
     // Employees for Client 1
-    Employee johnDoe = new Employee(null, 1, "John Doe", new Date());
-    Employee janeSmith = new Employee(null, 2, "Jane Smith", new Date());
+    Employee johnDoe = new Employee(1, "John Doe", new Date());
+    Employee janeSmith = new Employee(2, "Jane Smith", new Date());
 
     // Add employees to departments for Client 1
     engineering1.addEmployee(johnDoe);
     marketing1.addEmployee(janeSmith);
 
     // Organization for Client 1
-    Organization organization1 = new Organization(null, clientId1, "Organization One");
+    Organization organization1 = new Organization(clientId1, "Organization One");
     organization1.addDepartment(engineering1);
     organization1.addDepartment(marketing1);
 
@@ -127,19 +127,19 @@ public class DatabaseConnectionStub extends DatabaseConnection {
     int clientId2 = 2;
 
     // Departments for Client 2
-    Department engineering2 = new Department(null, 1, "Engineering", new ArrayList<>());
-    Department marketing2 = new Department(null, 2, "Marketing", new ArrayList<>());
+    Department engineering2 = new Department(1, "Engineering", new ArrayList<>());
+    Department marketing2 = new Department(2, "Marketing", new ArrayList<>());
 
     // Employees for Client 2
-    Employee aliceJohnson = new Employee(null, 1, "Alice Johnson", new Date());
-    Employee bobBrown = new Employee(null, 2, "Bob Brown", new Date());
+    Employee aliceJohnson = new Employee(1, "Alice Johnson", new Date());
+    Employee bobBrown = new Employee(2, "Bob Brown", new Date());
 
     // Add employees to departments for Client 2
     engineering2.addEmployee(aliceJohnson);
     marketing2.addEmployee(bobBrown);
 
     // Organization for Client 2
-    Organization organization2 = new Organization(null, clientId2, "Organization Two");
+    Organization organization2 = new Organization(clientId2, "Organization Two");
     organization2.addDepartment(engineering2);
     organization2.addDepartment(marketing2);
 
