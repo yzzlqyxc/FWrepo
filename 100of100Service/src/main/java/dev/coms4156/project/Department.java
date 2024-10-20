@@ -14,12 +14,11 @@ public class Department extends OrganizationComposite {
   /**
    * Constructs a department with the given ID and name.
    *
-   * @param db the HR database facade that manages the department
    * @param id the ID of the department (external ID)
    * @param name the name of the department
    */
-  public Department(HrDatabaseFacade db, int id, String name) {
-    super(db, id, name);
+  public Department(int id, String name) {
+    super(id, name);
     this.typeName = "Department";
     this.employees = new ArrayList<>();
     this.head = null;
@@ -28,13 +27,12 @@ public class Department extends OrganizationComposite {
   /**
    * Constructs a department with the given ID, name, and list of employees.
    *
-   * @param db   the HR database facade that manages the department
    * @param id   the ID of the department (external ID)
    * @param name the name of the department
    * @param employees the list of existing employees in the department
    */
-  public Department(HrDatabaseFacade db, int id, String name, List<Employee> employees) {
-    super(db, id, name);
+  public Department(int id, String name, List<Employee> employees) {
+    super(id, name);
     this.typeName = "Department";
     this.employees = employees;
     this.head = null;
@@ -90,9 +88,7 @@ public class Department extends OrganizationComposite {
    */
   public boolean setHead(Employee head) {
     // TODO: Any validation? Manager must in the department?
-    // TODO: find a proper way to update database. since it's test database, it's set to null
     this.head = head;
-    //this.db.updateDepartment(this); // Update the department information to the database
     return true;
   }
 

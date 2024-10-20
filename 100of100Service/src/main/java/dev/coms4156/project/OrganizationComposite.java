@@ -8,7 +8,6 @@ import java.util.List;
  * Just an abstract class that implements the OrganizationComponent interface.
  */
 public abstract class OrganizationComposite implements OrganizationComponent {
-  protected final HrDatabaseFacade db;
   protected final long id;
   protected final String name;
   protected final List<OrganizationComponent> children;
@@ -17,12 +16,10 @@ public abstract class OrganizationComposite implements OrganizationComponent {
   /**
    * Constructs an organization composite with the given ID and name.
    *
-   * @param db the HR database facade
    * @param id the ID of the organization composite
    * @param name the name of the organization composite
    */
-  public OrganizationComposite(HrDatabaseFacade db, long id, String name) {
-    this.db = db;
+  public OrganizationComposite(long id, String name) {
     this.id = id;
     this.name = name;
     this.children = new ArrayList<>();

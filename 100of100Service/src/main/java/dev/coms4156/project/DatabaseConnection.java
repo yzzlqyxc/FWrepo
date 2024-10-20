@@ -45,7 +45,6 @@ public class DatabaseConnection {
       ResultSet rs = pstmt.executeQuery();
       if (rs.next()) {
         return new Employee(
-                null, // HRDatabaseFacade instance, passing null for now
                 externalEmployeeId,
                 rs.getString("name"),
                 rs.getDate("hire_date") // Assuming this field exists
@@ -74,7 +73,6 @@ public class DatabaseConnection {
       if (rs.next()) {
         List<Employee> employees = getEmployeesForDepartment(internalDepartmentId);
         return new Department(
-                null, // HRDatabaseFacade instance, passing null for now
                 externalDepartmentId,
                 rs.getString("name"),
                 employees
@@ -102,7 +100,6 @@ public class DatabaseConnection {
         int internalId = rs.getInt("employee_id");
         int externalId = internalId % 10000;
         Employee employee = new Employee(
-                null, // HRDatabaseFacade instance, passing null for now
                 externalId,
                 rs.getString("name"),
                 rs.getDate("hire_date") // Assuming this field exists
@@ -132,7 +129,6 @@ public class DatabaseConnection {
         int externalId = internalId % 10000;
         List<Employee> employees = getEmployeesForDepartment(internalId);
         Department department = new Department(
-                null, // HRDatabaseFacade instance, passing null for now
                 externalId,
                 rs.getString("name"),
                 employees
@@ -158,7 +154,6 @@ public class DatabaseConnection {
       ResultSet rs = pstmt.executeQuery();
       if (rs.next()) {
         return new Organization(
-                null, // HRDatabaseFacade instance, passing null for now
                 rs.getLong("organization_id"),
                 rs.getString("name")
         );
@@ -187,7 +182,6 @@ public class DatabaseConnection {
         int internalId = rs.getInt("employee_id");
         int externalId = internalId % 10000;
         Employee employee = new Employee(
-                null,  // HRDatabaseFacade instance, passing null for now
                 externalId,
                 rs.getString("name"),
                 rs.getDate("hire_date")

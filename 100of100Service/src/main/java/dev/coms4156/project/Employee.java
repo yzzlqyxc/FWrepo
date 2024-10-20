@@ -9,7 +9,6 @@ import java.util.List;
  * Designed under the Composite Design Pattern.
  */
 public class Employee implements OrganizationComponent {
-  private final HrDatabaseFacade db;
   private final int id;
   private final String name;
   private final Date hireDate;
@@ -17,13 +16,11 @@ public class Employee implements OrganizationComponent {
   /**
    * Constructs an employee with the given ID, name, and hire date.
    *
-   * @param db the HR database facade that manages the employee
    * @param id the ID of the employee (external ID)
    * @param name the name of the employee
    * @param hireDate the hire date of the employee
    */
-  public Employee(HrDatabaseFacade db, int id, String name, Date hireDate) {
-    this.db = db;
+  public Employee(int id, String name, Date hireDate) {
     this.id = id;
     this.name = name;
     if (hireDate == null) {
