@@ -7,7 +7,6 @@ import dev.coms4156.project.command.GetEmployeeInfoCommand;
 import dev.coms4156.project.command.GetOrganizationInfoCommand;
 import dev.coms4156.project.command.RemoveEmployeeFromDeptCommand;
 import dev.coms4156.project.command.SetDeptHeadCommand;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -98,7 +97,8 @@ public class RouteController {
   }
 
   /**
-   * Add an employee to the given department
+   * Add an employee to the given department.
+   *
    * @param clientId the client ID
    * @param departmentId the department ID
    * @param name the employee name
@@ -108,22 +108,18 @@ public class RouteController {
    */
   @PostMapping(value = "/addEmployeeToDept", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> addEmployeeToDepartment(
-    @RequestParam("cid") int clientId,
-    @RequestParam("did") int departmentId,
-    @RequestParam("name") String name,
-    @RequestParam("hireDate") String hireDate // this need to be in format of "yyyy-MM-dd"
+      @RequestAttribute("cid") int clientId,
+      @RequestParam("did") int departmentId,
+      @RequestParam("name") String name,
+      @RequestParam("hireDate") String hireDate // this need to be in format of "yyyy-MM-dd"
   ) {
-    try {
-      // Create the command to add employee to the department
-      Command command = new AddEmployeeToDeptCommand(clientId, departmentId, name, hireDate);
-      return new ResponseEntity<>(command.execute(), HttpStatus.CREATED);
-    } catch (Exception e) {
-      return handleException(e);
-    }
+    Command command = new AddEmployeeToDeptCommand(clientId, departmentId, name, hireDate);
+    return new ResponseEntity<>(command.execute(), HttpStatus.CREATED);
   }
 
   /**
-   * Remove an employee from the given department
+   * Remove an employee from the given department.
+   *
    * @param clientId the client ID
    * @param departmentId the department ID
    * @param employeeId the employee ID
@@ -132,18 +128,12 @@ public class RouteController {
    */
   @DeleteMapping(value = "/removeEmployeeFromDept", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> removeEmployeeFromDept(
-    @RequestParam("cid") int clientId,
-    @RequestParam("did") int departmentId,
-    @RequestParam("eid") int employeeId
+      @RequestAttribute("cid") int clientId,
+      @RequestParam("did") int departmentId,
+      @RequestParam("eid") int employeeId
   ) {
-    try {
-      Command command = new RemoveEmployeeFromDeptCommand(clientId, departmentId, employeeId);
-      return new ResponseEntity<>(command.execute(), HttpStatus.OK);
-    } catch (IllegalArgumentException e) {
-      return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-    } catch (Exception e) {
-      return handleException(e);
-    }
+    Command command = new RemoveEmployeeFromDeptCommand(clientId, departmentId, employeeId);
+    return new ResponseEntity<>(command.execute(), HttpStatus.OK);
   }
 
 

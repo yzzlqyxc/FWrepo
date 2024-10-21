@@ -151,7 +151,7 @@ public class RouteControllerTest {
   public void testAddEmpToDept() throws Exception {
     // post for the test
     mockMvc.perform(post("/addEmployeeToDept")
-        .param("cid", "1")
+        .param("cid", CLIENT_ID_1)
         .param("did", "1")
         .param("name", "Lily")
         .param("hireDate", "2022-06-28")
@@ -160,7 +160,7 @@ public class RouteControllerTest {
 
     // get department to check if the employee is added
     MvcResult mvcResult1 = mockMvc.perform(get("/getDeptInfo")
-        .param("cid", "1")
+        .param("cid", CLIENT_ID_1)
         .param("did", "1")
         .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andReturn();
@@ -172,7 +172,7 @@ public class RouteControllerTest {
   @Test
   public void testRemoveEmpFromDept() throws Exception {
     mockMvc.perform(delete("/removeEmployeeFromDept")
-        .param("cid", "1")
+        .param("cid", CLIENT_ID_1)
         .param("did", "1")
         .param("eid", "1")
         .accept(MediaType.APPLICATION_JSON))
@@ -180,18 +180,17 @@ public class RouteControllerTest {
 
     // get department to check if the employee is removed
     MvcResult mvcResult1 = mockMvc.perform(get("/getDeptInfo")
-        .param("cid", "1")
+        .param("cid", CLIENT_ID_1)
         .param("did", "1")
         .accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk())
-        .andReturn();
+        .andExpect(status().isOk()).andReturn();
 
     String content1 = mvcResult1.getResponse().getContentAsString();
     System.out.println(content1);  // verify employee is no longer listed
 
     // test if the employee not existed
     MvcResult mvcResult2 = mockMvc.perform(delete("/removeEmployeeFromDept")
-        .param("cid", "1")
+        .param("cid", CLIENT_ID_1)
         .param("did", "1")
         .param("eid", "6")
         .accept(MediaType.APPLICATION_JSON))

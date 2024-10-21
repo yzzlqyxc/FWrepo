@@ -1,11 +1,11 @@
 package dev.coms4156.project.interceptor;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * This class logs the incoming requests and their completion status.
@@ -26,8 +26,8 @@ public class RrLoggingInterceptor  implements HandlerInterceptor {
   ) {
     String remoteAddr = request.getRemoteAddr();
     String method = request.getMethod();
-    String requestURI = request.getRequestURI();
-    logger.info("Request from {} to {} '{}'...", remoteAddr, method, requestURI);
+    String requestUri = request.getRequestURI();
+    logger.info("Request from {} to {} '{}'...", remoteAddr, method, requestUri);
     return true;
   }
 
@@ -40,10 +40,10 @@ public class RrLoggingInterceptor  implements HandlerInterceptor {
   ) {
     String remoteAddr = request.getRemoteAddr();
     String method = request.getMethod();
-    String requestURI = request.getRequestURI();
+    String requestUri = request.getRequestURI();
     String status = String.valueOf(response.getStatus());
     logger.info("Request from {} to {} '{}' completed with status {}.",
-        remoteAddr, method, requestURI, status);
+        remoteAddr, method, requestUri, status);
   }
 
 }

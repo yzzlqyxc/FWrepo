@@ -33,6 +33,9 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bad request: " + ex.getMessage());
   }
 
+  /**
+   * Exception handler to catch Internal Server Error exceptions thrown by the application.
+   */
   @ExceptionHandler(Exception.class)
   public ResponseEntity<String> handleException(Exception ex) {
     return ResponseEntity
