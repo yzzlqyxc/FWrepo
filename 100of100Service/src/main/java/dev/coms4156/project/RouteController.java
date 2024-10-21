@@ -1,15 +1,19 @@
 package dev.coms4156.project;
 
+import dev.coms4156.project.command.AddEmployeeToDeptCommand;
 import dev.coms4156.project.command.Command;
 import dev.coms4156.project.command.GetDeptInfoCommand;
 import dev.coms4156.project.command.GetEmployeeInfoCommand;
 import dev.coms4156.project.command.GetOrganizationInfoCommand;
+import dev.coms4156.project.command.RemoveEmployeeFromDeptCommand;
 import dev.coms4156.project.command.SetDeptHeadCommand;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -89,6 +93,46 @@ public class RouteController {
       @RequestParam("eid") int employeeId
   ) {
     Command command = new SetDeptHeadCommand(clientId, departmentId, employeeId);
+    return new ResponseEntity<>(command.execute(), HttpStatus.OK);
+  }
+
+  /**
+   * Add an employee to the given department.
+   *
+   * @param clientId the client ID
+   * @param departmentId the department ID
+   * @param name the employee name
+   * @param hireDate the hire date of the employee
+   * @return a success message if the employee is successfully added,
+   *         or throws an exception if the operation fails
+   */
+  @PostMapping(value = "/addEmployeeToDept", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> addEmployeeToDepartment(
+      @RequestAttribute("cid") int clientId,
+      @RequestParam("did") int departmentId,
+      @RequestParam("name") String name,
+      @RequestParam("hireDate") String hireDate // this need to be in format of "yyyy-MM-dd"
+  ) {
+    Command command = new AddEmployeeToDeptCommand(clientId, departmentId, name, hireDate);
+    return new ResponseEntity<>(command.execute(), HttpStatus.CREATED);
+  }
+
+  /**
+   * Remove an employee from the given department.
+   *
+   * @param clientId the client ID
+   * @param departmentId the department ID
+   * @param employeeId the employee ID
+   * @return a success message if the employee is successfully removed,
+   *         or throws an exception if the operation fails
+   */
+  @DeleteMapping(value = "/removeEmployeeFromDept", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> removeEmployeeFromDept(
+      @RequestAttribute("cid") int clientId,
+      @RequestParam("did") int departmentId,
+      @RequestParam("eid") int employeeId
+  ) {
+    Command command = new RemoveEmployeeFromDeptCommand(clientId, departmentId, employeeId);
     return new ResponseEntity<>(command.execute(), HttpStatus.OK);
   }
 

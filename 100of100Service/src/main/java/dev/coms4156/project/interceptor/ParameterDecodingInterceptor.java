@@ -1,10 +1,9 @@
 package dev.coms4156.project.interceptor;
 
-import java.util.Base64;
-
 import dev.coms4156.project.exception.BadRequestException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

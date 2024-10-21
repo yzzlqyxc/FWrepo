@@ -1,7 +1,9 @@
 package dev.coms4156.project;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import dev.coms4156.project.stubs.DatabaseConnectionStub;
@@ -143,6 +145,59 @@ public class RouteControllerTest {
                     .param("eid", "-1")
                     .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNotFound());
+  }
+
+  @Test
+  public void testAddEmpToDept() throws Exception {
+    // post for the test
+    mockMvc.perform(post("/addEmployeeToDept")
+        .param("cid", CLIENT_ID_1)
+        .param("did", "1")
+        .param("name", "Lily")
+        .param("hireDate", "2022-06-28")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isCreated()).andReturn();
+
+    // get department to check if the employee is added
+    MvcResult mvcResult1 = mockMvc.perform(get("/getDeptInfo")
+        .param("cid", CLIENT_ID_1)
+        .param("did", "1")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andReturn();
+
+    String content = mvcResult1.getResponse().getContentAsString();
+    System.out.println(content);
+  }
+
+  @Test
+  public void testRemoveEmpFromDept() throws Exception {
+    mockMvc.perform(delete("/removeEmployeeFromDept")
+        .param("cid", CLIENT_ID_1)
+        .param("did", "1")
+        .param("eid", "1")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andReturn();
+
+    // get department to check if the employee is removed
+    MvcResult mvcResult1 = mockMvc.perform(get("/getDeptInfo")
+        .param("cid", CLIENT_ID_1)
+        .param("did", "1")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andReturn();
+
+    String content1 = mvcResult1.getResponse().getContentAsString();
+    System.out.println(content1);  // verify employee is no longer listed
+
+    // test if the employee not existed
+    MvcResult mvcResult2 = mockMvc.perform(delete("/removeEmployeeFromDept")
+        .param("cid", CLIENT_ID_1)
+        .param("did", "1")
+        .param("eid", "6")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest()).andReturn();
+
+    String content2 = mvcResult2.getResponse().getContentAsString();
+    System.out.println(content2);
   }
 
   /**
