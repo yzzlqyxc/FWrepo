@@ -112,8 +112,7 @@ public class Department extends OrganizationComposite {
       sb.append("\n  Employees:");  // Indent employees section
       for (Employee employee : this.employees) {
         sb.append("\n    - ").append(employee.getName())
-          .append(" (ID: ").append(employee.getId()).append(")")
-          .append(" Hire Date: ").append(employee.getHireDate());
+          .append(" (ID: ").append(employee.getId()).append(")");
       }
     } else {
       sb.append("\n  No employees in this department.");

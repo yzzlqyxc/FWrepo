@@ -194,7 +194,7 @@ public class RouteControllerTest {
         .param("did", "1")
         .param("eid", "6")
         .accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isNotFound()).andReturn();
+        .andExpect(status().isBadRequest()).andReturn();
 
     String content2 = mvcResult2.getResponse().getContentAsString();
     System.out.println(content2);
