@@ -1,14 +1,19 @@
 package dev.coms4156.project.command;
 
 import dev.coms4156.project.Employee;
-import dev.coms4156.project.HRDatabaseFacade;
+import dev.coms4156.project.HrDatabaseFacade;
+import dev.coms4156.project.exception.NotFoundException;
 
+/**
+ * A command to get the information of an employee.
+ */
 public class GetEmployeeInfoCommand implements Command {
   private final int clientId;
   private final int employeeId;
 
   /**
    * Constructs a command to get employee information.
+   *
    * @param clientId the client ID
    * @param employeeId the employee ID
    */
@@ -19,8 +24,11 @@ public class GetEmployeeInfoCommand implements Command {
 
   @Override
   public Object execute() {
-    HRDatabaseFacade db = HRDatabaseFacade.getInstance(this.clientId);
+    HrDatabaseFacade db = HrDatabaseFacade.getInstance(this.clientId);
     Employee employee = db.getEmployee(this.employeeId);
+    if (employee == null) {
+      throw new NotFoundException("Employee [" + this.employeeId + "] not found");
+    }
     return employee.toString();
   }
 }

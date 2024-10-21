@@ -1,8 +1,12 @@
 package dev.coms4156.project.command;
 
+import dev.coms4156.project.HrDatabaseFacade;
 import dev.coms4156.project.Organization;
-import dev.coms4156.project.HRDatabaseFacade;
+import dev.coms4156.project.exception.NotFoundException;
 
+/**
+ * A command to get the information of an organization.
+ */
 public class GetOrganizationInfoCommand implements Command {
   private final int clientId;
 
@@ -12,8 +16,11 @@ public class GetOrganizationInfoCommand implements Command {
 
   @Override
   public String execute() {
-    HRDatabaseFacade db = HRDatabaseFacade.getInstance(this.clientId);
+    HrDatabaseFacade db = HrDatabaseFacade.getInstance(this.clientId);
     Organization organization = db.getOrganization();
+    if (organization == null) {
+      throw new NotFoundException("Organization [" + this.clientId + "] not found");
+    }
     return Organization.displayStructure(organization, 0);
   }
 }

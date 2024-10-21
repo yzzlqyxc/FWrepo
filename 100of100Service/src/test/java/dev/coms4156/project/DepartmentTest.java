@@ -1,6 +1,7 @@
 package dev.coms4156.project;
 
 import dev.coms4156.project.stubs.DatabaseConnectionStub;
+import java.util.Date;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -10,30 +11,33 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Date;
-
+/**
+ * A unit test class for the Department class.
+ */
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class DepartmentTest {
-  private static HRDatabaseFacade dbf;
+  private static HrDatabaseFacade dbf;
   private static Department department;
   private static Employee employee1;
   private static Employee employee2;
 
-
+  /**
+   * Set up the test environment.
+   */
   @BeforeAll
   public static void setUp() {
     DatabaseConnection dbConnectionStub = DatabaseConnectionStub.getInstance();
-    HRDatabaseFacade.setTestMode(dbConnectionStub);
-    dbf = HRDatabaseFacade.getInstance(1);
-    employee1 = new Employee(dbf, 1, "John", new Date());
-    employee2 = new Employee(dbf, 2, "Jake", new Date());
+    HrDatabaseFacade.setTestMode(dbConnectionStub);
+    dbf = HrDatabaseFacade.getInstance(1);
+    employee1 = new Employee(1, "John", new Date());
+    employee2 = new Employee(2, "Jake", new Date());
   }
 
   @Test
   @Order(1)
   public void testCreateDepartment() {
-    department = new Department(dbf, 1, "Teaching");
+    department = new Department(1, "Teaching");
     Assertions.assertNotNull(department);
   }
 
@@ -67,7 +71,7 @@ public class DepartmentTest {
   @Test
   @Order(5)
   public void testRemoveEmployeeFromEmptyDepartment() {
-    Department emptyDepartment = new Department(dbf, 2, "Empty");
+    Department emptyDepartment = new Department(2, "Empty");
     boolean result = emptyDepartment.removeEmployee(employee2);
     Assertions.assertFalse(result);
     Assertions.assertEquals(0, emptyDepartment.getEmployees().size());
@@ -99,7 +103,7 @@ public class DepartmentTest {
   @Test
   @Order(9)
   public void testToString2() {
-    Department emptyDepartment = new Department(dbf, 3, "Empty");
+    Department emptyDepartment = new Department(3, "Empty");
     String expected = "Department: Empty (ID: 3)\n  No employees in this department.";
     Assertions.assertEquals(expected, emptyDepartment.toString());
   }
@@ -114,7 +118,7 @@ public class DepartmentTest {
 
   @AfterAll
   public static void tearDown() {
-    HRDatabaseFacade.setTestMode(null);
+    HrDatabaseFacade.setTestMode(null);
   }
 
 }

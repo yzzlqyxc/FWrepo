@@ -9,8 +9,8 @@ import java.util.Map;
  * This class is responsible for creating and managing the connection to the HR database.
  * Designed under the Singleton Design Pattern.
  */
-public class HRDatabaseFacade {
-  private final static Map<Integer, HRDatabaseFacade> instances = new HashMap<>();
+public class HrDatabaseFacade {
+  private static final Map<Integer, HrDatabaseFacade> instances = new HashMap<>();
   // This boolean is used to switch between the real database and the test database
   private static boolean isTestMode = false;
   private static DatabaseConnection dbConnectionStub = null;
@@ -23,19 +23,23 @@ public class HRDatabaseFacade {
 
   /**
    * Constructs a HR database facade instance for a specific organization.
+   *
    * @param organizationId the organization id
    */
-  private HRDatabaseFacade(int organizationId) {
+  private HrDatabaseFacade(int organizationId) {
     this.dbConnection = isTestMode ? dbConnectionStub : DatabaseConnection.getInstance();
     this.organizationId = organizationId;
     // Initialize the in-memory cache
     this.employees = dbConnection.getEmployees(organizationId);
     this.departments = dbConnection.getDepartments(organizationId);
     this.organization = dbConnection.getOrganization(organizationId);
+    // TODO: What if this organization does not exist in the database?
+    // TODO: Should we throw a 403 exception here?
   }
 
   /**
    * Returns the employee with the specified ID.
+   *
    * @param employeeId the employee ID
    * @return the employee
    */
@@ -67,6 +71,7 @@ public class HRDatabaseFacade {
 
   /**
    * Returns the department with the specified ID.
+   *
    * @param departmentId the department ID
    * @return the department
    */
@@ -98,6 +103,7 @@ public class HRDatabaseFacade {
 
   /**
    * Returns the organization of the client.
+   *
    * @return the organization
    */
   public Organization getOrganization() {
@@ -105,27 +111,98 @@ public class HRDatabaseFacade {
     return organization;
   }
 
+//  /**
+//   * Updates the employee information.
+//   *
+//   * @param employee the updated employee object
+//   * @return true if the employee is updated successfully, false otherwise
+//   */
+//  public boolean updateEmployee(Employee employee) {
+//    // TODO: Update the employee information into the database
+//    return true;
+//  }
+
   /**
    * Updates the department information.
-   * @param department the department
+   *
+   * @param department the updated department object
    * @return true if the department is updated successfully, false otherwise
    */
   public boolean updateDepartment(Department department) {
-    // TODO: Implement database update logic
+    // TODO: Expected in release v1.1.0!!!
+    // TODO: Update the department information into the database
     return true;
   }
+
+//  /**
+//   * Updates the organization information.
+//   *
+//   * @param organization the updated organization object
+//   * @return true if the organization is updated successfully, false otherwise
+//   */
+//  public boolean updateOrganization(Organization organization) {
+//    // TODO: Update the organization information into the database
+//    return true;
+//  }
+
+//  /**
+//   * Inserts a new employee into the database.
+//   *
+//   * @param employee the partially filled employee object
+//   * @return the real employee object with the ID assigned
+//   */
+//  public Employee insertEmployee(Employee employee) {
+//    // TODO: Insert the employee information into the database
+//    return employee;
+//  }
+
+//  /**
+//   * Inserts a new department into the database.
+//   *
+//   * @param department the partially filled department object
+//   * @return the real department object with the ID assigned
+//   */
+//  public Department insertDepartment(Department department) {
+//    // TODO: Insert the department information into the database
+//    return department;
+//  }
+
+//  /**
+//   * Removes an employee from the database.
+//   *
+//   * @param employeeId the employee ID
+//   * @return true if the employee is removed successfully, false otherwise
+//   */
+//  public boolean removeEmployee(int employeeId) {
+//    // TODO: Remove the employee information from the database
+//    return true;
+//  }
+
+//  /**
+//   * Removes a department from the database.
+//   *
+//   * @param departmentId the department ID
+//   * @return true if the department is removed successfully, false otherwise
+//   */
+//  public boolean removeDepartment(int departmentId) {
+//    // TODO: Remove the department information from the database
+//    return true;
+//  }
+
+  // TODO: How to insert(register) / remove(deregister) an organization?
 
   /**
    * Returns the unique instance of the HR database facade for a specific organization.
    * Designed with "double-checked locking" mechanism to ensure thread safety.
+   *
    * @param organizationId the organization id
    * @return the HR database facade instance
    */
-  public static HRDatabaseFacade getInstance(int organizationId) {
+  public static HrDatabaseFacade getInstance(int organizationId) {
     if (!instances.containsKey(organizationId)) {
-      synchronized (HRDatabaseFacade.class) {
+      synchronized (HrDatabaseFacade.class) {
         if (!instances.containsKey(organizationId)) {
-          instances.put(organizationId, new HRDatabaseFacade(organizationId));
+          instances.put(organizationId, new HrDatabaseFacade(organizationId));
         }
       }
     }
@@ -134,17 +211,17 @@ public class HRDatabaseFacade {
 
   /**
    * Sets the test mode and test database for the HR database facade.
+   *
    * @param testDatabaseConnection the test database connection
    *                               (null to disable the test mode)
    */
   public static void setTestMode(DatabaseConnection testDatabaseConnection) {
     if (testDatabaseConnection != null) {
       isTestMode = true;
-      HRDatabaseFacade.dbConnectionStub = testDatabaseConnection;
-    }
-    else {
+      HrDatabaseFacade.dbConnectionStub = testDatabaseConnection;
+    } else {
       isTestMode = false;
-      HRDatabaseFacade.dbConnectionStub = null;
+      HrDatabaseFacade.dbConnectionStub = null;
     }
   }
 }
