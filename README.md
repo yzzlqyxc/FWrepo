@@ -118,6 +118,13 @@ In order to ensure that the database connection is only created once, and to imp
 #### Facade Pattern
 Given the inherent complexity that comes with databases, to ensure the Law of Demeter, we use the facade pattern to encapsulate the database operations. This way, the service logic does not need to know the details of the database operations, and the database operations can be easily replaced in the test and in the future (Freeman 272).
 
+#### Running Cloud Service
+
+To reach our service using cloud computing, please follow the steps below:
+1. When running tests in Postman point them to: https://coms-4156-team-project.ue.r.appspot.com/
+2. If the home/index page displays "Welcome, in order to make an API call direct your browser or Postman to an endpoint," then the service is operational and connection is successful.
+3. Test the endpoints by passing the endpoint name and parameters via Postman or some other tools. For example: https://coms-4156-team-project.ue.r.appspot.com/getEmpInfo?cid=MQ&eid=2
+
 ### Running Test Suite
 Our unit tests are located under directory `src/test`. After setting up and building the project, run
 ```bash
