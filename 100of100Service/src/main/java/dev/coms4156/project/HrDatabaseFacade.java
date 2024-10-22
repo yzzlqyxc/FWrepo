@@ -157,7 +157,8 @@ public class HrDatabaseFacade {
    */
   public Employee addEmployeeToDepartment(int departmentId, Employee employee) {
     int internalDeptId = this.organizationId * 10000 + departmentId;
-    int internalEmpId = dbConnection.addEmployeeToDepartment(this.organizationId, internalDeptId, employee);
+    int internalEmpId = dbConnection
+            .addEmployeeToDepartment(this.organizationId, internalDeptId, employee);
 
     if (internalEmpId != -1) {
       int externalEmpId = internalEmpId % 10000;

@@ -217,7 +217,10 @@ public class DatabaseConnection {
    */
   public int addEmployeeToDepartment(int organizationId, int departmentId, Employee employee) {
     // First get the next available employee ID for this organization
-    String maxIdQuery = "SELECT MAX(employee_id) as max_id FROM employees WHERE organization_id = ?";
+    String maxIdQuery =
+            "SELECT MAX(employee_id) as max_id "
+                    + "FROM employees "
+                    + "WHERE organization_id = ?";
     int newEmployeeId;
 
     try (PreparedStatement pstmt = connection.prepareStatement(maxIdQuery)) {
@@ -240,8 +243,10 @@ public class DatabaseConnection {
 
     // Insert the new employee
     String insertEmployeeQuery =
-            "INSERT INTO employees (employee_id, organization_id, department_id, name, hire_date, position, salary) " +
-                    "VALUES (?, ?, ?, ?, ?, 'New Employee', 50000.00)";
+            "INSERT INTO employees "
+                    + "(employee_id, organization_id, "
+                    + "department_id, name, hire_date, position, salary) "
+                    + "VALUES (?, ?, ?, ?, ?, 'New Employee', 50000.00)";
 
     try (PreparedStatement pstmt = connection.prepareStatement(insertEmployeeQuery)) {
       pstmt.setInt(1, newEmployeeId);
@@ -268,9 +273,11 @@ public class DatabaseConnection {
    * @param employeeId the internal employee id
    * @return true if removal successful, false otherwise
    */
-  public boolean removeEmployeeFromDepartment(int organizationId, int departmentId, int employeeId) {
+  public boolean removeEmployeeFromDepartment(int organizationId,
+                                              int departmentId, int employeeId) {
     String checkHeadQuery =
-            "SELECT head_employee_id FROM departments WHERE department_id = ? AND organization_id = ?";
+            "SELECT head_employee_id FROM departments "
+                    + "WHERE department_id = ? AND organization_id = ?";
 
     try (PreparedStatement checkStmt = connection.prepareStatement(checkHeadQuery)) {
       checkStmt.setInt(1, departmentId);
@@ -279,8 +286,8 @@ public class DatabaseConnection {
       ResultSet rs = checkStmt.executeQuery();
       if (rs.next() && rs.getInt("head_employee_id") == employeeId) {
         String updateHeadQuery =
-                "UPDATE departments SET head_employee_id = NULL " +
-                        "WHERE department_id = ? AND organization_id = ?";
+                "UPDATE departments SET head_employee_id = NULL "
+                        + "WHERE department_id = ? AND organization_id = ?";
         try (PreparedStatement updateStmt = connection.prepareStatement(updateHeadQuery)) {
           updateStmt.setInt(1, departmentId);
           updateStmt.setInt(2, organizationId);
@@ -293,8 +300,8 @@ public class DatabaseConnection {
     }
 
     String deleteQuery =
-            "DELETE FROM employees " +
-                    "WHERE employee_id = ? AND department_id = ? AND organization_id = ?";
+            "DELETE FROM employees "
+                    + "WHERE employee_id = ? AND department_id = ? AND organization_id = ?";
 
     try (PreparedStatement pstmt = connection.prepareStatement(deleteQuery)) {
       pstmt.setInt(1, employeeId);
@@ -324,8 +331,8 @@ public class DatabaseConnection {
 
     if (head != null) {
       String verifyQuery =
-              "SELECT 1 FROM employees " +
-                      "WHERE employee_id = ? AND organization_id = ? AND department_id = ?";
+              "SELECT 1 FROM employees "
+                      + "WHERE employee_id = ? AND organization_id = ? AND department_id = ?";
 
       try (PreparedStatement verifyStmt = connection.prepareStatement(verifyQuery)) {
         verifyStmt.setLong(1, headEmployeeId);
@@ -341,8 +348,8 @@ public class DatabaseConnection {
       }
     }
 
-    String query = "UPDATE departments SET name = ?, head_employee_id = ? " +
-            "WHERE organization_id = ? AND department_id = ?";
+    String query = "UPDATE departments SET name = ?, head_employee_id = ? "
+            + "WHERE organization_id = ? AND department_id = ?";
 
     try (PreparedStatement pstmt = connection.prepareStatement(query)) {
       pstmt.setString(1, department.getName());
