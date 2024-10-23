@@ -49,8 +49,8 @@ public class RemoveEmployeeFromDeptCommand implements Command {
     // Remove employee through facade
     boolean removed = dbFacade.removeEmployeeFromDepartment(departmentId, employeeId);
     if (!removed) {
-      throw new BadRequestException("Failed to remove employee [" + employeeId +
-              "] from department [" + departmentId + "]");
+      throw new BadRequestException("Failed to remove employee [" + employeeId
+              + "] from department [" + departmentId + "]");
     }
     return "Employee removed from department: " + department.getName();
   }
