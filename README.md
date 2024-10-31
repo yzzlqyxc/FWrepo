@@ -1,4 +1,7 @@
 # COMS 4156 Service: 100-of-100
+[![Maven build and test](https://github.com/Alex-XJK/100-of-100-service-team/actions/workflows/maven.yml/badge.svg)](https://github.com/Alex-XJK/100-of-100-service-team/actions/workflows/maven.yml)
+[![CodeQL](https://github.com/Alex-XJK/100-of-100-service-team/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/Alex-XJK/100-of-100-service-team/actions/workflows/github-code-scanning/codeql)
+
 GitHub repository for service of the Team Project associated with COMS 4156 Advanced Software Engineering.
 Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai Xu and Xintong Yu.
 
