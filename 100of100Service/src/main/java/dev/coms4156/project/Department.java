@@ -93,6 +93,25 @@ public class Department extends OrganizationComposite {
   }
 
   /**
+   * Returns a statistic of the employees' positions in the department.
+   *
+   * @return a string representation of the statistic
+   */
+  public String getEmployeePositionStatistic() {
+    StringBuilder sb = new StringBuilder();
+    for (Position p: Position.values()) {
+      int count = 0;
+      for (Employee e: this.employees) {
+        if (e.getPosition() == p) {
+          count++;
+        }
+      }
+      sb.append(p).append(": ").append(count).append("\n");
+    }
+    return sb.toString();
+  }
+
+  /**
    * Returns the basic information of the Department,
    * including the name, ID, list of employees, and head.
    *
