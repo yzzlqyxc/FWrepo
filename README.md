@@ -7,18 +7,6 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
 
 ## [User] Endpoints Documentation
 
-### GET `/getEmpInfo`
-- **Expected Input Parameters**:
-   - `cid` (int) - The client ID.
-   - `eid` (int) - The employee ID.
-- **Expected Output**:
-   - Returns the information of the specified employee.
-- **Upon Success**:
-   - HTTP 200 Status Code is returned with the employee details in the response body.
-- **Upon Failure**:
-   - HTTP 404 Status Code is returned with "Employee Not Found" in the response body.
-   - HTTP 500 Status Code is returned with "An unexpected error has occurred" in the response body.
-
 ### GET `/getDeptInfo`
 - **Expected Input Parameters**:
    - `cid` (int) - The client ID.
@@ -29,6 +17,18 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
    - HTTP 200 Status Code is returned with the department details in the response body.
 - **Upon Failure**:
    - HTTP 404 Status Code is returned with "Department Not Found" in the response body.
+   - HTTP 500 Status Code is returned with "An unexpected error has occurred" in the response body.
+
+### GET `/getEmpInfo`
+- **Expected Input Parameters**:
+   - `cid` (int) - The client ID.
+   - `eid` (int) - The employee ID.
+- **Expected Output**:
+   - Returns the information of the specified employee.
+- **Upon Success**:
+   - HTTP 200 Status Code is returned with the employee details in the response body.
+- **Upon Failure**:
+   - HTTP 404 Status Code is returned with "Employee Not Found" in the response body.
    - HTTP 500 Status Code is returned with "An unexpected error has occurred" in the response body.
 
 ### GET `/getOrgInfo`
