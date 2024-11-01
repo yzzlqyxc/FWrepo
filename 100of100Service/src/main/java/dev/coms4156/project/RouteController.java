@@ -8,6 +8,7 @@ import dev.coms4156.project.command.GetOrganizationInfoCommand;
 import dev.coms4156.project.command.RemoveEmployeeFromDeptCommand;
 import dev.coms4156.project.command.SetDeptHeadCommand;
 import dev.coms4156.project.command.SetEmpPosiCommand;
+import dev.coms4156.project.command.StatDeptPosCommand;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -62,6 +63,22 @@ public class RouteController {
       @RequestParam("did") int departmentId
   ) {
     Command command = new GetDeptInfoCommand(clientId, departmentId);
+    return new ResponseEntity<>(command.execute(), HttpStatus.OK);
+  }
+
+  /**
+   * Gets the position statistics of a department.
+   *
+   * @param clientId the client ID
+   * @param departmentId the department ID
+   * @return the statistics of the department
+   */
+  @GetMapping(value = "/statDeptPos", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> getDepartmentPositionStatistic(
+      @RequestAttribute("cid") int clientId,
+      @RequestParam("did") int departmentId
+  ) {
+    Command command = new StatDeptPosCommand(clientId, departmentId);
     return new ResponseEntity<>(command.execute(), HttpStatus.OK);
   }
 

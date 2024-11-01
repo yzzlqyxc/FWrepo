@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import dev.coms4156.project.stubs.DatabaseConnectionStub;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -206,6 +207,29 @@ public class RouteControllerTest {
 
     String content2 = mvcResult2.getResponse().getContentAsString();
     System.out.println(content2);
+  }
+
+  @Test
+  public void testSetEmpPosition() throws Exception {
+    mockMvc.perform(patch("/setEmpPosition")
+        .param("cid", CLIENT_ID_1)
+        .param("eid", "1")
+        .param("position", "SoftwareEngineer")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andReturn();
+  }
+
+  @Test
+  public void testStatDeptPos() throws Exception {
+    MvcResult mvcResult1 = mockMvc.perform(get("/statDeptPos")
+        .param("cid", CLIENT_ID_1)
+        .param("did", "1")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andReturn();
+
+    String content = mvcResult1.getResponse().getContentAsString();
+    Assertions.assertTrue(content.contains("SoftwareEngineer"));
+    Assertions.assertTrue(content.contains("ProductManager"));
   }
 
   /**
