@@ -116,6 +116,22 @@ public class DepartmentTest {
     Assertions.assertEquals(expected, department.toString());
   }
 
+  @Test
+  @Order(11)
+  public void testGetEmployeePositionStatistic() {
+    String ac = department.getEmployeePositionStatistic();
+    String ex = """
+        SoftwareEngineer: 0
+        ProductManager: 0
+        DataScientist: 0
+        SalesManager: 0
+        HumanResourceManager: 0
+        FinancialManager: 0
+        Other: 1
+        """;
+    Assertions.assertEquals(ex, ac);
+  }
+
   @AfterAll
   public static void tearDown() {
     HrDatabaseFacade.setTestMode(null);

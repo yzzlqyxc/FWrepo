@@ -92,6 +92,13 @@ public class EmployeeTest {
     Assertions.assertInstanceOf(Employee.class, employee);
   }
 
+  @Test
+  @Order(10)
+  public void testSetPosition() {
+    employee.setPosition(Position.SoftwareEngineer);
+    Assertions.assertEquals(Position.SoftwareEngineer, employee.getPosition());
+  }
+
   @AfterAll
   public static void tearDown() {
     HrDatabaseFacade.setTestMode(null);
