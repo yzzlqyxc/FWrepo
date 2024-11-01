@@ -12,6 +12,7 @@ public class Employee implements OrganizationComponent {
   private final int id;
   private final String name;
   private final Date hireDate;
+  private Position position;
 
   /**
    * Constructs an employee with the given ID, name, and hire date.
@@ -28,6 +29,26 @@ public class Employee implements OrganizationComponent {
     } else {
       this.hireDate = new Date(hireDate.getTime());
     }
+    this.position = Position.Other;
+  }
+
+  /**
+   * Full constructor for an employee with the given ID, name, hire date, and position.
+   *
+   * @param id the ID of the employee (external ID)
+   * @param name the name of the employee
+   * @param hireDate the hire date of the employee
+   * @param position the position of the employee
+   */
+  public Employee(int id, String name, Date hireDate, Position position) {
+    this.id = id;
+    this.name = name;
+    if (hireDate == null) {
+      this.hireDate = new Date();
+    } else {
+      this.hireDate = new Date(hireDate.getTime());
+    }
+    this.position = position;
   }
 
   /**
@@ -77,6 +98,24 @@ public class Employee implements OrganizationComponent {
    */
   public Date getHireDate() {
     return new Date(this.hireDate.getTime());
+  }
+
+  /**
+   * Returns the position of the employee.
+   *
+   * @return the position of the employee
+   */
+  public Position getPosition() {
+    return this.position;
+  }
+
+  /**
+   * Sets the position of the employee.
+   *
+   * @param position the position of the employee
+   */
+  public void setPosition(Position position) {
+    this.position = position;
   }
 
   /**
