@@ -9,7 +9,7 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
 
 ### GET `/getDeptInfo`
 - **Expected Input Parameters**:
-   - `cid` (int) - The client ID.
+   - `cid` (string) - The encrypted client ID.
    - `did` (int) - The department ID.
 - **Expected Output**:
    - Returns the information of the specified department.
@@ -21,7 +21,7 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
 
 ### GET `/getEmpInfo`
 - **Expected Input Parameters**:
-   - `cid` (int) - The client ID.
+   - `cid` (string) - The encrypted client ID.
    - `eid` (int) - The employee ID.
 - **Expected Output**:
    - Returns the information of the specified employee.
@@ -33,7 +33,7 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
 
 ### GET `/getOrgInfo`
 - **Expected Input Parameters**:
-   - `cid` (int) - The client ID.
+   - `cid` (string) - The encrypted client ID.
 - **Expected Output**:
    - Returns the information of the organization associated with the client.
 - **Upon Success**:
@@ -44,7 +44,7 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
 
 ### GET `/statDeptPos`
 - **Expected Input Parameters**:
-   - `cid` (int) - The client ID.
+   - `cid` (string) - The encrypted client ID.
    - `did` (int) - The department ID.
 - **Expected Output**:
    - Returns the statistics of the positions in the specified department.
@@ -56,7 +56,7 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
 
 ### PATCH `/setDeptHead`
 - **Expected Input Parameters**:
-   - `cid` (int) - The client ID.
+   - `cid` (string) - The encrypted client ID.
    - `did` (int) - The department ID.
    - `eid` (int) - The employee ID (new head).
 - **Expected Output**:
@@ -69,9 +69,9 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
 
 ### PATCH `/setEmpPosition`
 - **Expected Input Parameters**:
-   - `cid` (int) - The client ID.
+   - `cid` (string) - The encrypted client ID.
    - `eid` (int) - The employee ID.
-   - `position` (String) - The new position of the employee.
+   - `position` (string) - The new position of the employee.
       - Possible values: "SoftwareEngineer", "ProductManager", "DataScientist", "SalesManager", "HumanResourceManager", "FinancialManager", "Other".
 - **Expected Output**:
    - A success message indicating that the employee's position was successfully updated.
@@ -83,7 +83,7 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
 
 ### POST `/addEmployeeToDept`
 - **Expected Input Parameters**:
-   - `cid` (int) - The client ID.
+   - `cid` (string) - The encrypted client ID.
    - `did` (int) - The department ID.
    - `name` (String) - The name of the employee.
    - `hireDate` (String) - The hire date of the employee in the format `"yyyy-MM-dd"`.
@@ -97,7 +97,7 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
 
 ### DELETE `/removeEmployeeFromDept`
 - **Expected Input Parameters**:
-   - `cid` (int) - The client ID.
+   - `cid` (string) - The encrypted client ID.
    - `did` (int) - The department ID.
    - `eid` (int) - The employee ID.
 - **Expected Output**:
