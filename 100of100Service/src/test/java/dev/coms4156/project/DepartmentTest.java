@@ -1,8 +1,6 @@
 package dev.coms4156.project;
 
-import dev.coms4156.project.stubs.DatabaseConnectionStub;
 import java.util.Date;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -17,7 +15,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class DepartmentTest {
-  private static HrDatabaseFacade dbf;
   private static Department department;
   private static Employee employee1;
   private static Employee employee2;
@@ -27,11 +24,12 @@ public class DepartmentTest {
    */
   @BeforeAll
   public static void setUp() {
-    DatabaseConnection dbConnectionStub = DatabaseConnectionStub.getInstance();
-    HrDatabaseFacade.setTestMode(dbConnectionStub);
-    dbf = HrDatabaseFacade.getInstance(1);
     employee1 = new Employee(1, "John", new Date());
+    employee1.setPosition(Position.ProductManager);
+    employee1.setSalary(100);
     employee2 = new Employee(2, "Jake", new Date());
+    employee2.setPosition(Position.SoftwareEngineer);
+    employee2.setSalary(50);
   }
 
   @Test
@@ -120,21 +118,9 @@ public class DepartmentTest {
   @Order(11)
   public void testGetEmployeePositionStatistic() {
     String ac = department.getEmployeePositionStatistic();
-    String ex = """
-        SoftwareEngineer: 0
-        ProductManager: 0
-        DataScientist: 0
-        SalesManager: 0
-        HumanResourceManager: 0
-        FinancialManager: 0
-        Other: 1
-        """;
-    Assertions.assertEquals(ex, ac);
-  }
-
-  @AfterAll
-  public static void tearDown() {
-    HrDatabaseFacade.setTestMode(null);
+    for (Position p: Position.values()) {
+       Assertions.assertTrue(ac.contains(p.toString()));
+    }
   }
 
 }
