@@ -7,6 +7,7 @@ import dev.coms4156.project.command.GetEmployeeInfoCommand;
 import dev.coms4156.project.command.GetOrganizationInfoCommand;
 import dev.coms4156.project.command.RemoveEmployeeFromDeptCommand;
 import dev.coms4156.project.command.SetDeptHeadCommand;
+import dev.coms4156.project.command.SetEmpPefCommand;
 import dev.coms4156.project.command.SetEmpPosiCommand;
 import dev.coms4156.project.command.SetEmpSalCommand;
 import dev.coms4156.project.command.StatDeptBudCommand;
@@ -133,6 +134,23 @@ public class RouteController {
       @RequestParam("eid") int employeeId
   ) {
     Command command = new SetDeptHeadCommand(clientId, departmentId, employeeId);
+    return new ResponseEntity<>(command.execute(), HttpStatus.OK);
+  }
+
+  /**
+   * Set the performance of an employee.
+   *
+   * @param clientId the client ID
+   * @param employeeId the employee ID
+   * @param performance the performance value to set
+   */
+  @PatchMapping(value = "/setEmpPerformance", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> setEmployeePerformance(
+      @RequestAttribute("cid") int clientId,
+      @RequestParam("eid") int employeeId,
+      @RequestParam("performance") double performance
+  ) {
+    Command command = new SetEmpPefCommand(clientId, employeeId, performance);
     return new ResponseEntity<>(command.execute(), HttpStatus.OK);
   }
 

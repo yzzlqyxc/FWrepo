@@ -258,6 +258,19 @@ public class RouteControllerTest {
     Assertions.assertTrue(res.contains("LowestEmployee"));
   }
 
+  @Test
+  public void testSetEmpPerformance() throws Exception {
+    MvcResult mvcResult = mockMvc.perform(patch("/setEmpPerformance")
+        .param("cid", CLIENT_ID_1)
+        .param("eid", "1")
+        .param("performance", "95.5")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andReturn();
+
+    String content = mvcResult.getResponse().getContentAsString();
+    Assertions.assertTrue(content.contains("95.5"));
+  }
+
   /**
    * Tear down the test environment.
    * Reset the database connection to the real database.
