@@ -35,6 +35,24 @@ public class RouteController {
     return "Welcome, in order to make an API call direct your browser or Postman to an endpoint.";
   }
 
+  /* ***** GET METHODS ***** */
+
+  /**
+   * Gets the information of a department.
+   *
+   * @param clientId the client ID
+   * @param departmentId the department ID
+   * @return the information of the department
+   */
+  @GetMapping(value = "/getDeptInfo", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> getDepartment(
+      @RequestAttribute("cid") int clientId,
+      @RequestParam("did") int departmentId
+  ) {
+    Command command = new GetDeptInfoCommand(clientId, departmentId);
+    return new ResponseEntity<>(command.execute(), HttpStatus.OK);
+  }
+
   /**
    * Gets the information of an employee.
    *
@@ -52,18 +70,16 @@ public class RouteController {
   }
 
   /**
-   * Gets the information of a department.
+   * Gets the information of an organization.
    *
    * @param clientId the client ID
-   * @param departmentId the department ID
-   * @return the information of the department
+   * @return the information of the organization
    */
-  @GetMapping(value = "/getDeptInfo", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> getDepartment(
-      @RequestAttribute("cid") int clientId,
-      @RequestParam("did") int departmentId
+  @GetMapping(value = "/getOrgInfo", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> getOrganization(
+      @RequestAttribute("cid") int clientId
   ) {
-    Command command = new GetDeptInfoCommand(clientId, departmentId);
+    Command command = new GetOrganizationInfoCommand(clientId);
     return new ResponseEntity<>(command.execute(), HttpStatus.OK);
   }
 
@@ -83,19 +99,7 @@ public class RouteController {
     return new ResponseEntity<>(command.execute(), HttpStatus.OK);
   }
 
-  /**
-   * Gets the information of an organization.
-   *
-   * @param clientId the client ID
-   * @return the information of the organization
-   */
-  @GetMapping(value = "/getOrgInfo", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> getOrganization(
-      @RequestAttribute("cid") int clientId
-  ) {
-    Command command = new GetOrganizationInfoCommand(clientId);
-    return new ResponseEntity<>(command.execute(), HttpStatus.OK);
-  }
+  /* ***** PATCH METHODS ***** */
 
   /**
    * Sets the head of a department.
@@ -112,46 +116,6 @@ public class RouteController {
       @RequestParam("eid") int employeeId
   ) {
     Command command = new SetDeptHeadCommand(clientId, departmentId, employeeId);
-    return new ResponseEntity<>(command.execute(), HttpStatus.OK);
-  }
-
-  /**
-   * Add an employee to the given department.
-   *
-   * @param clientId the client ID
-   * @param departmentId the department ID
-   * @param name the employee name
-   * @param hireDate the hire date of the employee
-   * @return a success message if the employee is successfully added,
-   *         or throws an exception if the operation fails
-   */
-  @PostMapping(value = "/addEmployeeToDept", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> addEmployeeToDepartment(
-      @RequestAttribute("cid") int clientId,
-      @RequestParam("did") int departmentId,
-      @RequestParam("name") String name,
-      @RequestParam("hireDate") String hireDate // this need to be in format of "yyyy-MM-dd"
-  ) {
-    Command command = new AddEmployeeToDeptCommand(clientId, departmentId, name, hireDate);
-    return new ResponseEntity<>(command.execute(), HttpStatus.CREATED);
-  }
-
-  /**
-   * Remove an employee from the given department.
-   *
-   * @param clientId the client ID
-   * @param departmentId the department ID
-   * @param employeeId the employee ID
-   * @return a success message if the employee is successfully removed,
-   *         or throws an exception if the operation fails
-   */
-  @DeleteMapping(value = "/removeEmployeeFromDept", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> removeEmployeeFromDept(
-      @RequestAttribute("cid") int clientId,
-      @RequestParam("did") int departmentId,
-      @RequestParam("eid") int employeeId
-  ) {
-    Command command = new RemoveEmployeeFromDeptCommand(clientId, departmentId, employeeId);
     return new ResponseEntity<>(command.execute(), HttpStatus.OK);
   }
 
@@ -189,6 +153,50 @@ public class RouteController {
     return new ResponseEntity<>(command.execute(), HttpStatus.OK);
   }
 
+  /* ***** POST METHODS ***** */
+
+  /**
+   * Add an employee to the given department.
+   *
+   * @param clientId the client ID
+   * @param departmentId the department ID
+   * @param name the employee name
+   * @param hireDate the hire date of the employee
+   * @return a success message if the employee is successfully added,
+   *         or throws an exception if the operation fails
+   */
+  @PostMapping(value = "/addEmployeeToDept", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> addEmployeeToDepartment(
+      @RequestAttribute("cid") int clientId,
+      @RequestParam("did") int departmentId,
+      @RequestParam("name") String name,
+      @RequestParam("hireDate") String hireDate // this need to be in format of "yyyy-MM-dd"
+  ) {
+    Command command = new AddEmployeeToDeptCommand(clientId, departmentId, name, hireDate);
+    return new ResponseEntity<>(command.execute(), HttpStatus.CREATED);
+  }
+
+  /* ***** DELETE METHODS ***** */
+
+  /**
+   * Remove an employee from the given department.
+   *
+   * @param clientId the client ID
+   * @param departmentId the department ID
+   * @param employeeId the employee ID
+   * @return a success message if the employee is successfully removed,
+   *         or throws an exception if the operation fails
+   */
+  @DeleteMapping(value = "/removeEmployeeFromDept", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> removeEmployeeFromDept(
+      @RequestAttribute("cid") int clientId,
+      @RequestParam("did") int departmentId,
+      @RequestParam("eid") int employeeId
+  ) {
+    Command command = new RemoveEmployeeFromDeptCommand(clientId, departmentId, employeeId);
+    return new ResponseEntity<>(command.execute(), HttpStatus.OK);
+  }
+
   /**
    * Handles any exceptions that occur in controller.
    *
@@ -201,6 +209,5 @@ public class RouteController {
     System.out.println(e.toString());
     return new ResponseEntity<>("An Error has occurred", HttpStatus.INTERNAL_SERVER_ERROR);
   }
-
 
 }
