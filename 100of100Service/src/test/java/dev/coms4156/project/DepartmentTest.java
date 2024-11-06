@@ -123,4 +123,27 @@ public class DepartmentTest {
     }
   }
 
+  @Test
+  @Order(12)
+  public void testGetEmployeePositionStatisticEmpty() {
+    Department emptyDepartment = new Department(4, "Empty");
+    String ac = emptyDepartment.getEmployeePositionStatistic();
+    for (Position p: Position.values()) {
+      String expected = p + ": 0\n";
+       Assertions.assertTrue(ac.contains(expected));
+    }
+  }
+
+  @Test
+  @Order(13)
+  public void testGetEmployeeSalaryStatistic() {
+    String ac = department.getEmployeeSalaryStatistic();
+    System.out.println(ac);
+    Assertions.assertTrue(ac.contains("Total salary: 50.0"));
+    Assertions.assertTrue(ac.contains("Average salary: 50.0"));
+    Assertions.assertTrue(ac.contains("Highest salary: 50.0"));
+    Assertions.assertTrue(ac.contains("Lowest salary: 50.0"));
+    Assertions.assertTrue(ac.contains("Jake"));
+  }
+
 }
