@@ -20,6 +20,6 @@ public class StatDeptPosCommand implements Command {
     if (department == null) {
       throw new NotFoundException("Department [" + this.departmentId + "] not found.");
     }
-    return department.getEmployeePositionStatistic();
+    return department.getEmployeePositionStatisticMap();
   }
 }

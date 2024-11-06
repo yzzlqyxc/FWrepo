@@ -48,6 +48,18 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
    - `did` (int) - The department ID.
 - **Expected Output**:
    - Returns the statistics of the positions in the specified department.
+   - Sample output:
+      ```json
+      {
+         "SoftwareEngineer": 2,
+         "ProductManager": 1,
+         "DataScientist": 1,
+         "SalesManager": 0,
+         "HumanResourceManager": 0,
+         "FinancialManager": 0,
+         "Other": 0
+      }
+      ```
 - **Upon Success**:
    - HTTP 200 Status Code is returned with the statistics in the response body.
 - **Upon Failure**:

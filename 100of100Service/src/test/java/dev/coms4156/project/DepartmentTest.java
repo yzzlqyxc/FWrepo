@@ -1,6 +1,7 @@
 package dev.coms4156.project;
 
 import java.util.Date;
+import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -117,9 +118,10 @@ public class DepartmentTest {
   @Test
   @Order(11)
   public void testGetEmployeePositionStatistic() {
-    String ac = department.getEmployeePositionStatistic();
+    Map<Position, Integer> ac = department.getEmployeePositionStatisticMap();
+    System.out.println(ac);
     for (Position p: Position.values()) {
-       Assertions.assertTrue(ac.contains(p.toString()));
+      Assertions.assertTrue(ac.containsKey(p));
     }
   }
 
@@ -127,23 +129,26 @@ public class DepartmentTest {
   @Order(12)
   public void testGetEmployeePositionStatisticEmpty() {
     Department emptyDepartment = new Department(4, "Empty");
-    String ac = emptyDepartment.getEmployeePositionStatistic();
+    Map<Position, Integer> ac = emptyDepartment.getEmployeePositionStatisticMap();
     for (Position p: Position.values()) {
-      String expected = p + ": 0\n";
-       Assertions.assertTrue(ac.contains(expected));
+      Assertions.assertTrue(ac.containsKey(p));
+      Assertions.assertEquals(0, ac.get(p));
     }
   }
 
   @Test
   @Order(13)
   public void testGetEmployeeSalaryStatistic() {
-    String ac = department.getEmployeeSalaryStatistic();
+    Map<String, Object> ac = department.getEmployeeSalaryStatisticMap();
     System.out.println(ac);
-    Assertions.assertTrue(ac.contains("Total salary: 50.0"));
-    Assertions.assertTrue(ac.contains("Average salary: 50.0"));
-    Assertions.assertTrue(ac.contains("Highest salary: 50.0"));
-    Assertions.assertTrue(ac.contains("Lowest salary: 50.0"));
-    Assertions.assertTrue(ac.contains("Jake"));
+    Assertions.assertTrue(ac.containsKey("Total"));
+    Assertions.assertEquals(50.0, ac.get("Total"));
+    Assertions.assertTrue(ac.containsKey("Average"));
+    Assertions.assertTrue(ac.containsKey("Highest"));
+    Assertions.assertTrue(ac.containsKey("Lowest"));
+    Assertions.assertTrue(ac.containsKey("HighestEmployee"));
+    Assertions.assertEquals(employee2.getId(), ac.get("HighestEmployee"));
+    Assertions.assertTrue(ac.containsKey("LowestEmployee"));
   }
 
 }

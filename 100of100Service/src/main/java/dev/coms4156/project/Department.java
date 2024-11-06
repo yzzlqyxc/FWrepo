@@ -1,7 +1,9 @@
 package dev.coms4156.project;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class represents a department in the organization.
@@ -95,10 +97,10 @@ public class Department extends OrganizationComposite {
   /**
    * Returns a statistic of the employees' positions in the department.
    *
-   * @return a string representation of the statistic
+   * @return a Map of the statistic that can be easily converted to JSON
    */
-  public String getEmployeePositionStatistic() {
-    StringBuilder sb = new StringBuilder();
+  public Map<Position, Integer> getEmployeePositionStatisticMap() {
+    Map<Position, Integer> result = new HashMap<>();
     for (Position p: Position.values()) {
       int count = 0;
       for (Employee e: this.employees) {
@@ -106,9 +108,9 @@ public class Department extends OrganizationComposite {
           count++;
         }
       }
-      sb.append(p).append(": ").append(count).append("\n");
+      result.put(p, count);
     }
-    return sb.toString();
+    return result;
   }
 
   /**
@@ -118,42 +120,38 @@ public class Department extends OrganizationComposite {
    * If there are multiple employees with the same highest or lowest salary,
    * only the first one will be shown.
    *
-   * @return a string representation of the statistic
+   * @return a Map of the statistic that can be easily converted to JSON
    */
-  public String getEmployeeSalaryStatistic() {
-    if (this.employees.isEmpty()) {
-      return "No employees in this department.";
-    }
-
+  public Map<String, Object> getEmployeeSalaryStatisticMap() {
     double totalSalary = 0;
     double highestSalary = Double.MIN_VALUE;
     double lowestSalary = Double.MAX_VALUE;
-    Employee highestSalaryEmployee = null;
-    Employee lowestSalaryEmployee = null;
+    Employee highestEmployee = null;
+    Employee lowestEmployee = null;
 
     // Gather statistics
     for (Employee e: this.employees) {
       totalSalary += e.getSalary();
       if (e.getSalary() > highestSalary) {
         highestSalary = e.getSalary();
-        highestSalaryEmployee = e;
+        highestEmployee = e;
       }
       if (e.getSalary() < lowestSalary) {
         lowestSalary = e.getSalary();
-        lowestSalaryEmployee = e;
+        lowestEmployee = e;
       }
     }
     double averageSalary = totalSalary / this.employees.size();
 
-    // Construct the result string
-    String highName = highestSalaryEmployee == null ? "N/A" : highestSalaryEmployee.getName();
-    String lowName = lowestSalaryEmployee == null ? "N/A" : lowestSalaryEmployee.getName();
-    StringBuilder sb = new StringBuilder();
-    sb.append("Total salary: ").append(totalSalary).append("\n")
-      .append("Average salary: ").append(averageSalary).append("\n")
-      .append("Highest salary: ").append(highestSalary).append(" (").append(highName).append(")\n")
-      .append("Lowest salary: ").append(lowestSalary).append(" (").append(lowName).append(")\n");
-    return sb.toString();
+    // Construct the result map
+    Map<String, Object> result = new HashMap<>();
+    result.put("Total", totalSalary);
+    result.put("Average", averageSalary);
+    result.put("Highest", highestSalary);
+    result.put("Lowest", lowestSalary);
+    result.put("HighestEmployee", highestEmployee != null? highestEmployee.getId(): null);
+    result.put("LowestEmployee", lowestEmployee != null? lowestEmployee.getId(): null);
+    return result;
   }
 
   /**
