@@ -81,6 +81,19 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
    - HTTP 404 Status Code is returned with "Employee Not Found" in the response body.
    - HTTP 500 Status Code is returned if any unexpected error occurs.
 
+### PATCH `/setEmpSalary`
+- **Expected Input Parameters**:
+   - `cid` (string) - The encrypted client ID.
+   - `eid` (int) - The employee ID.
+   - `salary` (double) - The new salary of the employee.
+- **Expected Output**:
+   - A success message indicating that the employee's salary was successfully updated.
+- **Upon Success**:
+   - HTTP 200 Status Code is returned indicating the salary of the employee is set.
+- **Upon Failure**:
+   - HTTP 404 Status Code is returned with "Employee Not Found" in the response body.
+   - HTTP 500 Status Code is returned if any unexpected error occurs.
+
 ### POST `/addEmployeeToDept`
 - **Expected Input Parameters**:
    - `cid` (string) - The encrypted client ID.
