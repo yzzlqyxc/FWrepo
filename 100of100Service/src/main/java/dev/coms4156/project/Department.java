@@ -112,6 +112,51 @@ public class Department extends OrganizationComposite {
   }
 
   /**
+   * Returns a statistic of the employees' salaries in the department.
+   * The statistic includes the total salary, average salary,
+   * and the highest and lowest salaries and the corresponding employees.
+   * If there are multiple employees with the same highest or lowest salary,
+   * only the first one will be shown.
+   *
+   * @return a string representation of the statistic
+   */
+  public String getEmployeeSalaryStatistic() {
+    if (this.employees.isEmpty()) {
+      return "No employees in this department.";
+    }
+
+    double totalSalary = 0;
+    double highestSalary = Double.MIN_VALUE;
+    double lowestSalary = Double.MAX_VALUE;
+    Employee highestSalaryEmployee = null;
+    Employee lowestSalaryEmployee = null;
+
+    // Gather statistics
+    for (Employee e: this.employees) {
+      totalSalary += e.getSalary();
+      if (e.getSalary() > highestSalary) {
+        highestSalary = e.getSalary();
+        highestSalaryEmployee = e;
+      }
+      if (e.getSalary() < lowestSalary) {
+        lowestSalary = e.getSalary();
+        lowestSalaryEmployee = e;
+      }
+    }
+    double averageSalary = totalSalary / this.employees.size();
+
+    // Construct the result string
+    String highName = highestSalaryEmployee == null ? "N/A" : highestSalaryEmployee.getName();
+    String lowName = lowestSalaryEmployee == null ? "N/A" : lowestSalaryEmployee.getName();
+    StringBuilder sb = new StringBuilder();
+    sb.append("Total salary: ").append(totalSalary).append("\n")
+      .append("Average salary: ").append(averageSalary).append("\n")
+      .append("Highest salary: ").append(highestSalary).append(" (").append(highName).append(")\n")
+      .append("Lowest salary: ").append(lowestSalary).append(" (").append(lowName).append(")\n");
+    return sb.toString();
+  }
+
+  /**
    * Returns the basic information of the Department,
    * including the name, ID, list of employees, and head.
    *
