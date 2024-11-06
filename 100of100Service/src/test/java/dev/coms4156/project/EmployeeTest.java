@@ -100,4 +100,11 @@ public class EmployeeTest {
     Assertions.assertEquals(100000, employee.getSalary());
   }
 
+  @Test
+  @Order(12)
+  public void testSetPerformance() {
+    employee.setPerformance(50);
+    Assertions.assertEquals(50, employee.getPerformance());
+  }
+
 }
