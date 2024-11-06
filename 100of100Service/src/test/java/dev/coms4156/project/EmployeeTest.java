@@ -99,6 +99,13 @@ public class EmployeeTest {
     Assertions.assertEquals(Position.SoftwareEngineer, employee.getPosition());
   }
 
+  @Test
+  @Order(11)
+  public void testSetSalary() {
+    employee.setSalary(100000);
+    Assertions.assertEquals(100000, employee.getSalary());
+  }
+
   @AfterAll
   public static void tearDown() {
     HrDatabaseFacade.setTestMode(null);

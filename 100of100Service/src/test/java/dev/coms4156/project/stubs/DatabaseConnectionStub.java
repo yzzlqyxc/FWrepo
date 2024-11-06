@@ -230,7 +230,7 @@ public class DatabaseConnectionStub extends DatabaseConnection {
     Department marketing1 = new Department(2, "Marketing", new ArrayList<>());
 
     // Employees for Client 1
-    Employee johnDoe = new Employee(1, "John Doe", new Date(), Position.SoftwareEngineer);
+    Employee johnDoe = new Employee(1, "John Doe", new Date(), Position.SoftwareEngineer, 100);
     Employee janeSmith = new Employee(2, "Jane Smith", new Date());
 
     // Add employees to departments for Client 1
@@ -256,7 +256,7 @@ public class DatabaseConnectionStub extends DatabaseConnection {
 
     // Employees for Client 2
     Employee aliceJohnson = new Employee(1, "Alice Johnson", new Date());
-    Employee bobBrown = new Employee(2, "Bob Brown", new Date(), Position.ProductManager);
+    Employee bobBrown = new Employee(2, "Bob Brown", new Date(), Position.ProductManager, 200);
 
     // Add employees to departments for Client 2
     engineering2.addEmployee(aliceJohnson);

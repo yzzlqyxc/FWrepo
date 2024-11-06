@@ -13,6 +13,7 @@ public class Employee implements OrganizationComponent {
   private final String name;
   private final Date hireDate;
   private Position position;
+  private double salary;
 
   /**
    * Constructs an employee with the given ID, name, and hire date.
@@ -30,17 +31,20 @@ public class Employee implements OrganizationComponent {
       this.hireDate = new Date(hireDate.getTime());
     }
     this.position = Position.Other;
+    this.salary = 0;
   }
 
   /**
-   * Full constructor for an employee with the given ID, name, hire date, and position.
+   * Full constructor for an employee with the given ID, name, hire date, position, and salary.
+   * Primarily used by the database.
    *
    * @param id the ID of the employee (external ID)
    * @param name the name of the employee
    * @param hireDate the hire date of the employee
    * @param position the position of the employee
+   * @param salary the current salary of the employee
    */
-  public Employee(int id, String name, Date hireDate, Position position) {
+  public Employee(int id, String name, Date hireDate, Position position, double salary) {
     this.id = id;
     this.name = name;
     if (hireDate == null) {
@@ -49,6 +53,7 @@ public class Employee implements OrganizationComponent {
       this.hireDate = new Date(hireDate.getTime());
     }
     this.position = position;
+    this.salary = salary;
   }
 
   /**
@@ -116,6 +121,24 @@ public class Employee implements OrganizationComponent {
    */
   public void setPosition(Position position) {
     this.position = position;
+  }
+
+  /**
+   * Returns the salary of the employee.
+   *
+   * @return the salary of the employee
+   */
+  public double getSalary() {
+    return this.salary;
+  }
+
+  /**
+   * Sets the salary of the employee.
+   *
+   * @param salary the new salary of the employee
+   */
+  public void setSalary(double salary) {
+    this.salary = salary;
   }
 
   /**

@@ -232,6 +232,19 @@ public class RouteControllerTest {
     Assertions.assertTrue(content.contains("ProductManager"));
   }
 
+  @Test
+  public void testSetEmpSalary() throws Exception {
+    MvcResult mvcResult = mockMvc.perform(patch("/setEmpSalary")
+        .param("cid", CLIENT_ID_1)
+        .param("eid", "1")
+        .param("salary", "5000.05")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andReturn();
+
+    String content = mvcResult.getResponse().getContentAsString();
+    Assertions.assertTrue(content.contains("5000.05"));
+  }
+
   /**
    * Tear down the test environment.
    * Reset the database connection to the real database.

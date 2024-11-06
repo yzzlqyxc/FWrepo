@@ -8,6 +8,7 @@ import dev.coms4156.project.command.GetOrganizationInfoCommand;
 import dev.coms4156.project.command.RemoveEmployeeFromDeptCommand;
 import dev.coms4156.project.command.SetDeptHeadCommand;
 import dev.coms4156.project.command.SetEmpPosiCommand;
+import dev.coms4156.project.command.SetEmpSalCommand;
 import dev.coms4156.project.command.StatDeptPosCommand;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -168,6 +169,23 @@ public class RouteController {
       @RequestParam("position") String position
   ) {
     Command command = new SetEmpPosiCommand(clientId, employeeId, position);
+    return new ResponseEntity<>(command.execute(), HttpStatus.OK);
+  }
+
+  /**
+   * Set the salary of an employee.
+   *
+   * @param clientId the client ID
+   * @param employeeId the employee ID
+   * @param salary the salary to set
+   */
+  @PatchMapping(value = "/setEmpSalary", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> setEmployeeSalary(
+      @RequestAttribute("cid") int clientId,
+      @RequestParam("eid") int employeeId,
+      @RequestParam("salary") double salary
+  ) {
+    Command command = new SetEmpSalCommand(clientId, employeeId, salary);
     return new ResponseEntity<>(command.execute(), HttpStatus.OK);
   }
 
