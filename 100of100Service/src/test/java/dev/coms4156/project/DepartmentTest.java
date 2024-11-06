@@ -134,4 +134,16 @@ public class DepartmentTest {
     }
   }
 
+  @Test
+  @Order(13)
+  public void testGetEmployeeSalaryStatistic() {
+    String ac = department.getEmployeeSalaryStatistic();
+    System.out.println(ac);
+    Assertions.assertTrue(ac.contains("Total salary: 50.0"));
+    Assertions.assertTrue(ac.contains("Average salary: 50.0"));
+    Assertions.assertTrue(ac.contains("Highest salary: 50.0"));
+    Assertions.assertTrue(ac.contains("Lowest salary: 50.0"));
+    Assertions.assertTrue(ac.contains("Jake"));
+  }
+
 }
