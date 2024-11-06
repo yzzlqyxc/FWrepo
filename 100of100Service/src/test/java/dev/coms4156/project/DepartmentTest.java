@@ -123,4 +123,15 @@ public class DepartmentTest {
     }
   }
 
+  @Test
+  @Order(12)
+  public void testGetEmployeePositionStatisticEmpty() {
+    Department emptyDepartment = new Department(4, "Empty");
+    String ac = emptyDepartment.getEmployeePositionStatistic();
+    for (Position p: Position.values()) {
+      String expected = p + ": 0\n";
+       Assertions.assertTrue(ac.contains(expected));
+    }
+  }
+
 }
