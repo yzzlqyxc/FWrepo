@@ -9,6 +9,7 @@ import dev.coms4156.project.command.RemoveEmployeeFromDeptCommand;
 import dev.coms4156.project.command.SetDeptHeadCommand;
 import dev.coms4156.project.command.SetEmpPosiCommand;
 import dev.coms4156.project.command.SetEmpSalCommand;
+import dev.coms4156.project.command.StatDeptBudCommand;
 import dev.coms4156.project.command.StatDeptPosCommand;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -80,6 +81,22 @@ public class RouteController {
       @RequestAttribute("cid") int clientId
   ) {
     Command command = new GetOrganizationInfoCommand(clientId);
+    return new ResponseEntity<>(command.execute(), HttpStatus.OK);
+  }
+
+  /**
+   * Gets the budget statistics of a department.
+   *
+   * @param clientId the client ID
+   * @param departmentId the department ID
+   * @return the statistics of the department
+   */
+  @GetMapping(value = "/statDeptBudget", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> getDepartmentBudgetStatistic(
+      @RequestAttribute("cid") int clientId,
+      @RequestParam("did") int departmentId
+  ) {
+    Command command = new StatDeptBudCommand(clientId, departmentId);
     return new ResponseEntity<>(command.execute(), HttpStatus.OK);
   }
 

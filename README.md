@@ -42,6 +42,29 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
    - HTTP 404 Status Code is returned with "Organization Not Found" in the response body.
    - HTTP 500 Status Code is returned with "An unexpected error has occurred" in the response body.
 
+### GET `/statDeptBudget`
+- **Expected Input Parameters**:
+   - `cid` (string) - The encrypted client ID.
+   - `did` (int) - The department ID.
+- **Expected Output**:
+   - Returns the budget (employees' salary) statistics of the specified department.
+   - Sample output:
+      ```json
+      {
+         "Total": 100000,
+         "Average": 25000.07,
+         "Highest": 30000.5,
+         "HighestEmployee": 2,
+         "Lowest": 10000.3,
+         "LowestEmployee": 4
+      }
+      ```
+- **Upon Success**:
+   - HTTP 200 Status Code is returned with the budget statistics in the response body.
+- **Upon Failure**:
+   - HTTP 404 Status Code is returned with "Department Not Found" in the response body.
+   - HTTP 500 Status Code is returned with "An unexpected error has occurred" in the response body.
+
 ### GET `/statDeptPos`
 - **Expected Input Parameters**:
    - `cid` (string) - The encrypted client ID.
