@@ -245,6 +245,19 @@ public class RouteControllerTest {
     Assertions.assertTrue(content.contains("5000.05"));
   }
 
+  @Test
+  public void testStatDeptBudget() throws Exception {
+    MvcResult mvcResult1 = mockMvc.perform(get("/statDeptBudget")
+        .param("cid", CLIENT_ID_1)
+        .param("did", "1")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andReturn();
+
+    String res = mvcResult1.getResponse().getContentAsString();
+    Assertions.assertTrue(res.contains("Total"));
+    Assertions.assertTrue(res.contains("LowestEmployee"));
+  }
+
   /**
    * Tear down the test environment.
    * Reset the database connection to the real database.
