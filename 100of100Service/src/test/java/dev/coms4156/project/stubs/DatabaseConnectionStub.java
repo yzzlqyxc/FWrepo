@@ -6,7 +6,6 @@ import dev.coms4156.project.Employee;
 import dev.coms4156.project.Organization;
 import dev.coms4156.project.Position;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +24,7 @@ public class DatabaseConnectionStub extends DatabaseConnection {
 
   /** Constructs a DatabaseConnectionStub and initializes test data. */
   private DatabaseConnectionStub() {
+    super(false, null, null, null);
     initializeTestData();
   }
 
