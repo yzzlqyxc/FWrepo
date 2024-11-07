@@ -9,7 +9,7 @@ import dev.coms4156.project.exception.NotFoundException;
 /**
  * A command to remove an employee from given department.
  */
-public class RemoveEmployeeFromDeptCommand implements Command {
+public class RemoveEmpFromDeptCmd implements Command {
   private final int clientId;
   private final int departmentId;
   private final int employeeId;
@@ -21,7 +21,7 @@ public class RemoveEmployeeFromDeptCommand implements Command {
    * @param departmentId the ID of the department from which the employee will be removed
    * @param employeeId   the ID of the employee to be removed
    */
-  public RemoveEmployeeFromDeptCommand(int clientId, int departmentId, int employeeId) {
+  public RemoveEmpFromDeptCmd(int clientId, int departmentId, int employeeId) {
     this.clientId = clientId;
     this.departmentId = departmentId;
     this.employeeId = employeeId;

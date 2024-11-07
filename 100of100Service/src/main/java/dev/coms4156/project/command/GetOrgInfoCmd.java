@@ -7,10 +7,10 @@ import dev.coms4156.project.exception.NotFoundException;
 /**
  * A command to get the information of an organization.
  */
-public class GetOrganizationInfoCommand implements Command {
+public class GetOrgInfoCmd implements Command {
   private final int clientId;
 
-  public GetOrganizationInfoCommand(int clientId) {
+  public GetOrgInfoCmd(int clientId) {
     this.clientId = clientId;
   }
 

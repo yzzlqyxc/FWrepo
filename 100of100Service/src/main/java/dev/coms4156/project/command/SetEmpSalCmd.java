@@ -5,22 +5,22 @@ import dev.coms4156.project.HrDatabaseFacade;
 import dev.coms4156.project.exception.InternalServerErrorException;
 import dev.coms4156.project.exception.NotFoundException;
 
-public class SetEmpPefCommand implements Command {
+public class SetEmpSalCmd implements Command {
   private final int clientId;
   private final int employeeId;
-  private final double performance;
+  private final double salary;
 
   /**
    * Constructs a command to set the salary of an employee.
    *
    * @param clientId the client ID
    * @param employeeId the employee ID
-   * @param performance the salary to set
+   * @param salary the salary to set
    */
-  public SetEmpPefCommand(int clientId, int employeeId, double performance) {
+  public SetEmpSalCmd(int clientId, int employeeId, double salary) {
     this.clientId = clientId;
     this.employeeId = employeeId;
-    this.performance = performance;
+    this.salary = salary;
   }
 
   /**
@@ -35,10 +35,12 @@ public class SetEmpPefCommand implements Command {
     if (emp == null) {
       throw new NotFoundException("Employee [" + this.employeeId + "] not found");
     }
-    emp.setPerformance(this.performance);
-    if (!db.updateEmployee(emp)) {
+    emp.setSalary(this.salary);
+    boolean result = db.updateEmployee(emp);
+    if (!result) {
       throw new InternalServerErrorException("Failed to update employee [" + this.employeeId + "]");
     }
-    return "Employee [" + this.employeeId + "] performance set to " + this.performance;
+
+    return "Successfully set salary for employee [" + this.employeeId + "] to " + this.salary;
   }
 }

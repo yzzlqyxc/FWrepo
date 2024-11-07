@@ -4,11 +4,11 @@ import dev.coms4156.project.Department;
 import dev.coms4156.project.HrDatabaseFacade;
 import dev.coms4156.project.exception.NotFoundException;
 
-public class StatDeptBudCommand implements Command {
+public class StatDeptPerfCmd implements Command {
   private final int clientId;
   private final int departmentId;
 
-  public StatDeptBudCommand(int clientId, int departmentId) {
+  public StatDeptPerfCmd(int clientId, int departmentId) {
     this.clientId = clientId;
     this.departmentId = departmentId;
   }
@@ -20,6 +20,6 @@ public class StatDeptBudCommand implements Command {
     if (department == null) {
       throw new NotFoundException("Department [" + this.departmentId + "] not found.");
     }
-    return department.getEmployeeSalaryStatisticMap();
+    return department.getEmployeePerformanceStatisticMap();
   }
 }

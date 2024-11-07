@@ -6,7 +6,7 @@ import dev.coms4156.project.Position;
 import dev.coms4156.project.exception.InternalServerErrorException;
 import dev.coms4156.project.exception.NotFoundException;
 
-public class SetEmpPosiCommand implements Command {
+public class SetEmpPosiCmd implements Command {
   private final int clientId;
   private final int employeeId;
   private final Position position;
@@ -18,7 +18,7 @@ public class SetEmpPosiCommand implements Command {
    * @param employeeId the employee ID
    * @param position the position to set
    */
-  public SetEmpPosiCommand(int clientId, int employeeId, String position) {
+  public SetEmpPosiCmd(int clientId, int employeeId, String position) {
     this.clientId = clientId;
     this.employeeId = employeeId;
     this.position = parsePosition(position);
