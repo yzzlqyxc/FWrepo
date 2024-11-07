@@ -155,6 +155,42 @@ public class Department extends OrganizationComposite {
   }
 
   /**
+   * Returns a statistic of the employees' performance in the department.
+   * The statistic includes the highest, average, xth quartile, median, and lowest scores.
+   * In addition, a list of employee id sorted by performance is also included.
+   *
+   * @return a Map of the statistic that can be easily converted to JSON
+   */
+  public Map<String, Object> getEmployeePerformanceStatisticMap() {
+    List<Double> performances = new ArrayList<>();
+    for (Employee e: this.employees) {
+      performances.add(e.getPerformance());
+    }
+    performances.sort(Double::compareTo);
+
+    // Construct the result map
+    Map<String, Object> result = new HashMap<>();
+    // Quartiles
+    result.put("Highest", performances.get(performances.size() - 1));
+    result.put("25thPercentile", performances.get(performances.size() / 4));
+    result.put("Median", performances.get(performances.size() / 2));
+    result.put("75thPercentile", performances.get(performances.size() * 3 / 4));
+    result.put("Lowest", performances.get(0));
+    // Average
+    result.put(
+        "Average",
+        performances.stream().mapToDouble(Double::doubleValue).average().orElse(0)
+    );
+    // Sorted employee IDs
+    int[] ids = this.employees.stream()
+        .sorted((e1, e2) -> Double.compare(e2.getPerformance(), e1.getPerformance()))
+        .mapToInt(Employee::getId)
+        .toArray();
+    result.put("SortedEmployeeIds", ids);
+    return result;
+  }
+
+  /**
    * Returns the basic information of the Department,
    * including the name, ID, list of employees, and head.
    *

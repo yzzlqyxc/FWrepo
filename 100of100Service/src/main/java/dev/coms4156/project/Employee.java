@@ -14,6 +14,7 @@ public class Employee implements OrganizationComponent {
   private final Date hireDate;
   private Position position;
   private double salary;
+  private double performance;
 
   /**
    * Constructs an employee with the given ID, name, and hire date.
@@ -32,10 +33,11 @@ public class Employee implements OrganizationComponent {
     }
     this.position = Position.Other;
     this.salary = 0;
+    this.performance = 0;
   }
 
   /**
-   * Full constructor for an employee with the given ID, name, hire date, position, and salary.
+   * Full constructor for an employee with ID, name, hire date, position, salary, and performance.
    * Primarily used by the database.
    *
    * @param id the ID of the employee (external ID)
@@ -43,8 +45,11 @@ public class Employee implements OrganizationComponent {
    * @param hireDate the hire date of the employee
    * @param position the position of the employee
    * @param salary the current salary of the employee
+   * @param performance the performance of the employee
    */
-  public Employee(int id, String name, Date hireDate, Position position, double salary) {
+  public Employee(
+      int id, String name, Date hireDate, Position position, double salary, double performance
+  ) {
     this.id = id;
     this.name = name;
     if (hireDate == null) {
@@ -54,6 +59,7 @@ public class Employee implements OrganizationComponent {
     }
     this.position = position;
     this.salary = salary;
+    this.performance = performance;
   }
 
   /**
@@ -139,6 +145,24 @@ public class Employee implements OrganizationComponent {
    */
   public void setSalary(double salary) {
     this.salary = salary;
+  }
+
+  /**
+   * Returns the performance of the employee.
+   *
+   * @return the performance of the employee
+   */
+  public double getPerformance() {
+    return this.performance;
+  }
+
+  /**
+   * Sets the performance of the employee.
+   *
+   * @param performance the new performance of the employee
+   */
+  public void setPerformance(double performance) {
+    this.performance = performance;
   }
 
   /**
