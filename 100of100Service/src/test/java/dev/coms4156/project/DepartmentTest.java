@@ -1,6 +1,7 @@
 package dev.coms4156.project;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -28,9 +29,11 @@ public class DepartmentTest {
     employee1 = new Employee(1, "John", new Date());
     employee1.setPosition(Position.ProductManager);
     employee1.setSalary(100);
+    employee1.setPerformance(80);
     employee2 = new Employee(2, "Jake", new Date());
     employee2.setPosition(Position.SoftwareEngineer);
     employee2.setSalary(50);
+    employee2.setPerformance(90);
   }
 
   @Test
@@ -149,6 +152,29 @@ public class DepartmentTest {
     Assertions.assertTrue(ac.containsKey("HighestEmployee"));
     Assertions.assertEquals(employee2.getId(), ac.get("HighestEmployee"));
     Assertions.assertTrue(ac.containsKey("LowestEmployee"));
+  }
+
+  @Test
+  @Order(14)
+  public void testGetEmployeePerformanceStatistic() {
+    Employee e1 = new Employee(1, "A", new Date(), Position.DataScientist, 10.5, 100);
+    Employee e2 = new Employee(2, "B", new Date(), Position.SalesManager, 20.5, 90);
+    Employee e3 = new Employee(3, "C", new Date(), Position.ProductManager, 30.5, 80);
+    Employee e4 = new Employee(4, "D", new Date(), Position.SoftwareEngineer, 40.5, 70);
+    Employee e5 = new Employee(5, "E", new Date());
+    Department d1 = new Department(1, "D1", List.of(e1, e2, e3, e4, e5));
+
+    Map<String, Object> ac = d1.getEmployeePerformanceStatisticMap();
+    System.out.println(ac);
+    Assertions.assertTrue(ac.containsKey("Average"));
+    Assertions.assertTrue(ac.containsKey("Highest"));
+    Assertions.assertEquals(100.0, ac.get("Highest"));
+    Assertions.assertTrue(ac.containsKey("25thPercentile"));
+    Assertions.assertTrue(ac.containsKey("Median"));
+    Assertions.assertTrue(ac.containsKey("75thPercentile"));
+    Assertions.assertTrue(ac.containsKey("Lowest"));
+    Assertions.assertTrue(ac.containsKey("SortedEmployeeIds"));
+    Assertions.assertArrayEquals(new int[]{1, 2, 3, 4, 5}, (int[]) ac.get("SortedEmployeeIds"));
   }
 
 }
