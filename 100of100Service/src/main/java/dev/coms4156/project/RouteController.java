@@ -11,6 +11,7 @@ import dev.coms4156.project.command.SetEmpPefCommand;
 import dev.coms4156.project.command.SetEmpPosiCommand;
 import dev.coms4156.project.command.SetEmpSalCommand;
 import dev.coms4156.project.command.StatDeptBudCommand;
+import dev.coms4156.project.command.StatDeptPerfCommand;
 import dev.coms4156.project.command.StatDeptPosCommand;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -98,6 +99,22 @@ public class RouteController {
       @RequestParam("did") int departmentId
   ) {
     Command command = new StatDeptBudCommand(clientId, departmentId);
+    return new ResponseEntity<>(command.execute(), HttpStatus.OK);
+  }
+
+  /**
+   * Gets the performance statistics of a department.
+   *
+   * @param clientId the client ID
+   * @param departmentId the department ID
+   * @return the statistics of the department
+   */
+  @GetMapping(value = "/statDeptPerf", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> getDepartmentPerformanceStatistic(
+      @RequestAttribute("cid") int clientId,
+      @RequestParam("did") int departmentId
+  ) {
+    Command command = new StatDeptPerfCommand(clientId, departmentId);
     return new ResponseEntity<>(command.execute(), HttpStatus.OK);
   }
 

@@ -271,6 +271,19 @@ public class RouteControllerTest {
     Assertions.assertTrue(content.contains("95.5"));
   }
 
+  @Test
+  public void testStatDeptPerf() throws Exception {
+    MvcResult mvcResult1 = mockMvc.perform(get("/statDeptPerf")
+        .param("cid", CLIENT_ID_1)
+        .param("did", "1")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andReturn();
+
+    String res = mvcResult1.getResponse().getContentAsString();
+    Assertions.assertTrue(res.contains("75thPercentile"));
+    Assertions.assertTrue(res.contains("Average"));
+  }
+
   /**
    * Tear down the test environment.
    * Reset the database connection to the real database.
