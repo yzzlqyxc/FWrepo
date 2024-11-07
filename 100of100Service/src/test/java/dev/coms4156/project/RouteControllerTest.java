@@ -108,6 +108,23 @@ public class RouteControllerTest {
     System.out.println(content);
   }
 
+  @Test
+  public void testSetDeptHeadNotExist() throws Exception {
+    mockMvc.perform(patch("/setDeptHead")
+            .param("cid", CLIENT_ID_1)
+            .param("did", "99")
+            .param("eid", "1")
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound()).andReturn();
+
+    mockMvc.perform(patch("/setDeptHead")
+            .param("cid", CLIENT_ID_1)
+            .param("did", "1")
+            .param("eid", "99")
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound()).andReturn();
+  }
+
   // Test: Client cannot access another client's employee
   @Test
   public void testClientCannotAccessAnotherClientsEmployee() throws Exception {
@@ -220,6 +237,26 @@ public class RouteControllerTest {
   }
 
   @Test
+  public void testSetEmpPositionNotExist() throws Exception {
+    mockMvc.perform(patch("/setEmpPos")
+            .param("cid", CLIENT_ID_1)
+            .param("eid", "99")
+            .param("position", "SoftwareEngineer")
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound()).andReturn();
+  }
+
+  @Test
+  public void testSetEmpPositionBadRequest() throws Exception {
+    mockMvc.perform(patch("/setEmpPos")
+            .param("cid", CLIENT_ID_1)
+            .param("eid", "1")
+            .param("position", "MyOwnPosition")
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest()).andReturn();
+  }
+
+  @Test
   public void testStatDeptPos() throws Exception {
     MvcResult mvcResult1 = mockMvc.perform(get("/statDeptPos")
         .param("cid", CLIENT_ID_1)
@@ -246,6 +283,16 @@ public class RouteControllerTest {
   }
 
   @Test
+  public void testSetEmpSalaryNotExist() throws Exception {
+    mockMvc.perform(patch("/setEmpSalary")
+            .param("cid", CLIENT_ID_1)
+            .param("eid", "99")
+            .param("salary", "5000.05")
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound()).andReturn();
+  }
+
+  @Test
   public void testStatDeptBudget() throws Exception {
     MvcResult mvcResult1 = mockMvc.perform(get("/statDeptBudget")
         .param("cid", CLIENT_ID_1)
@@ -256,6 +303,15 @@ public class RouteControllerTest {
     String res = mvcResult1.getResponse().getContentAsString();
     Assertions.assertTrue(res.contains("Total"));
     Assertions.assertTrue(res.contains("LowestEmployee"));
+  }
+
+  @Test
+  public void testStatDeptBudgetNotExist() throws Exception {
+    mockMvc.perform(get("/statDeptBudget")
+            .param("cid", CLIENT_ID_1)
+            .param("did", "99")
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound()).andReturn();
   }
 
   @Test
@@ -272,6 +328,16 @@ public class RouteControllerTest {
   }
 
   @Test
+  public void testSetEmpPerformanceNotExist() throws Exception {
+    mockMvc.perform(patch("/setEmpPerf")
+            .param("cid", CLIENT_ID_1)
+            .param("eid", "99")
+            .param("performance", "95.5")
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound()).andReturn();
+  }
+
+  @Test
   public void testStatDeptPerf() throws Exception {
     MvcResult mvcResult1 = mockMvc.perform(get("/statDeptPerf")
         .param("cid", CLIENT_ID_1)
@@ -282,6 +348,15 @@ public class RouteControllerTest {
     String res = mvcResult1.getResponse().getContentAsString();
     Assertions.assertTrue(res.contains("75thPercentile"));
     Assertions.assertTrue(res.contains("Average"));
+  }
+
+  @Test
+  public void testStatDeptPerfNotExist() throws Exception {
+    mockMvc.perform(get("/statDeptPerf")
+            .param("cid", CLIENT_ID_1)
+            .param("did", "99")
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound()).andReturn();
   }
 
   /**
