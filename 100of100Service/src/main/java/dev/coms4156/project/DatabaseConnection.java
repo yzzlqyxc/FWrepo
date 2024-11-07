@@ -45,9 +45,6 @@ public class DatabaseConnection {
     if (!doConnect) {
       return;
     }
-    if (url == null || user == null || password == null) {
-      throw new InternalServerErrorException("Database connection parameters are missing.");
-    }
     try {
       this.connection = DriverManager.getConnection(url, user, password);
     } catch (SQLException e) {
