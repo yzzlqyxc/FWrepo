@@ -159,7 +159,7 @@ public class RouteControllerTest {
   @Test
   public void testAddEmpToDept() throws Exception {
     // post for the test
-    mockMvc.perform(post("/addEmployeeToDept")
+    mockMvc.perform(post("/addEmpToDept")
         .param("cid", CLIENT_ID_1)
         .param("did", "1")
         .param("name", "Lily")
@@ -180,7 +180,7 @@ public class RouteControllerTest {
 
   @Test
   public void testRemoveEmpFromDept() throws Exception {
-    mockMvc.perform(delete("/removeEmployeeFromDept")
+    mockMvc.perform(delete("/removeEmpFromDept")
         .param("cid", CLIENT_ID_1)
         .param("did", "1")
         .param("eid", "1")
@@ -198,7 +198,7 @@ public class RouteControllerTest {
     System.out.println(content1);  // verify employee is no longer listed
 
     // test if the employee not existed
-    MvcResult mvcResult2 = mockMvc.perform(delete("/removeEmployeeFromDept")
+    MvcResult mvcResult2 = mockMvc.perform(delete("/removeEmpFromDept")
         .param("cid", CLIENT_ID_1)
         .param("did", "1")
         .param("eid", "6")
@@ -211,7 +211,7 @@ public class RouteControllerTest {
 
   @Test
   public void testSetEmpPosition() throws Exception {
-    mockMvc.perform(patch("/setEmpPosition")
+    mockMvc.perform(patch("/setEmpPos")
         .param("cid", CLIENT_ID_1)
         .param("eid", "1")
         .param("position", "SoftwareEngineer")
@@ -260,7 +260,7 @@ public class RouteControllerTest {
 
   @Test
   public void testSetEmpPerformance() throws Exception {
-    MvcResult mvcResult = mockMvc.perform(patch("/setEmpPerformance")
+    MvcResult mvcResult = mockMvc.perform(patch("/setEmpPerf")
         .param("cid", CLIENT_ID_1)
         .param("eid", "1")
         .param("performance", "95.5")

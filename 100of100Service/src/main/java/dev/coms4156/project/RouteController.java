@@ -52,7 +52,7 @@ public class RouteController {
       @RequestAttribute("cid") int clientId,
       @RequestParam("did") int departmentId
   ) {
-    Command command = new GetDeptInfoCommand(clientId, departmentId);
+    Command command = new GetDeptInfoCmd(clientId, departmentId);
     return new ResponseEntity<>(command.execute(), HttpStatus.OK);
   }
 
@@ -68,7 +68,7 @@ public class RouteController {
       @RequestAttribute("cid") int clientId,
       @RequestParam("eid") int employeeId
   ) {
-    Command command = new GetEmployeeInfoCommand(clientId, employeeId);
+    Command command = new GetEmpInfoCmd(clientId, employeeId);
     return new ResponseEntity<>(command.execute(), HttpStatus.OK);
   }
 
@@ -82,7 +82,7 @@ public class RouteController {
   public ResponseEntity<?> getOrganization(
       @RequestAttribute("cid") int clientId
   ) {
-    Command command = new GetOrganizationInfoCommand(clientId);
+    Command command = new GetOrgInfoCmd(clientId);
     return new ResponseEntity<>(command.execute(), HttpStatus.OK);
   }
 
@@ -98,7 +98,7 @@ public class RouteController {
       @RequestAttribute("cid") int clientId,
       @RequestParam("did") int departmentId
   ) {
-    Command command = new StatDeptBudCommand(clientId, departmentId);
+    Command command = new StatDeptBudgCmd(clientId, departmentId);
     return new ResponseEntity<>(command.execute(), HttpStatus.OK);
   }
 
@@ -114,7 +114,7 @@ public class RouteController {
       @RequestAttribute("cid") int clientId,
       @RequestParam("did") int departmentId
   ) {
-    Command command = new StatDeptPerfCommand(clientId, departmentId);
+    Command command = new StatDeptPerfCmd(clientId, departmentId);
     return new ResponseEntity<>(command.execute(), HttpStatus.OK);
   }
 
@@ -130,7 +130,7 @@ public class RouteController {
       @RequestAttribute("cid") int clientId,
       @RequestParam("did") int departmentId
   ) {
-    Command command = new StatDeptPosCommand(clientId, departmentId);
+    Command command = new StatDeptPosiCmd(clientId, departmentId);
     return new ResponseEntity<>(command.execute(), HttpStatus.OK);
   }
 
@@ -145,12 +145,12 @@ public class RouteController {
    * @return true if the head is set, false otherwise
    */
   @PatchMapping(value = "/setDeptHead", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> setDeptHead(
+  public ResponseEntity<?> setDepartmentHead(
       @RequestAttribute("cid") int clientId,
       @RequestParam("did") int departmentId,
       @RequestParam("eid") int employeeId
   ) {
-    Command command = new SetDeptHeadCommand(clientId, departmentId, employeeId);
+    Command command = new SetDeptHeadCmd(clientId, departmentId, employeeId);
     return new ResponseEntity<>(command.execute(), HttpStatus.OK);
   }
 
@@ -161,13 +161,13 @@ public class RouteController {
    * @param employeeId the employee ID
    * @param performance the performance value to set
    */
-  @PatchMapping(value = "/setEmpPerformance", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PatchMapping(value = "/setEmpPerf", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> setEmployeePerformance(
       @RequestAttribute("cid") int clientId,
       @RequestParam("eid") int employeeId,
       @RequestParam("performance") double performance
   ) {
-    Command command = new SetEmpPefCommand(clientId, employeeId, performance);
+    Command command = new SetEmpPerfCmd(clientId, employeeId, performance);
     return new ResponseEntity<>(command.execute(), HttpStatus.OK);
   }
 
@@ -178,13 +178,13 @@ public class RouteController {
    * @param employeeId the employee ID
    * @param position the position to set
    */
-  @PatchMapping(value = "/setEmpPosition", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PatchMapping(value = "/setEmpPos", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> setEmployeePosition(
       @RequestAttribute("cid") int clientId,
       @RequestParam("eid") int employeeId,
       @RequestParam("position") String position
   ) {
-    Command command = new SetEmpPosiCommand(clientId, employeeId, position);
+    Command command = new SetEmpPosiCmd(clientId, employeeId, position);
     return new ResponseEntity<>(command.execute(), HttpStatus.OK);
   }
 
@@ -201,7 +201,7 @@ public class RouteController {
       @RequestParam("eid") int employeeId,
       @RequestParam("salary") double salary
   ) {
-    Command command = new SetEmpSalCommand(clientId, employeeId, salary);
+    Command command = new SetEmpSalCmd(clientId, employeeId, salary);
     return new ResponseEntity<>(command.execute(), HttpStatus.OK);
   }
 
@@ -217,14 +217,14 @@ public class RouteController {
    * @return a success message if the employee is successfully added,
    *         or throws an exception if the operation fails
    */
-  @PostMapping(value = "/addEmployeeToDept", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value = "/addEmpToDept", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> addEmployeeToDepartment(
       @RequestAttribute("cid") int clientId,
       @RequestParam("did") int departmentId,
       @RequestParam("name") String name,
       @RequestParam("hireDate") String hireDate // this need to be in format of "yyyy-MM-dd"
   ) {
-    Command command = new AddEmployeeToDeptCommand(clientId, departmentId, name, hireDate);
+    Command command = new AddEmpToDeptCmd(clientId, departmentId, name, hireDate);
     return new ResponseEntity<>(command.execute(), HttpStatus.CREATED);
   }
 
@@ -239,13 +239,13 @@ public class RouteController {
    * @return a success message if the employee is successfully removed,
    *         or throws an exception if the operation fails
    */
-  @DeleteMapping(value = "/removeEmployeeFromDept", produces = MediaType.APPLICATION_JSON_VALUE)
+  @DeleteMapping(value = "/removeEmpFromDept", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> removeEmployeeFromDept(
       @RequestAttribute("cid") int clientId,
       @RequestParam("did") int departmentId,
       @RequestParam("eid") int employeeId
   ) {
-    Command command = new RemoveEmployeeFromDeptCommand(clientId, departmentId, employeeId);
+    Command command = new RemoveEmpFromDeptCmd(clientId, departmentId, employeeId);
     return new ResponseEntity<>(command.execute(), HttpStatus.OK);
   }
 
