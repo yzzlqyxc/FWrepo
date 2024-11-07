@@ -1,5 +1,6 @@
 package dev.coms4156.project;
 
+import dev.coms4156.project.exception.InternalServerErrorException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -17,7 +18,7 @@ public class DatabaseConnection {
   private static volatile DatabaseConnection instance;
   private Connection connection;
 
-  protected DatabaseConnection() {
+  private DatabaseConnection() {
     try {
       String url = "jdbc:mysql://database-100-team.c7mqy28ys9uq.us-east-1.rds.amazonaws.com:3306/"
               + "organization_management";
@@ -26,6 +27,29 @@ public class DatabaseConnection {
       this.connection = DriverManager.getConnection(url, user, password);
     } catch (SQLException e) {
       e.printStackTrace();
+      throw new InternalServerErrorException("Failed to connect to the database.");
+    }
+  }
+
+  /**
+   * Constructs a DatabaseConnection with the given connection parameters.
+   * This constructor is used for testing purposes only.
+   *
+   * @param doConnect whether to connect to the database
+   * @param url the database URL
+   * @param user the database user
+   * @param password the database password
+   * @throws InternalServerErrorException if failed to connect to the database
+   */
+  protected DatabaseConnection(boolean doConnect, String url, String user, String password) {
+    if (!doConnect) {
+      return;
+    }
+    try {
+      this.connection = DriverManager.getConnection(url, user, password);
+    } catch (SQLException e) {
+      e.printStackTrace();
+      throw new InternalServerErrorException("Failed to connect to the database.");
     }
   }
 

@@ -12,7 +12,7 @@ import java.util.Date;
 /**
  * A command to add an employee to given department.
  */
-public class AddEmployeeToDeptCommand implements Command {
+public class AddEmpToDeptCmd implements Command {
   private final int clientId;
   private final int departmentId;
   private final String name;
@@ -26,7 +26,7 @@ public class AddEmployeeToDeptCommand implements Command {
    * @param name         the name of the employee
    * @param hireDate     the hire date of the employee in "yyyy-MM-dd" format
    */
-  public AddEmployeeToDeptCommand(int clientId, int departmentId, String name, String hireDate) {
+  public AddEmpToDeptCmd(int clientId, int departmentId, String name, String hireDate) {
     this.clientId = clientId;
     this.departmentId = departmentId;
     this.name = name;

@@ -7,7 +7,7 @@ import dev.coms4156.project.exception.NotFoundException;
 /**
  * A command to get the information of an employee.
  */
-public class GetEmployeeInfoCommand implements Command {
+public class GetEmpInfoCmd implements Command {
   private final int clientId;
   private final int employeeId;
 
@@ -17,7 +17,7 @@ public class GetEmployeeInfoCommand implements Command {
    * @param clientId the client ID
    * @param employeeId the employee ID
    */
-  public GetEmployeeInfoCommand(int clientId, int employeeId) {
+  public GetEmpInfoCmd(int clientId, int employeeId) {
     this.clientId = clientId;
     this.employeeId = employeeId;
   }

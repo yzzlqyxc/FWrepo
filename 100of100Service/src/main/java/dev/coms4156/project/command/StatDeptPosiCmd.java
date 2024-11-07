@@ -5,13 +5,13 @@ import dev.coms4156.project.HrDatabaseFacade;
 import dev.coms4156.project.exception.NotFoundException;
 
 /**
- * A command to get the information of a department.
+ * A command to get the performance statistics of a department.
  */
-public class GetDeptInfoCommand implements Command {
+public class StatDeptPosiCmd implements Command {
   private final int clientId;
   private final int departmentId;
 
-  public GetDeptInfoCommand(int clientId, int departmentId) {
+  public StatDeptPosiCmd(int clientId, int departmentId) {
     this.clientId = clientId;
     this.departmentId = departmentId;
   }
@@ -21,8 +21,8 @@ public class GetDeptInfoCommand implements Command {
     HrDatabaseFacade db = HrDatabaseFacade.getInstance(this.clientId);
     Department department = db.getDepartment(this.departmentId);
     if (department == null) {
-      throw new NotFoundException("Department [" + this.departmentId + "] not found");
+      throw new NotFoundException("Department [" + this.departmentId + "] not found.");
     }
-    return department.toString();
+    return department.getEmployeePositionStatisticMap();
   }
 }

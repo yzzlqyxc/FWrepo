@@ -4,12 +4,13 @@ import dev.coms4156.project.Department;
 import dev.coms4156.project.Employee;
 import dev.coms4156.project.HrDatabaseFacade;
 import dev.coms4156.project.exception.BadRequestException;
+import dev.coms4156.project.exception.InternalServerErrorException;
 import dev.coms4156.project.exception.NotFoundException;
 
 /**
  * A command to set the head of a department.
  */
-public class SetDeptHeadCommand implements Command {
+public class SetDeptHeadCmd implements Command {
   private final int clientId;
   private final int departmentId;
   private final int employeeId;
@@ -21,7 +22,7 @@ public class SetDeptHeadCommand implements Command {
    * @param departmentId the department ID
    * @param employeeId the employee ID
    */
-  public SetDeptHeadCommand(int clientId, int departmentId, int employeeId) {
+  public SetDeptHeadCmd(int clientId, int departmentId, int employeeId) {
     this.clientId = clientId;
     this.departmentId = departmentId;
     this.employeeId = employeeId;
@@ -44,7 +45,9 @@ public class SetDeptHeadCommand implements Command {
     }
     boolean updated = db.updateDepartment(department);
     if (!updated) {
-      throw new BadRequestException("Failed to update department [" + this.departmentId + "]");
+      throw new InternalServerErrorException(
+          "Failed to update department [" + this.departmentId + "]"
+      );
     }
 
     return "Successfully set head of department [" + this.departmentId + "] "

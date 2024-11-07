@@ -7,21 +7,9 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
 
 ## [User] Endpoints Documentation
 
-### GET `/getEmpInfo`
-- **Expected Input Parameters**:
-   - `cid` (int) - The client ID.
-   - `eid` (int) - The employee ID.
-- **Expected Output**:
-   - Returns the information of the specified employee.
-- **Upon Success**:
-   - HTTP 200 Status Code is returned with the employee details in the response body.
-- **Upon Failure**:
-   - HTTP 404 Status Code is returned with "Employee Not Found" in the response body.
-   - HTTP 500 Status Code is returned with "An unexpected error has occurred" in the response body.
-
 ### GET `/getDeptInfo`
 - **Expected Input Parameters**:
-   - `cid` (int) - The client ID.
+   - `cid` (string) - The encrypted client ID.
    - `did` (int) - The department ID.
 - **Expected Output**:
    - Returns the information of the specified department.
@@ -31,9 +19,21 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
    - HTTP 404 Status Code is returned with "Department Not Found" in the response body.
    - HTTP 500 Status Code is returned with "An unexpected error has occurred" in the response body.
 
+### GET `/getEmpInfo`
+- **Expected Input Parameters**:
+   - `cid` (string) - The encrypted client ID.
+   - `eid` (int) - The employee ID.
+- **Expected Output**:
+   - Returns the information of the specified employee.
+- **Upon Success**:
+   - HTTP 200 Status Code is returned with the employee details in the response body.
+- **Upon Failure**:
+   - HTTP 404 Status Code is returned with "Employee Not Found" in the response body.
+   - HTTP 500 Status Code is returned with "An unexpected error has occurred" in the response body.
+
 ### GET `/getOrgInfo`
 - **Expected Input Parameters**:
-   - `cid` (int) - The client ID.
+   - `cid` (string) - The encrypted client ID.
 - **Expected Output**:
    - Returns the information of the organization associated with the client.
 - **Upon Success**:
@@ -42,9 +42,80 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
    - HTTP 404 Status Code is returned with "Organization Not Found" in the response body.
    - HTTP 500 Status Code is returned with "An unexpected error has occurred" in the response body.
 
+### GET `/statDeptBudget`
+- **Expected Input Parameters**:
+   - `cid` (string) - The encrypted client ID.
+   - `did` (int) - The department ID.
+- **Expected Output**:
+   - Returns the budget (employees' salary) statistics of the specified department.
+   - Sample output:
+      ```json
+      {
+         "Total": 100000,
+         "Average": 25000.07,
+         "Highest": 30000.5,
+         "HighestEmployee": 2,
+         "Lowest": 10000.3,
+         "LowestEmployee": 4
+      }
+      ```
+- **Upon Success**:
+   - HTTP 200 Status Code is returned with the budget statistics in the response body.
+- **Upon Failure**:
+   - HTTP 404 Status Code is returned with "Department Not Found" in the response body.
+   - HTTP 500 Status Code is returned with "An unexpected error has occurred" in the response body.
+
+### GET `/statDeptPerf`
+- **Expected Input Parameters**:
+   - `cid` (string) - The encrypted client ID.
+   - `did` (int) - The department ID.
+- **Expected Output**:
+   - Returns the performance statistics of the specified department.
+   - Sample output:
+      ```json
+      {
+         "Highest": 100.0,
+         "75thPercentile": 90.0,
+         "Median": 80.0,
+         "25thPercentile": 70.0,
+         "Lowest": 0.0,
+         "Average": 68.0,
+         "SortedEmployeeIds": [4, 2, 3, 1]
+      }
+      ```
+- **Upon Success**:
+   - HTTP 200 Status Code is returned with the performance statistics in the response body.
+- **Upon Failure**:
+   - HTTP 404 Status Code is returned with "Department Not Found" in the response body.
+   - HTTP 500 Status Code is returned with "An unexpected error has occurred" in the response body.
+
+### GET `/statDeptPos`
+- **Expected Input Parameters**:
+   - `cid` (string) - The encrypted client ID.
+   - `did` (int) - The department ID.
+- **Expected Output**:
+   - Returns the statistics of the positions in the specified department.
+   - Sample output:
+      ```json
+      {
+         "SoftwareEngineer": 2,
+         "ProductManager": 1,
+         "DataScientist": 1,
+         "SalesManager": 0,
+         "HumanResourceManager": 0,
+         "FinancialManager": 0,
+         "Other": 0
+      }
+      ```
+- **Upon Success**:
+   - HTTP 200 Status Code is returned with the statistics in the response body.
+- **Upon Failure**:
+   - HTTP 404 Status Code is returned with "Department Not Found" in the response body.
+   - HTTP 500 Status Code is returned if any unexpected error occurs.
+
 ### PATCH `/setDeptHead`
 - **Expected Input Parameters**:
-   - `cid` (int) - The client ID.
+   - `cid` (string) - The encrypted client ID.
    - `did` (int) - The department ID.
    - `eid` (int) - The employee ID (new head).
 - **Expected Output**:
@@ -55,9 +126,49 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
    - HTTP 404 Status Code is returned with "Department or Employee Not Found" in the response body.
    - HTTP 500 Status Code is returned with "An unexpected error has occurred" in the response body.
 
-### POST `/addEmployeeToDept`
+### PATCH `/setEmpPerf`
 - **Expected Input Parameters**:
-   - `cid` (int) - The client ID.
+   - `cid` (string) - The encrypted client ID.
+   - `eid` (int) - The employee ID.
+   - `performance` (double) - The new performance of the employee.
+- **Expected Output**:
+   - A success message indicating that the employee's performance was successfully updated.
+- **Upon Success**:
+   - HTTP 200 Status Code is returned indicating the performance of the employee is set.
+- **Upon Failure**:
+   - HTTP 404 Status Code is returned with "Employee Not Found" in the response body.
+   - HTTP 500 Status Code is returned if any unexpected error occurs.
+
+### PATCH `/setEmpPos`
+- **Expected Input Parameters**:
+   - `cid` (string) - The encrypted client ID.
+   - `eid` (int) - The employee ID.
+   - `position` (string) - The new position of the employee.
+      - Possible values: "SoftwareEngineer", "ProductManager", "DataScientist", "SalesManager", "HumanResourceManager", "FinancialManager", "Other".
+- **Expected Output**:
+   - A success message indicating that the employee's position was successfully updated.
+- **Upon Success**:
+   - HTTP 200 Status Code is returned indicating the position of the employee is set.
+- **Upon Failure**:
+   - HTTP 404 Status Code is returned with "Employee Not Found" in the response body.
+   - HTTP 500 Status Code is returned if any unexpected error occurs.
+
+### PATCH `/setEmpSalary`
+- **Expected Input Parameters**:
+   - `cid` (string) - The encrypted client ID.
+   - `eid` (int) - The employee ID.
+   - `salary` (double) - The new salary of the employee.
+- **Expected Output**:
+   - A success message indicating that the employee's salary was successfully updated.
+- **Upon Success**:
+   - HTTP 200 Status Code is returned indicating the salary of the employee is set.
+- **Upon Failure**:
+   - HTTP 404 Status Code is returned with "Employee Not Found" in the response body.
+   - HTTP 500 Status Code is returned if any unexpected error occurs.
+
+### POST `/addEmpToDept`
+- **Expected Input Parameters**:
+   - `cid` (string) - The encrypted client ID.
    - `did` (int) - The department ID.
    - `name` (String) - The name of the employee.
    - `hireDate` (String) - The hire date of the employee in the format `"yyyy-MM-dd"`.
@@ -69,9 +180,9 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
    - HTTP 404 Status Code is returned with "Department Not Found" in the response body.
    - HTTP 500 Status Code is returned with "An unexpected error has occurred" in the response body.
 
-### DELETE `/removeEmployeeFromDept`
+### DELETE `/removeEmpFromDept`
 - **Expected Input Parameters**:
-   - `cid` (int) - The client ID.
+   - `cid` (string) - The encrypted client ID.
    - `did` (int) - The department ID.
    - `eid` (int) - The employee ID.
 - **Expected Output**:

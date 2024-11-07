@@ -4,8 +4,8 @@ import dev.coms4156.project.DatabaseConnection;
 import dev.coms4156.project.Department;
 import dev.coms4156.project.Employee;
 import dev.coms4156.project.Organization;
+import dev.coms4156.project.Position;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +24,7 @@ public class DatabaseConnectionStub extends DatabaseConnection {
 
   /** Constructs a DatabaseConnectionStub and initializes test data. */
   private DatabaseConnectionStub() {
+    super(false, null, null, null);
     initializeTestData();
   }
 
@@ -99,7 +100,9 @@ public class DatabaseConnectionStub extends DatabaseConnection {
   }
 
   @Override
-  public boolean removeEmployeeFromDepartment(int organizationId, int departmentId, int employeeId) {
+  public boolean removeEmployeeFromDepartment(
+      int organizationId, int departmentId, int employeeId
+  ) {
     List<Department> departments = testDepartments.get(organizationId);
     if (departments == null) {
       return false;
@@ -229,7 +232,9 @@ public class DatabaseConnectionStub extends DatabaseConnection {
     Department marketing1 = new Department(2, "Marketing", new ArrayList<>());
 
     // Employees for Client 1
-    Employee johnDoe = new Employee(1, "John Doe", new Date());
+    Employee johnDoe = new Employee(
+        1, "John Doe", new Date(), Position.SoftwareEngineer, 100, 80
+    );
     Employee janeSmith = new Employee(2, "Jane Smith", new Date());
 
     // Add employees to departments for Client 1
@@ -255,7 +260,9 @@ public class DatabaseConnectionStub extends DatabaseConnection {
 
     // Employees for Client 2
     Employee aliceJohnson = new Employee(1, "Alice Johnson", new Date());
-    Employee bobBrown = new Employee(2, "Bob Brown", new Date());
+    Employee bobBrown = new Employee(
+        2, "Bob Brown", new Date(), Position.ProductManager, 200, 99
+    );
 
     // Add employees to departments for Client 2
     engineering2.addEmployee(aliceJohnson);

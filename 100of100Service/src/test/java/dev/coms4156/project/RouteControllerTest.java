@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import dev.coms4156.project.stubs.DatabaseConnectionStub;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -107,6 +108,23 @@ public class RouteControllerTest {
     System.out.println(content);
   }
 
+  @Test
+  public void testSetDeptHeadNotExist() throws Exception {
+    mockMvc.perform(patch("/setDeptHead")
+            .param("cid", CLIENT_ID_1)
+            .param("did", "99")
+            .param("eid", "1")
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound()).andReturn();
+
+    mockMvc.perform(patch("/setDeptHead")
+            .param("cid", CLIENT_ID_1)
+            .param("did", "1")
+            .param("eid", "99")
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound()).andReturn();
+  }
+
   // Test: Client cannot access another client's employee
   @Test
   public void testClientCannotAccessAnotherClientsEmployee() throws Exception {
@@ -158,7 +176,7 @@ public class RouteControllerTest {
   @Test
   public void testAddEmpToDept() throws Exception {
     // post for the test
-    mockMvc.perform(post("/addEmployeeToDept")
+    mockMvc.perform(post("/addEmpToDept")
         .param("cid", CLIENT_ID_1)
         .param("did", "1")
         .param("name", "Lily")
@@ -179,7 +197,7 @@ public class RouteControllerTest {
 
   @Test
   public void testRemoveEmpFromDept() throws Exception {
-    mockMvc.perform(delete("/removeEmployeeFromDept")
+    mockMvc.perform(delete("/removeEmpFromDept")
         .param("cid", CLIENT_ID_1)
         .param("did", "1")
         .param("eid", "1")
@@ -197,7 +215,7 @@ public class RouteControllerTest {
     System.out.println(content1);  // verify employee is no longer listed
 
     // test if the employee not existed
-    MvcResult mvcResult2 = mockMvc.perform(delete("/removeEmployeeFromDept")
+    MvcResult mvcResult2 = mockMvc.perform(delete("/removeEmpFromDept")
         .param("cid", CLIENT_ID_1)
         .param("did", "1")
         .param("eid", "6")
@@ -206,6 +224,139 @@ public class RouteControllerTest {
 
     String content2 = mvcResult2.getResponse().getContentAsString();
     System.out.println(content2);
+  }
+
+  @Test
+  public void testSetEmpPosition() throws Exception {
+    mockMvc.perform(patch("/setEmpPos")
+        .param("cid", CLIENT_ID_1)
+        .param("eid", "1")
+        .param("position", "SoftwareEngineer")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andReturn();
+  }
+
+  @Test
+  public void testSetEmpPositionNotExist() throws Exception {
+    mockMvc.perform(patch("/setEmpPos")
+            .param("cid", CLIENT_ID_1)
+            .param("eid", "99")
+            .param("position", "SoftwareEngineer")
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound()).andReturn();
+  }
+
+  @Test
+  public void testSetEmpPositionBadRequest() throws Exception {
+    mockMvc.perform(patch("/setEmpPos")
+            .param("cid", CLIENT_ID_1)
+            .param("eid", "1")
+            .param("position", "MyOwnPosition")
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest()).andReturn();
+  }
+
+  @Test
+  public void testStatDeptPos() throws Exception {
+    MvcResult mvcResult1 = mockMvc.perform(get("/statDeptPos")
+        .param("cid", CLIENT_ID_1)
+        .param("did", "1")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andReturn();
+
+    String content = mvcResult1.getResponse().getContentAsString();
+    Assertions.assertTrue(content.contains("SoftwareEngineer"));
+    Assertions.assertTrue(content.contains("ProductManager"));
+  }
+
+  @Test
+  public void testSetEmpSalary() throws Exception {
+    MvcResult mvcResult = mockMvc.perform(patch("/setEmpSalary")
+        .param("cid", CLIENT_ID_1)
+        .param("eid", "1")
+        .param("salary", "5000.05")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andReturn();
+
+    String content = mvcResult.getResponse().getContentAsString();
+    Assertions.assertTrue(content.contains("5000.05"));
+  }
+
+  @Test
+  public void testSetEmpSalaryNotExist() throws Exception {
+    mockMvc.perform(patch("/setEmpSalary")
+            .param("cid", CLIENT_ID_1)
+            .param("eid", "99")
+            .param("salary", "5000.05")
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound()).andReturn();
+  }
+
+  @Test
+  public void testStatDeptBudget() throws Exception {
+    MvcResult mvcResult1 = mockMvc.perform(get("/statDeptBudget")
+        .param("cid", CLIENT_ID_1)
+        .param("did", "1")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andReturn();
+
+    String res = mvcResult1.getResponse().getContentAsString();
+    Assertions.assertTrue(res.contains("Total"));
+    Assertions.assertTrue(res.contains("LowestEmployee"));
+  }
+
+  @Test
+  public void testStatDeptBudgetNotExist() throws Exception {
+    mockMvc.perform(get("/statDeptBudget")
+            .param("cid", CLIENT_ID_1)
+            .param("did", "99")
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound()).andReturn();
+  }
+
+  @Test
+  public void testSetEmpPerformance() throws Exception {
+    MvcResult mvcResult = mockMvc.perform(patch("/setEmpPerf")
+        .param("cid", CLIENT_ID_1)
+        .param("eid", "1")
+        .param("performance", "95.5")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andReturn();
+
+    String content = mvcResult.getResponse().getContentAsString();
+    Assertions.assertTrue(content.contains("95.5"));
+  }
+
+  @Test
+  public void testSetEmpPerformanceNotExist() throws Exception {
+    mockMvc.perform(patch("/setEmpPerf")
+            .param("cid", CLIENT_ID_1)
+            .param("eid", "99")
+            .param("performance", "95.5")
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound()).andReturn();
+  }
+
+  @Test
+  public void testStatDeptPerf() throws Exception {
+    MvcResult mvcResult1 = mockMvc.perform(get("/statDeptPerf")
+        .param("cid", CLIENT_ID_1)
+        .param("did", "1")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andReturn();
+
+    String res = mvcResult1.getResponse().getContentAsString();
+    Assertions.assertTrue(res.contains("75thPercentile"));
+    Assertions.assertTrue(res.contains("Average"));
+  }
+
+  @Test
+  public void testStatDeptPerfNotExist() throws Exception {
+    mockMvc.perform(get("/statDeptPerf")
+            .param("cid", CLIENT_ID_1)
+            .param("did", "99")
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound()).andReturn();
   }
 
   /**
