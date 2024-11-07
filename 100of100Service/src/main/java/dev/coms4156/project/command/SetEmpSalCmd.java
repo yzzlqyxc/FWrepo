@@ -5,6 +5,9 @@ import dev.coms4156.project.HrDatabaseFacade;
 import dev.coms4156.project.exception.InternalServerErrorException;
 import dev.coms4156.project.exception.NotFoundException;
 
+/**
+ * A command to set the salary of an employee.
+ */
 public class SetEmpSalCmd implements Command {
   private final int clientId;
   private final int employeeId;

@@ -6,6 +6,9 @@ import dev.coms4156.project.Position;
 import dev.coms4156.project.exception.InternalServerErrorException;
 import dev.coms4156.project.exception.NotFoundException;
 
+/**
+ * A command to set the position of an employee.
+ */
 public class SetEmpPosiCmd implements Command {
   private final int clientId;
   private final int employeeId;

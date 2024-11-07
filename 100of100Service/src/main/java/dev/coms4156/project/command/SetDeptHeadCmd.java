@@ -45,7 +45,9 @@ public class SetDeptHeadCmd implements Command {
     }
     boolean updated = db.updateDepartment(department);
     if (!updated) {
-      throw new InternalServerErrorException("Failed to update department [" + this.departmentId + "]");
+      throw new InternalServerErrorException(
+          "Failed to update department [" + this.departmentId + "]"
+      );
     }
 
     return "Successfully set head of department [" + this.departmentId + "] "

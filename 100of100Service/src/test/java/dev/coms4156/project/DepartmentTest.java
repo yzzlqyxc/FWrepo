@@ -123,7 +123,7 @@ public class DepartmentTest {
   public void testGetEmployeePositionStatistic() {
     Map<Position, Integer> ac = department.getEmployeePositionStatisticMap();
     System.out.println(ac);
-    for (Position p: Position.values()) {
+    for (Position p : Position.values()) {
       Assertions.assertTrue(ac.containsKey(p));
     }
   }
@@ -133,7 +133,7 @@ public class DepartmentTest {
   public void testGetEmployeePositionStatisticEmpty() {
     Department emptyDepartment = new Department(4, "Empty");
     Map<Position, Integer> ac = emptyDepartment.getEmployeePositionStatisticMap();
-    for (Position p: Position.values()) {
+    for (Position p : Position.values()) {
       Assertions.assertTrue(ac.containsKey(p));
       Assertions.assertEquals(0, ac.get(p));
     }

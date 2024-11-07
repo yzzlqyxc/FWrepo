@@ -100,7 +100,9 @@ public class DatabaseConnectionStub extends DatabaseConnection {
   }
 
   @Override
-  public boolean removeEmployeeFromDepartment(int organizationId, int departmentId, int employeeId) {
+  public boolean removeEmployeeFromDepartment(
+      int organizationId, int departmentId, int employeeId
+  ) {
     List<Department> departments = testDepartments.get(organizationId);
     if (departments == null) {
       return false;

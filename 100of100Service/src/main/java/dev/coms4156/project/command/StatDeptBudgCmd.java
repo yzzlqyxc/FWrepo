@@ -4,6 +4,9 @@ import dev.coms4156.project.Department;
 import dev.coms4156.project.HrDatabaseFacade;
 import dev.coms4156.project.exception.NotFoundException;
 
+/**
+ * A command to get the budget statistics of a department.
+ */
 public class StatDeptBudgCmd implements Command {
   private final int clientId;
   private final int departmentId;

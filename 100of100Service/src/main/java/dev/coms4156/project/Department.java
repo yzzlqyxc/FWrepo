@@ -101,9 +101,9 @@ public class Department extends OrganizationComposite {
    */
   public Map<Position, Integer> getEmployeePositionStatisticMap() {
     Map<Position, Integer> result = new HashMap<>();
-    for (Position p: Position.values()) {
+    for (Position p : Position.values()) {
       int count = 0;
-      for (Employee e: this.employees) {
+      for (Employee e : this.employees) {
         if (e.getPosition() == p) {
           count++;
         }
@@ -130,7 +130,7 @@ public class Department extends OrganizationComposite {
     Employee lowestEmployee = null;
 
     // Gather statistics
-    for (Employee e: this.employees) {
+    for (Employee e : this.employees) {
       totalSalary += e.getSalary();
       if (e.getSalary() > highestSalary) {
         highestSalary = e.getSalary();
@@ -149,8 +149,8 @@ public class Department extends OrganizationComposite {
     result.put("Average", averageSalary);
     result.put("Highest", highestSalary);
     result.put("Lowest", lowestSalary);
-    result.put("HighestEmployee", highestEmployee != null? highestEmployee.getId(): null);
-    result.put("LowestEmployee", lowestEmployee != null? lowestEmployee.getId(): null);
+    result.put("HighestEmployee", highestEmployee != null ? highestEmployee.getId() : null);
+    result.put("LowestEmployee", lowestEmployee != null ? lowestEmployee.getId() : null);
     return result;
   }
 
@@ -163,7 +163,7 @@ public class Department extends OrganizationComposite {
    */
   public Map<String, Object> getEmployeePerformanceStatisticMap() {
     List<Double> performances = new ArrayList<>();
-    for (Employee e: this.employees) {
+    for (Employee e : this.employees) {
       performances.add(e.getPerformance());
     }
     performances.sort(Double::compareTo);

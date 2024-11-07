@@ -111,16 +111,16 @@ public class HrDatabaseFacade {
     return organization;
   }
 
-    /**
-     * Updates the employee information.
-     *
-     * @param employee the updated employee object
-     * @return true if the employee is updated successfully, false otherwise
-     */
-    public boolean updateEmployee(Employee employee) {
-      // TODO: Update the employee information into the database
-      return true;
-    }
+  /**
+   * Updates the employee information.
+   *
+   * @param employee the updated employee object
+   * @return true if the employee is updated successfully, false otherwise
+   */
+  public boolean updateEmployee(Employee employee) {
+    // TODO: Update the employee information into the database
+    return true;
+  }
 
   /**
    * Updates the department information.
