@@ -155,6 +155,46 @@ public class RouteController {
   }
 
   /**
+   * Update all the information of an employee.
+   * The provided information will overwrite the existing information, if not null.
+   * If the information is null, the existing information will be retained.
+   *
+   * @param clientId the client ID
+   * @param employeeId the employee ID
+   * @param position (optional) the position to set
+   * @param salary (optional) the salary to set
+   * @param performance (optional) the performance to set
+   * @return a success message if the employee is successfully updated.
+   */
+  @PatchMapping(value = "/updateEmpInfo", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> updateEmployeeInfo(
+      @RequestAttribute("cid") int clientId,
+      @RequestParam("eid") int employeeId,
+      @RequestParam(value = "position", required = false) String position,
+      @RequestParam(value = "salary", required = false) Double salary,
+      @RequestParam(value = "performance", required = false) Double performance
+  ) {
+    String component = " ";
+    if (position != null) {
+      Command command = new SetEmpPosiCmd(clientId, employeeId, position);
+      command.execute();
+      component += "position ";
+    }
+    if (salary != null) {
+      Command command = new SetEmpSalCmd(clientId, employeeId, salary);
+      command.execute();
+      component += "salary ";
+    }
+    if (performance != null) {
+      Command command = new SetEmpPerfCmd(clientId, employeeId, performance);
+      command.execute();
+      component += "performance ";
+    }
+    String response = "Employee" + component + "information updated successfully";
+    return new ResponseEntity<>(response, HttpStatus.OK);
+  }
+
+  /**
    * Set the performance of an employee.
    *
    * @param clientId the client ID
