@@ -29,6 +29,6 @@ public class GetEmpInfoCmd implements Command {
     if (employee == null) {
       throw new NotFoundException("Employee [" + this.employeeId + "] not found");
     }
-    return employee.toString();
+    return employee.toJson();
   }
 }

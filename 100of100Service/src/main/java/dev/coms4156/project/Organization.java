@@ -1,7 +1,9 @@
 package dev.coms4156.project;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * An organization in the HR system.
@@ -63,6 +65,21 @@ public class Organization extends OrganizationComposite {
    */
   public int getNumEmployees() {
     return this.employees.size();
+  }
+
+  /**
+   * Report all the information of the organization in a JSON format.
+   *
+   * @return a Map of the information that can be easily converted to JSON
+   */
+  public Map<String, Object> toJson() {
+    Map<String, Object> result = new HashMap<>();
+    result.put("ID", this.id);
+    result.put("Name", this.name);
+    result.put("Departments", this.departments.stream().map(Department::getId).toArray());
+    result.put("Representation", this.toString());
+    result.put("Structure", displayStructure(this, 0));
+    return result;
   }
 
   /**

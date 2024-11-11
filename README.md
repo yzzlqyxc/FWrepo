@@ -13,6 +13,15 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
    - `did` (int) - The department ID.
 - **Expected Output**:
    - Returns the information of the specified department.
+   - Sample output:
+      ```json
+      {
+         "ID": 2,
+         "Name": "Marketing",
+         "Employees": [1, 4, 5],
+         "Representation": "Department: Marketing (ID: 2) Head: ABC (ID: 1)"
+      }
+      ```
 - **Upon Success**:
    - HTTP 200 Status Code is returned with the department details in the response body.
 - **Upon Failure**:
@@ -25,6 +34,17 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
    - `eid` (int) - The employee ID.
 - **Expected Output**:
    - Returns the information of the specified employee.
+   - Sample output:
+      ```json
+      {
+         "ID": 1,
+         "Name": "ABC",
+         "HireDate": "2024-11-11T15:35:28.755+00:00",
+         "Salary": 100,
+         "Position": "SoftwareEngineer",
+         "Representation": "Employee: ABC (ID: 1) Hired at: Mon Nov 11 10:35:28 EST 2024"
+      }
+      ```
 - **Upon Success**:
    - HTTP 200 Status Code is returned with the employee details in the response body.
 - **Upon Failure**:
@@ -36,6 +56,16 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
    - `cid` (string) - The encrypted client ID.
 - **Expected Output**:
    - Returns the information of the organization associated with the client.
+   - Sample output:
+      ```json
+      {
+         "ID": 1,
+         "Name": "Organization One",
+         "Departments": [1, 2, 9],
+         "Representation": "Organization: Organization One (ID: 1)",
+         "Structure": "- Organization: Organization One\n  - Department: ..."
+      }
+      ```
 - **Upon Success**:
    - HTTP 200 Status Code is returned with the organization details in the response body.
 - **Upon Failure**:
