@@ -15,12 +15,12 @@ public class GetOrgInfoCmd implements Command {
   }
 
   @Override
-  public String execute() {
+  public Object execute() {
     HrDatabaseFacade db = HrDatabaseFacade.getInstance(this.clientId);
     Organization organization = db.getOrganization();
     if (organization == null) {
       throw new NotFoundException("Organization [" + this.clientId + "] not found");
     }
-    return Organization.displayStructure(organization, 0);
+    return organization.toJson();
   }
 }

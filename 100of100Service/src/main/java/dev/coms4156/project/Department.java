@@ -191,6 +191,20 @@ public class Department extends OrganizationComposite {
   }
 
   /**
+   * Report all the information of the department in a JSON format.
+   *
+   * @return a Map of the information that can be easily converted to JSON
+   */
+  public Map<String, Object> toJson() {
+    Map<String, Object> result = new HashMap<>();
+    result.put("ID", this.id);
+    result.put("Name", this.name);
+    result.put("Employees", this.employees.stream().map(Employee::getId).toArray());
+    result.put("Representation", this.toString());
+    return result;
+  }
+
+  /**
    * Returns the basic information of the Department,
    * including the name, ID, list of employees, and head.
    *

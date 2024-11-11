@@ -2,7 +2,9 @@ package dev.coms4156.project;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class represents an employee in the organization.
@@ -163,6 +165,23 @@ public class Employee implements OrganizationComponent {
    */
   public void setPerformance(double performance) {
     this.performance = performance;
+  }
+
+  /**
+   * Report all the information of the employee in a JSON format.
+   *
+   * @return a Map of the employee information that can be easily converted to JSON
+   */
+  public Map<String, Object> toJson() {
+    Map<String, Object> result = new HashMap<>();
+    result.put("ID", this.id);
+    result.put("Name", this.name);
+    result.put("HireDate", this.hireDate);
+    result.put("Position", this.position);
+    result.put("Salary", this.salary);
+    result.put("Performance", this.performance);
+    result.put("Representation", this.toString());
+    return result;
   }
 
   /**

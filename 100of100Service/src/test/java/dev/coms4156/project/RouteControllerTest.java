@@ -359,6 +359,48 @@ public class RouteControllerTest {
         .andExpect(status().isNotFound()).andReturn();
   }
 
+  @Test
+  public void testUpdateEmpInfo() throws Exception {
+    mockMvc.perform(patch("/updateEmpInfo")
+        .param("cid", CLIENT_ID_1)
+        .param("eid", "1")
+        .param("position", "SoftwareEngineer")
+        .param("salary", "5000.05")
+        .param("performance", "95.5")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andReturn();
+
+    MvcResult mvcResult1 = mockMvc.perform(patch("/updateEmpInfo")
+        .param("cid", CLIENT_ID_1)
+        .param("eid", "1")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andReturn();
+    String content = mvcResult1.getResponse().getContentAsString();
+    String expected = "Employee information updated successfully";
+    Assertions.assertEquals(expected, content);
+
+    MvcResult mvcResult2 = mockMvc.perform(patch("/updateEmpInfo")
+        .param("cid", CLIENT_ID_1)
+        .param("eid", "1")
+        .param("position", "SalesManager")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andReturn();
+    content = mvcResult2.getResponse().getContentAsString();
+    expected = "Employee position information updated successfully";
+    Assertions.assertEquals(expected, content);
+
+    MvcResult mvcResult4 = mockMvc.perform(patch("/updateEmpInfo")
+        .param("cid", CLIENT_ID_1)
+        .param("eid", "1")
+        .param("salary", "100")
+        .param("performance", "10")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andReturn();
+    content = mvcResult4.getResponse().getContentAsString();
+    expected = "Employee salary performance information updated successfully";
+    Assertions.assertEquals(expected, content);
+  }
+
   /**
    * Tear down the test environment.
    * Reset the database connection to the real database.
