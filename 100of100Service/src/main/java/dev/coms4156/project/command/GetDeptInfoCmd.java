@@ -23,6 +23,6 @@ public class GetDeptInfoCmd implements Command {
     if (department == null) {
       throw new NotFoundException("Department [" + this.departmentId + "] not found");
     }
-    return department.toString();
+    return department.toJson();
   }
 }

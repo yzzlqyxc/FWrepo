@@ -199,8 +199,8 @@ public class Department extends OrganizationComposite {
     Map<String, Object> result = new HashMap<>();
     result.put("ID", this.id);
     result.put("Name", this.name);
-    result.put("Head", this.head != null ? this.head.getId() : null);
     result.put("Employees", this.employees.stream().map(Employee::getId).toArray());
+    result.put("Representation", this.toString());
     return result;
   }
 
