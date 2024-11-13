@@ -88,6 +88,20 @@ public class RouteControllerTest {
   }
 
   @Test
+  public void testGetOrganizationInfoNotExist() throws Exception {
+    mockMvc.perform(get("/getOrgInfo")
+            .param("cid", CLIENT_ID_99)
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound()).andReturn();
+
+    // Repeated test to ensure the organization is not cached
+    mockMvc.perform(get("/getOrgInfo")
+            .param("cid", CLIENT_ID_99)
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound()).andReturn();
+  }
+
+  @Test
   public void testSetDeptHead() throws Exception {
     // patch for test
     mockMvc.perform(patch("/setDeptHead")
@@ -399,6 +413,28 @@ public class RouteControllerTest {
     content = mvcResult4.getResponse().getContentAsString();
     expected = "Employee salary performance information updated successfully";
     Assertions.assertEquals(expected, content);
+  }
+
+  @Test
+  public void testLogin() throws Exception {
+    // For successful login
+    mockMvc.perform(post("/login")
+        .param("cid", CLIENT_ID_1)
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk()).andReturn();
+
+    // For not existing client
+    mockMvc.perform(post("/login")
+        .param("cid", CLIENT_ID_99)
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isUnauthorized()).andReturn();
+
+    // For not understandable client
+    mockMvc.perform(post("/login")
+        .param("cid", "AdvSE")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isUnauthorized()).andReturn();
+
   }
 
   /**

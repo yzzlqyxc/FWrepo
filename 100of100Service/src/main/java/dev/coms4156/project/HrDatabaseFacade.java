@@ -1,8 +1,13 @@
 package dev.coms4156.project;
 
+import dev.coms4156.project.exception.NotFoundException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import dev.coms4156.project.interceptor.ParameterDecodingInterceptor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A singleton class of HR database facade.
@@ -10,6 +15,7 @@ import java.util.Map;
  * Designed under the Singleton Design Pattern.
  */
 public class HrDatabaseFacade {
+  private static final Logger logger = LoggerFactory.getLogger(HrDatabaseFacade.class);
   private static final Map<Integer, HrDatabaseFacade> instances = new HashMap<>();
   // This boolean is used to switch between the real database and the test database
   private static boolean isTestMode = false;
@@ -30,11 +36,13 @@ public class HrDatabaseFacade {
     this.dbConnection = isTestMode ? dbConnectionStub : DatabaseConnection.getInstance();
     this.organizationId = organizationId;
     // Initialize the in-memory cache
-    this.employees = dbConnection.getEmployees(organizationId);
-    this.departments = dbConnection.getDepartments(organizationId);
     this.organization = dbConnection.getOrganization(organizationId);
-    // TODO: What if this organization does not exist in the database?
-    // TODO: Should we throw a 403 exception here?
+    if (this.organization == null) {
+      logger.warn("Organization not found: {}", organizationId);
+      throw new NotFoundException("Organization not found");
+    }
+    this.departments = dbConnection.getDepartments(organizationId);
+    this.employees = dbConnection.getEmployees(organizationId);
   }
 
   /**
