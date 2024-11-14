@@ -438,6 +438,19 @@ public class RouteControllerTest {
 
   }
 
+  @Test
+  public void testRegister() throws Exception {
+    // For successful registration
+    MvcResult mvcResultPost = mockMvc.perform(post("/register")
+        .param("name", "AdvSE")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isCreated()).andReturn();
+
+    String content = mvcResultPost.getResponse().getContentAsString();
+    Assertions.assertTrue(content.contains("token"));
+    System.out.println(content);
+  }
+
   /**
    * Tear down the test environment.
    * Reset the database connection to the real database.

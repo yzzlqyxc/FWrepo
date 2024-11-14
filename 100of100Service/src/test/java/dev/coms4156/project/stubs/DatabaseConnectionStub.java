@@ -209,6 +209,7 @@ public class DatabaseConnectionStub extends DatabaseConnection {
    * @param externalEmployeeId the external employee ID
    * @return the Employee object if found, null otherwise
    */
+  @Override
   public Employee getEmployee(int organizationId, int externalEmployeeId) {
     List<Employee> employees = testEmployees.get(organizationId);
     if (employees != null) {
@@ -228,6 +229,7 @@ public class DatabaseConnectionStub extends DatabaseConnection {
    * @param externalDepartmentId the external department ID
    * @return the Department object if found, null otherwise
    */
+  @Override
   public Department getDepartment(int organizationId, int externalDepartmentId) {
     List<Department> departments = testDepartments.get(organizationId);
     if (departments != null) {
@@ -246,6 +248,7 @@ public class DatabaseConnectionStub extends DatabaseConnection {
    * @param organizationId the organization ID (client ID)
    * @return a list of Employee objects
    */
+  @Override
   public List<Employee> getEmployees(int organizationId) {
     return testEmployees.getOrDefault(organizationId, new ArrayList<>());
   }
@@ -256,6 +259,7 @@ public class DatabaseConnectionStub extends DatabaseConnection {
    * @param organizationId the organization ID (client ID)
    * @return a list of Department objects
    */
+  @Override
   public List<Department> getDepartments(int organizationId) {
     return testDepartments.getOrDefault(organizationId, new ArrayList<>());
   }
@@ -266,8 +270,31 @@ public class DatabaseConnectionStub extends DatabaseConnection {
    * @param organizationId the organization ID (client ID)
    * @return the Organization object
    */
+  @Override
   public Organization getOrganization(int organizationId) {
     return testOrganizations.getOrDefault(organizationId, null);
+  }
+
+  /**
+   * Retrieves the organization for a given organization name.
+   *
+   * @param organization the organization object that contains the name
+   * @return the correct Organization object
+   */
+  @Override
+  public Organization insertOrganization(Organization organization) {
+    // Get the maximum ID to generate a new ID
+    int maxId = 0;
+    for (int id : testOrganizations.keySet()) {
+      if (id > maxId) {
+        maxId = id;
+      }
+    }
+    int newId = maxId + 1;
+    // Create a new organization with the new ID
+    Organization newOrganization = new Organization(newId, organization.getName());
+    testOrganizations.put(newId, newOrganization);
+    return newOrganization;
   }
 
   /** Initializes the test data for the stub. */

@@ -244,6 +244,25 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
    - HTTP 401 Status Code is returned if the client ID is invalid or not found.
    - HTTP 500 Status Code is returned if any unexpected error occurs.
 
+### POST `/register`
+- **Expected Input Parameters**:
+   - `name` (string) - The name of the organization.
+- **Expected Output**:
+   - A success message indicating the organization has been registered.
+   - Sample output:
+   ```json
+   {
+      "status": "success",
+      "message": "Organization AdvSE created",
+      "token": "****"
+   }
+   ```
+- **Upon Success**:
+   - HTTP 201 Status Code is returned with a success message.
+- **Upon Failure**:
+   - HTTP 400 Status Code is returned if the organization name is invalid.
+   - HTTP 500 Status Code is returned if any unexpected error occurs.
+
 ### DELETE `/removeEmpFromDept`
 - **Expected Input Parameters**:
    - `cid` (string) - The encrypted client ID.
