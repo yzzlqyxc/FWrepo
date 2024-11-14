@@ -262,26 +262,25 @@ public class RouteControllerTest {
   }
 
   @Test
-  public void testSetEmpPositionBadRequest() throws Exception {
-    mockMvc.perform(patch("/setEmpPos")
-            .param("cid", CLIENT_ID_1)
-            .param("eid", "1")
-            .param("position", "MyOwnPosition")
-            .accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isBadRequest()).andReturn();
-  }
-
-  @Test
   public void testStatDeptPos() throws Exception {
+    mockMvc.perform(post("/addEmpToDept")
+            .param("cid", CLIENT_ID_1)
+            .param("did", "1")
+            .param("name", "Andy")
+            .param("hireDate", "2024-09-28")
+            .param("position", "SoftwareEngineer")
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isCreated()).andReturn();
+
     MvcResult mvcResult1 = mockMvc.perform(get("/statDeptPos")
         .param("cid", CLIENT_ID_1)
         .param("did", "1")
         .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andReturn();
 
-    String content = mvcResult1.getResponse().getContentAsString();
-    Assertions.assertTrue(content.contains("SoftwareEngineer"));
-    Assertions.assertTrue(content.contains("ProductManager"));
+    String res = mvcResult1.getResponse().getContentAsString();
+    System.out.println(res);
+    Assertions.assertTrue(res.contains("SoftwareEngineer"));
   }
 
   @Test

@@ -347,7 +347,7 @@ public class DatabaseConnection {
 
     try (PreparedStatement pstmt = connection.prepareStatement(query)) {
       pstmt.setString(1, employee.getName());
-      pstmt.setString(2, employee.getPosition().toString());
+      pstmt.setString(2, employee.getPosition());
       pstmt.setDouble(3, employee.getSalary());
       pstmt.setDouble(4, employee.getPerformance());
       pstmt.setInt(5, organizationId);

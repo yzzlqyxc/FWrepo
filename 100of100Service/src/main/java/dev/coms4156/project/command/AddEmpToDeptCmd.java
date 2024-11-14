@@ -17,6 +17,9 @@ public class AddEmpToDeptCmd implements Command {
   private final int departmentId;
   private final String name;
   private final String hireDate;
+  private final String position;
+  private final double salary;
+  private final double performance;
 
   /**
    * Constructs a command to add an employee to a given department.
@@ -25,12 +28,21 @@ public class AddEmpToDeptCmd implements Command {
    * @param departmentId the ID of the department where the employee will be added
    * @param name         the name of the employee
    * @param hireDate     the hire date of the employee in "yyyy-MM-dd" format
+   * @param position     the position of the employee
+   * @param salary       the salary of the employee
+   * @param performance  the performance of the employee
    */
-  public AddEmpToDeptCmd(int clientId, int departmentId, String name, String hireDate) {
+  public AddEmpToDeptCmd(
+      int clientId, int departmentId, String name, String hireDate,
+      String position, double salary, double performance
+  ) {
     this.clientId = clientId;
     this.departmentId = departmentId;
     this.name = name;
     this.hireDate = hireDate;
+    this.position = position;
+    this.salary = salary;
+    this.performance = performance;
   }
 
   @Override
@@ -52,7 +64,7 @@ public class AddEmpToDeptCmd implements Command {
       throw new IllegalArgumentException("Invalid date format. Expected yyyy-MM-dd.", e);
     }
 
-    Employee tempEmployee = new Employee(-1, name, parsedHireDate);
+    Employee tempEmployee = new Employee(-1, name, parsedHireDate, position, salary, performance);
     Employee newEmployee = dbFacade.addEmployeeToDepartment(departmentId, tempEmployee);
     if (newEmployee == null) {
       throw new BadRequestException("Failed to add employee to department");

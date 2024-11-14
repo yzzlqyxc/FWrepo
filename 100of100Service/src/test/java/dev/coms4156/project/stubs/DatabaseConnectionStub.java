@@ -4,7 +4,6 @@ import dev.coms4156.project.DatabaseConnection;
 import dev.coms4156.project.Department;
 import dev.coms4156.project.Employee;
 import dev.coms4156.project.Organization;
-import dev.coms4156.project.Position;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -308,7 +307,7 @@ public class DatabaseConnectionStub extends DatabaseConnection {
 
     // Employees for Client 1
     Employee johnDoe = new Employee(
-        1, "John Doe", new Date(), Position.SoftwareEngineer, 100, 80
+        1, "John Doe", new Date(), "SoftwareEngineer", 100, 80
     );
     Employee janeSmith = new Employee(2, "Jane Smith", new Date());
 
@@ -336,7 +335,7 @@ public class DatabaseConnectionStub extends DatabaseConnection {
     // Employees for Client 2
     Employee aliceJohnson = new Employee(1, "Alice Johnson", new Date());
     Employee bobBrown = new Employee(
-        2, "Bob Brown", new Date(), Position.ProductManager, 200, 99
+        2, "Bob Brown", new Date(), "ProductManager", 200, 99
     );
 
     // Add employees to departments for Client 2

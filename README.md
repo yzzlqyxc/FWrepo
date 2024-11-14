@@ -174,7 +174,6 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
    - `cid` (string) - The encrypted client ID.
    - `eid` (int) - The employee ID.
    - `position` (string) - The new position of the employee.
-      - Possible values: "SoftwareEngineer", "ProductManager", "DataScientist", "SalesManager", "HumanResourceManager", "FinancialManager", "Other".
 - **Expected Output**:
    - A success message indicating that the employee's position was successfully updated.
 - **Upon Success**:
@@ -201,7 +200,6 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
    - `cid` (string) - The encrypted client ID.
    - `eid` (int) - The employee ID.
    - `position` (string) - (Optional) The new position of the employee.
-      - Possible values: see `/setEmpPos` endpoint.
    - `salary` (double) - (Optional) The new salary of the employee.
    - `performance` (double) - (Optional) The new performance of the employee.
 - **Expected Output**:
@@ -218,6 +216,9 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
    - `did` (int) - The department ID.
    - `name` (String) - The name of the employee.
    - `hireDate` (String) - The hire date of the employee in the format `"yyyy-MM-dd"`.
+   - `position` (String) - (Optional) The position of the employee.
+   - `salary` (double) - (Optional) The salary of the employee.
+   - `performance` (double) - (Optional) The performance of the employee.
 - **Expected Output**:
    - A success message indicating the employee has been added to the department.
 - **Upon Success**:

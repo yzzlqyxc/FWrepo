@@ -99,16 +99,11 @@ public class Department extends OrganizationComposite {
    *
    * @return a Map of the statistic that can be easily converted to JSON
    */
-  public Map<Position, Integer> getEmployeePositionStatisticMap() {
-    Map<Position, Integer> result = new HashMap<>();
-    for (Position p : Position.values()) {
-      int count = 0;
-      for (Employee e : this.employees) {
-        if (e.getPosition() == p) {
-          count++;
-        }
-      }
-      result.put(p, count);
+  public Map<String, Integer> getEmployeePositionStatisticMap() {
+    Map<String, Integer> result = new HashMap<>();
+    for (Employee e : this.employees) {
+      String position = e.getPosition();
+      result.put(position, result.getOrDefault(position, 0) + 1);
     }
     return result;
   }

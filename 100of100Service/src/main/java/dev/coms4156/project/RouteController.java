@@ -260,6 +260,9 @@ public class RouteController {
    * @param departmentId the department ID
    * @param name the employee name
    * @param hireDate the hire date of the employee
+   * @param position the position of the employee
+   * @param salary the salary of the employee
+   * @param performance the performance of the employee
    * @return a success message if the employee is successfully added,
    *         or throws an exception if the operation fails
    */
@@ -268,9 +271,14 @@ public class RouteController {
       @RequestAttribute("cid") int clientId,
       @RequestParam("did") int departmentId,
       @RequestParam("name") String name,
-      @RequestParam("hireDate") String hireDate // this need to be in format of "yyyy-MM-dd"
+      @RequestParam("hireDate") String hireDate, // this need to be in format of "yyyy-MM-dd"
+      @RequestParam(value = "position", required = false, defaultValue = "") String position,
+      @RequestParam(value = "salary", required = false, defaultValue = "0") Double salary,
+      @RequestParam(value = "performance", required = false, defaultValue = "0") Double performance
   ) {
-    Command command = new AddEmpToDeptCmd(clientId, departmentId, name, hireDate);
+    Command command = new AddEmpToDeptCmd(
+        clientId, departmentId, name, hireDate, position, salary, performance
+    );
     return new ResponseEntity<>(command.execute(), HttpStatus.CREATED);
   }
 
