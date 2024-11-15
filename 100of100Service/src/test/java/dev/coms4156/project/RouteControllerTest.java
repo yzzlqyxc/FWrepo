@@ -253,12 +253,17 @@ public class RouteControllerTest {
 
   @Test
   public void testSetEmpPositionNotExist() throws Exception {
-    mockMvc.perform(patch("/setEmpPos")
+    MvcResult mvcResultErr = mockMvc.perform(patch("/setEmpPos")
             .param("cid", CLIENT_ID_1)
             .param("eid", "99")
             .param("position", "SoftwareEngineer")
             .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound()).andReturn();
+
+    String type = mvcResultErr.getResponse().getContentType();
+    String content = mvcResultErr.getResponse().getContentAsString();
+    Assertions.assertEquals("application/json", type);
+    Assertions.assertTrue(content.contains("Employee [99] not found"));
   }
 
   @Test
