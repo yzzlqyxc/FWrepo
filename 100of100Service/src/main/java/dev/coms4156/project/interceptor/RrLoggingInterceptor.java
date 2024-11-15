@@ -25,9 +25,10 @@ public class RrLoggingInterceptor  implements HandlerInterceptor {
       Object handler
   ) {
     String remoteAddr = request.getRemoteAddr();
+    String remotePort = String.valueOf(request.getRemotePort());
     String method = request.getMethod();
     String requestUri = request.getRequestURI();
-    logger.info("Request from {} to {} '{}'...", remoteAddr, method, requestUri);
+    logger.info("Request from {}:{} to {} '{}'...", remoteAddr, remotePort, method, requestUri);
     return true;
   }
 
@@ -39,11 +40,12 @@ public class RrLoggingInterceptor  implements HandlerInterceptor {
       Exception ex
   ) {
     String remoteAddr = request.getRemoteAddr();
+    String remotePort = String.valueOf(request.getRemotePort());
     String method = request.getMethod();
     String requestUri = request.getRequestURI();
     String status = String.valueOf(response.getStatus());
-    logger.info("Request from {} to {} '{}' completed with status {}.",
-        remoteAddr, method, requestUri, status);
+    logger.info("Request from {}:{} to {} '{}' completed with status {}.",
+        remoteAddr, remotePort, method, requestUri, status);
   }
 
 }
