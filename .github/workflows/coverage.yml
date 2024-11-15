@@ -25,6 +25,7 @@ jobs:
       run: mvn -B package --file pom.xml
       
     - name: Run tests and collect coverage
+      working-directory: ${{ github.workspace }}/100of100Service
       run: mvn -B test
       
     - name: Upload coverage to Codecov
