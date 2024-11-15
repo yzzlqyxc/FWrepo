@@ -4,6 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This is the global exception handler for the service.
@@ -13,34 +15,57 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+  private Map<String, String> errorResponse(String message) {
+    Map<String, String> response = new HashMap<>();
+    response.put("status", "failed");
+    response.put("message", message);
+    return response;
+  }
+
+  private Map<String, String> errorResponse(Exception ex) {
+    return this.errorResponse(ex.getMessage());
+  }
+
+  private Map<String, String> errorResponse(Exception ex, String title) {
+    return this.errorResponse(title + ": " + ex.getMessage());
+  }
+
   @ExceptionHandler(NotFoundException.class)
-  public ResponseEntity<String> handleItemNotFoundException(NotFoundException ex) {
-    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+  public ResponseEntity<?> handleItemNotFoundException(NotFoundException ex) {
+    return ResponseEntity
+        .status(HttpStatus.NOT_FOUND)
+        .body(this.errorResponse(ex));
   }
 
   @ExceptionHandler(ForbiddenException.class)
-  public ResponseEntity<String> handleForbiddenException(ForbiddenException ex) {
-    return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage());
+  public ResponseEntity<?> handleForbiddenException(ForbiddenException ex) {
+    return ResponseEntity
+        .status(HttpStatus.FORBIDDEN)
+        .body(this.errorResponse(ex));
   }
 
   @ExceptionHandler(BadRequestException.class)
-  public ResponseEntity<String> handleBadRequestException(BadRequestException ex) {
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+  public ResponseEntity<?> handleBadRequestException(BadRequestException ex) {
+    return ResponseEntity
+        .status(HttpStatus.BAD_REQUEST)
+        .body(this.errorResponse(ex));
   }
 
   @ExceptionHandler(IllegalArgumentException.class)
-  public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bad request: " + ex.getMessage());
+  public ResponseEntity<?> handleIllegalArgumentException(IllegalArgumentException ex) {
+    return ResponseEntity
+        .status(HttpStatus.BAD_REQUEST)
+        .body(this.errorResponse(ex, "Bad Request"));
   }
 
   /**
    * Exception handler to catch Internal Server Error exceptions thrown by the application.
    */
   @ExceptionHandler(Exception.class)
-  public ResponseEntity<String> handleException(Exception ex) {
+  public ResponseEntity<?> handleException(Exception ex) {
     return ResponseEntity
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .body("Internal server error: " + ex.getMessage());
+        .body(this.errorResponse(ex, "Internal Server Error"));
   }
 
 

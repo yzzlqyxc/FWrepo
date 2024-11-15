@@ -89,8 +89,8 @@ public class EmployeeTest {
   @Test
   @Order(10)
   public void testSetPosition() {
-    employee.setPosition(Position.SoftwareEngineer);
-    Assertions.assertEquals(Position.SoftwareEngineer, employee.getPosition());
+    employee.setPosition("SoftwareEngineer");
+    Assertions.assertEquals("SoftwareEngineer", employee.getPosition());
   }
 
   @Test

@@ -174,7 +174,6 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
    - `cid` (string) - The encrypted client ID.
    - `eid` (int) - The employee ID.
    - `position` (string) - The new position of the employee.
-      - Possible values: "SoftwareEngineer", "ProductManager", "DataScientist", "SalesManager", "HumanResourceManager", "FinancialManager", "Other".
 - **Expected Output**:
    - A success message indicating that the employee's position was successfully updated.
 - **Upon Success**:
@@ -201,7 +200,6 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
    - `cid` (string) - The encrypted client ID.
    - `eid` (int) - The employee ID.
    - `position` (string) - (Optional) The new position of the employee.
-      - Possible values: see `/setEmpPos` endpoint.
    - `salary` (double) - (Optional) The new salary of the employee.
    - `performance` (double) - (Optional) The new performance of the employee.
 - **Expected Output**:
@@ -218,6 +216,9 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
    - `did` (int) - The department ID.
    - `name` (String) - The name of the employee.
    - `hireDate` (String) - The hire date of the employee in the format `"yyyy-MM-dd"`.
+   - `position` (String) - (Optional) The position of the employee.
+   - `salary` (double) - (Optional) The salary of the employee.
+   - `performance` (double) - (Optional) The performance of the employee.
 - **Expected Output**:
    - A success message indicating the employee has been added to the department.
 - **Upon Success**:
@@ -242,6 +243,25 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
    - HTTP 200 Status Code is returned with a success message.
 - **Upon Failure**:
    - HTTP 401 Status Code is returned if the client ID is invalid or not found.
+   - HTTP 500 Status Code is returned if any unexpected error occurs.
+
+### POST `/register`
+- **Expected Input Parameters**:
+   - `name` (string) - The name of the organization.
+- **Expected Output**:
+   - A success message indicating the organization has been registered.
+   - Sample output:
+   ```json
+   {
+      "status": "success",
+      "message": "Organization AdvSE created",
+      "token": "****"
+   }
+   ```
+- **Upon Success**:
+   - HTTP 201 Status Code is returned with a success message.
+- **Upon Failure**:
+   - HTTP 400 Status Code is returned if the organization name is invalid.
    - HTTP 500 Status Code is returned if any unexpected error occurs.
 
 ### DELETE `/removeEmpFromDept`
@@ -295,6 +315,9 @@ In order to ensure that the database connection is only created once, and to imp
 
 #### Facade Pattern
 Given the inherent complexity that comes with databases, to ensure the Law of Demeter, we use the facade pattern to encapsulate the database operations. This way, the service logic does not need to know the details of the database operations, and the database operations can be easily replaced in the test and in the future (Freeman 272).
+
+#### Chain of Responsibility Pattern
+To streamline request processing and separate concerns across different stages, we utilize the Chain of Responsibility pattern in our middleware layer. This approach allows us to create a chain of middleware components, each with a unique responsibility, that sequentially handle incoming requests. For instance, our first middleware logs every incoming request and outgoing response, fulfilling logging and monitoring needs. The second middleware decodes the cid parameter, so our core service logic remains isolated from specific decoding algorithms. By following the Chain of Responsibility pattern, we ensure that each middleware component can independently address its task, and new functionality can be added or modified easily without affecting existing logic (Freeman 623).
 
 ### Running Cloud Service
 

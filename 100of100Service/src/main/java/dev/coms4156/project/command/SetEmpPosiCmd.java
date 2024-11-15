@@ -2,7 +2,6 @@ package dev.coms4156.project.command;
 
 import dev.coms4156.project.Employee;
 import dev.coms4156.project.HrDatabaseFacade;
-import dev.coms4156.project.Position;
 import dev.coms4156.project.exception.InternalServerErrorException;
 import dev.coms4156.project.exception.NotFoundException;
 
@@ -12,7 +11,7 @@ import dev.coms4156.project.exception.NotFoundException;
 public class SetEmpPosiCmd implements Command {
   private final int clientId;
   private final int employeeId;
-  private final Position position;
+  private final String position;
 
   /**
    * Constructs a command to set the position of an employee.
@@ -24,22 +23,7 @@ public class SetEmpPosiCmd implements Command {
   public SetEmpPosiCmd(int clientId, int employeeId, String position) {
     this.clientId = clientId;
     this.employeeId = employeeId;
-    this.position = parsePosition(position);
-  }
-
-  /**
-   * Parses the position from the given string.
-   *
-   * @param position the position string
-   * @return the position
-   * @throws IllegalArgumentException if the position is invalid
-   */
-  private Position parsePosition(String position) {
-    try {
-      return Position.valueOf(position);
-    } catch (IllegalArgumentException e) {
-      throw new IllegalArgumentException("Invalid position: " + position);
-    }
+    this.position = position;
   }
 
   /**

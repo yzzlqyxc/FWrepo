@@ -4,6 +4,7 @@ import dev.coms4156.project.interceptor.ParameterDecodingInterceptor;
 import dev.coms4156.project.interceptor.RrLoggingInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -31,5 +32,16 @@ public class WebConfig implements WebMvcConfigurer {
             "/login",
             "/register"
         );
+  }
+
+  /**
+   * This method configures the CORS settings so that the frontend can access the backend.
+   */
+  @Override
+  public void addCorsMappings(CorsRegistry registry) {
+    registry.addMapping("/**")
+        .allowedOrigins("*")
+        .allowedMethods("GET", "PATCH", "POST", "PUT", "DELETE")
+        .allowedHeaders("*");
   }
 }

@@ -5,6 +5,7 @@ import dev.coms4156.project.command.Command;
 import dev.coms4156.project.command.GetDeptInfoCmd;
 import dev.coms4156.project.command.GetEmpInfoCmd;
 import dev.coms4156.project.command.GetOrgInfoCmd;
+import dev.coms4156.project.command.RegisterCmd;
 import dev.coms4156.project.command.RemoveEmpFromDeptCmd;
 import dev.coms4156.project.command.SetDeptHeadCmd;
 import dev.coms4156.project.command.SetEmpPerfCmd;
@@ -259,6 +260,9 @@ public class RouteController {
    * @param departmentId the department ID
    * @param name the employee name
    * @param hireDate the hire date of the employee
+   * @param position the position of the employee
+   * @param salary the salary of the employee
+   * @param performance the performance of the employee
    * @return a success message if the employee is successfully added,
    *         or throws an exception if the operation fails
    */
@@ -267,9 +271,14 @@ public class RouteController {
       @RequestAttribute("cid") int clientId,
       @RequestParam("did") int departmentId,
       @RequestParam("name") String name,
-      @RequestParam("hireDate") String hireDate // this need to be in format of "yyyy-MM-dd"
+      @RequestParam("hireDate") String hireDate, // this need to be in format of "yyyy-MM-dd"
+      @RequestParam(value = "position", required = false, defaultValue = "") String position,
+      @RequestParam(value = "salary", required = false, defaultValue = "0") Double salary,
+      @RequestParam(value = "performance", required = false, defaultValue = "0") Double performance
   ) {
-    Command command = new AddEmpToDeptCmd(clientId, departmentId, name, hireDate);
+    Command command = new AddEmpToDeptCmd(
+        clientId, departmentId, name, hireDate, position, salary, performance
+    );
     return new ResponseEntity<>(command.execute(), HttpStatus.CREATED);
   }
 
@@ -298,6 +307,26 @@ public class RouteController {
       response.put("status", "failed");
       response.put("message", "Invalid client ID");
       return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
+  }
+
+  /**
+   * Register a new client, namely to create a new organization.
+   *
+   * @param name the name of the organization
+   * @return a success message and client ID if the organization is successfully created,
+   *        or a failure message if the operation fails.
+   */
+  @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> register(
+      @RequestParam("name") String name
+  ) {
+    Command command = new RegisterCmd(name);
+    Map<String, String> response = (Map<String, String>) command.execute();
+    if (response.get("status").equals("success")) {
+      return new ResponseEntity<>(response, HttpStatus.CREATED);
+    } else {
+      return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
   }
 

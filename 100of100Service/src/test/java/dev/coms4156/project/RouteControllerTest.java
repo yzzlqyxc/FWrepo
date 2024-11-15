@@ -253,35 +253,39 @@ public class RouteControllerTest {
 
   @Test
   public void testSetEmpPositionNotExist() throws Exception {
-    mockMvc.perform(patch("/setEmpPos")
+    MvcResult mvcResultErr = mockMvc.perform(patch("/setEmpPos")
             .param("cid", CLIENT_ID_1)
             .param("eid", "99")
             .param("position", "SoftwareEngineer")
             .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound()).andReturn();
-  }
 
-  @Test
-  public void testSetEmpPositionBadRequest() throws Exception {
-    mockMvc.perform(patch("/setEmpPos")
-            .param("cid", CLIENT_ID_1)
-            .param("eid", "1")
-            .param("position", "MyOwnPosition")
-            .accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isBadRequest()).andReturn();
+    String type = mvcResultErr.getResponse().getContentType();
+    String content = mvcResultErr.getResponse().getContentAsString();
+    Assertions.assertEquals("application/json", type);
+    Assertions.assertTrue(content.contains("Employee [99] not found"));
   }
 
   @Test
   public void testStatDeptPos() throws Exception {
+    mockMvc.perform(post("/addEmpToDept")
+            .param("cid", CLIENT_ID_1)
+            .param("did", "1")
+            .param("name", "Andy")
+            .param("hireDate", "2024-09-28")
+            .param("position", "SoftwareEngineer")
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isCreated()).andReturn();
+
     MvcResult mvcResult1 = mockMvc.perform(get("/statDeptPos")
         .param("cid", CLIENT_ID_1)
         .param("did", "1")
         .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andReturn();
 
-    String content = mvcResult1.getResponse().getContentAsString();
-    Assertions.assertTrue(content.contains("SoftwareEngineer"));
-    Assertions.assertTrue(content.contains("ProductManager"));
+    String res = mvcResult1.getResponse().getContentAsString();
+    System.out.println(res);
+    Assertions.assertTrue(res.contains("SoftwareEngineer"));
   }
 
   @Test
@@ -436,6 +440,19 @@ public class RouteControllerTest {
         .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnauthorized()).andReturn();
 
+  }
+
+  @Test
+  public void testRegister() throws Exception {
+    // For successful registration
+    MvcResult mvcResultPost = mockMvc.perform(post("/register")
+        .param("name", "AdvSE")
+        .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isCreated()).andReturn();
+
+    String content = mvcResultPost.getResponse().getContentAsString();
+    Assertions.assertTrue(content.contains("token"));
+    System.out.println(content);
   }
 
   /**

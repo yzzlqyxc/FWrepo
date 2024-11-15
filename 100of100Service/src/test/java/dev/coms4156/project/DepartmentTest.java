@@ -27,11 +27,11 @@ public class DepartmentTest {
   @BeforeAll
   public static void setUp() {
     employee1 = new Employee(1, "John", new Date());
-    employee1.setPosition(Position.ProductManager);
+    employee1.setPosition("ProductManager");
     employee1.setSalary(100);
     employee1.setPerformance(80);
     employee2 = new Employee(2, "Jake", new Date());
-    employee2.setPosition(Position.SoftwareEngineer);
+    employee2.setPosition("SoftwareEngineer");
     employee2.setSalary(50);
     employee2.setPerformance(90);
   }
@@ -121,22 +121,17 @@ public class DepartmentTest {
   @Test
   @Order(11)
   public void testGetEmployeePositionStatistic() {
-    Map<Position, Integer> ac = department.getEmployeePositionStatisticMap();
+    Map<String, Integer> ac = department.getEmployeePositionStatisticMap();
     System.out.println(ac);
-    for (Position p : Position.values()) {
-      Assertions.assertTrue(ac.containsKey(p));
-    }
+    Assertions.assertTrue(ac.containsKey(employee2.getPosition()));
   }
 
   @Test
   @Order(12)
   public void testGetEmployeePositionStatisticEmpty() {
     Department emptyDepartment = new Department(4, "Empty");
-    Map<Position, Integer> ac = emptyDepartment.getEmployeePositionStatisticMap();
-    for (Position p : Position.values()) {
-      Assertions.assertTrue(ac.containsKey(p));
-      Assertions.assertEquals(0, ac.get(p));
-    }
+    Map<String, Integer> ac = emptyDepartment.getEmployeePositionStatisticMap();
+    Assertions.assertTrue(ac.isEmpty());
   }
 
   @Test
@@ -157,10 +152,10 @@ public class DepartmentTest {
   @Test
   @Order(14)
   public void testGetEmployeePerformanceStatistic() {
-    Employee e1 = new Employee(1, "A", new Date(), Position.DataScientist, 10.5, 100);
-    Employee e2 = new Employee(2, "B", new Date(), Position.SalesManager, 20.5, 90);
-    Employee e3 = new Employee(3, "C", new Date(), Position.ProductManager, 30.5, 80);
-    Employee e4 = new Employee(4, "D", new Date(), Position.SoftwareEngineer, 40.5, 70);
+    Employee e1 = new Employee(1, "A", new Date(), "DataScientist", 10.5, 100);
+    Employee e2 = new Employee(2, "B", new Date(), "DataScientist", 20.5, 90);
+    Employee e3 = new Employee(3, "C", new Date(), "DataScientist", 30.5, 80);
+    Employee e4 = new Employee(4, "D", new Date(), "DataScientist", 40.5, 70);
     Employee e5 = new Employee(5, "E", new Date());
     Department d1 = new Department(1, "D1", List.of(e1, e2, e3, e4, e5));
 

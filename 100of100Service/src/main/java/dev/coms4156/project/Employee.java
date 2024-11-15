@@ -14,7 +14,7 @@ public class Employee implements OrganizationComponent {
   private final int id;
   private final String name;
   private final Date hireDate;
-  private Position position;
+  private String position;
   private double salary;
   private double performance;
 
@@ -33,7 +33,7 @@ public class Employee implements OrganizationComponent {
     } else {
       this.hireDate = new Date(hireDate.getTime());
     }
-    this.position = Position.Other;
+    this.position = "Other";
     this.salary = 0;
     this.performance = 0;
   }
@@ -50,7 +50,7 @@ public class Employee implements OrganizationComponent {
    * @param performance the performance of the employee
    */
   public Employee(
-      int id, String name, Date hireDate, Position position, double salary, double performance
+      int id, String name, Date hireDate, String position, double salary, double performance
   ) {
     this.id = id;
     this.name = name;
@@ -59,7 +59,11 @@ public class Employee implements OrganizationComponent {
     } else {
       this.hireDate = new Date(hireDate.getTime());
     }
-    this.position = position;
+    if (position == null || position.isEmpty()) {
+      this.position = "Other";
+    } else {
+      this.position = position;
+    }
     this.salary = salary;
     this.performance = performance;
   }
@@ -118,7 +122,7 @@ public class Employee implements OrganizationComponent {
    *
    * @return the position of the employee
    */
-  public Position getPosition() {
+  public String getPosition() {
     return this.position;
   }
 
@@ -127,7 +131,7 @@ public class Employee implements OrganizationComponent {
    *
    * @param position the position of the employee
    */
-  public void setPosition(Position position) {
+  public void setPosition(String position) {
     this.position = position;
   }
 
