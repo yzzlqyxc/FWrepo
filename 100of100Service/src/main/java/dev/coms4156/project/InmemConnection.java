@@ -1,9 +1,5 @@
-package dev.coms4156.project.stubs;
+package dev.coms4156.project;
 
-import dev.coms4156.project.DatabaseConnection;
-import dev.coms4156.project.Department;
-import dev.coms4156.project.Employee;
-import dev.coms4156.project.Organization;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -11,19 +7,23 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A test stub for the DatabaseConnection class.
- * This stub provides in-memory data for testing purposes without connecting to a real database.
+ * Provides in-memory data for testing purposes without connecting to a real database.
  */
-public class DatabaseConnectionStub extends DatabaseConnection {
-  private static volatile DatabaseConnection instance;
+public class InmemConnection implements DatabaseConnection {
+  private static volatile InmemConnection instance;
 
   private final Map<Integer, List<Employee>> testEmployees = new HashMap<>();
   private final Map<Integer, List<Department>> testDepartments = new HashMap<>();
   private final Map<Integer, Organization> testOrganizations = new HashMap<>();
 
-  /** Constructs a DatabaseConnectionStub and initializes test data. */
-  private DatabaseConnectionStub() {
-    super(false, null, null, null);
+  public String connectionName() {
+    return "In-memory Database::null";
+  }
+
+  /**
+   * Constructs a DatabaseConnectionStub and initializes test data.
+   */
+  private InmemConnection() {
     initializeTestData();
   }
 
@@ -58,6 +58,11 @@ public class DatabaseConnectionStub extends DatabaseConnection {
         return true;
       }
     }
+    return false;
+  }
+
+  @Override
+  public boolean removeDepartment(int organizationId, int externalDepartmentId) {
     return false;
   }
 
@@ -152,7 +157,11 @@ public class DatabaseConnectionStub extends DatabaseConnection {
     return employeeRemoved && deptRemoved;
   }
 
-
+  @Override
+  public Department insertDepartment(int organizationId, Department department) {
+    return null;
+  }
+  
   /**
    * Updates an employee's information in the stubbed database for a given organization.
    *
@@ -274,6 +283,16 @@ public class DatabaseConnectionStub extends DatabaseConnection {
     return testOrganizations.getOrDefault(organizationId, null);
   }
 
+  @Override
+  public boolean updateOrganization(Organization organization) {
+    return false;
+  }
+
+  @Override
+  public boolean removeOrganization(int organizationId) {
+    return false;
+  }
+
   /**
    * Retrieves the organization for a given organization name.
    *
@@ -359,11 +378,11 @@ public class DatabaseConnectionStub extends DatabaseConnection {
    *
    * @return the database connection instance
    */
-  public static DatabaseConnection getInstance() {
+  public static InmemConnection getInstance() {
     if (instance == null) {
-      synchronized (DatabaseConnectionStub.class) {
+      synchronized (InmemConnection.class) {
         if (instance == null) {
-          instance = new DatabaseConnectionStub();
+          instance = new InmemConnection();
         }
       }
     }

@@ -9,11 +9,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * A unit test class for the DatabaseConnection class.
+ * A unit test class for the real MysqlConnection class.
  */
-public class DatabaseConnectionTest {
+public class MysqlConnectionTest {
 
-  private DatabaseConnection dbConnection;
+  private DatabaseConnection realConnection;
 
   /**
    * Sets up the test environment by initializing the (real) DatabaseConnection instance.
@@ -21,7 +21,7 @@ public class DatabaseConnectionTest {
   @BeforeEach
   public void setup() {
     try {
-      dbConnection = DatabaseConnection.getInstance();
+      realConnection = MysqlConnection.getInstance();
     } catch (Exception e) {
       assumeTrue(false);
     }
@@ -29,14 +29,14 @@ public class DatabaseConnectionTest {
 
   @Test
   public void testGetOrganization() {
-    Organization org = dbConnection.getOrganization(1);
+    Organization org = realConnection.getOrganization(1);
     assertNotNull(org, "Organization should not be null");
     System.out.println("Successfully retrieved organization: " + org.getName());
   }
 
   @Test
   public void testGetEmployees() {
-    List<Employee> employees = dbConnection.getEmployees(1);
+    List<Employee> employees = realConnection.getEmployees(1);
     assertNotNull(employees, "Employees list should not be null");
     assertFalse(employees.isEmpty(), "Employees list should not be empty");
     System.out.println("Retrieved " + employees.size() + " employees");
@@ -44,7 +44,7 @@ public class DatabaseConnectionTest {
 
   @Test
   public void testGetDepartments() {
-    List<Department> departments = dbConnection.getDepartments(1);
+    List<Department> departments = realConnection.getDepartments(1);
     assertNotNull(departments, "Departments list should not be null");
     assertFalse(departments.isEmpty(), "Departments list should not be empty");
     System.out.println("Retrieved " + departments.size() + " departments");

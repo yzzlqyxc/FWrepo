@@ -313,11 +313,15 @@ We use the composite pattern to organize the Organization, Department, and Emplo
 #### Singleton Pattern
 In order to ensure that the database connection is only created once, and to improve its reliability under high concurrency, we use the singleton pattern to make sure database connection only has one instance and provide a global access point to it (Freeman 179).
 
+#### Strategy Pattern
+To decouple the database implementation details from our service logic, we designed the `HrDatabaseFacade` to use the Strategy Pattern. Instead of directly integrating specific database connections, the facade holds a reference to a generic `DatabaseConnection` interface. At runtime, we inject a concrete implementation, such as `MysqlConnection` or `InmemConnection`, into it. This design allows us to switch between different database strategies without altering the core service logic, making the system extensible and adhering to the Open-Closed Principle (Freeman 24).
+
 #### Facade Pattern
 Given the inherent complexity that comes with databases, to ensure the Law of Demeter, we use the facade pattern to encapsulate the database operations. This way, the service logic does not need to know the details of the database operations, and the database operations can be easily replaced in the test and in the future (Freeman 272).
 
 #### Chain of Responsibility Pattern
 To streamline request processing and separate concerns across different stages, we utilize the Chain of Responsibility pattern in our middleware layer. This approach allows us to create a chain of middleware components, each with a unique responsibility, that sequentially handle incoming requests. For instance, our first middleware logs every incoming request and outgoing response, fulfilling logging and monitoring needs. The second middleware decodes the cid parameter, so our core service logic remains isolated from specific decoding algorithms. By following the Chain of Responsibility pattern, we ensure that each middleware component can independently address its task, and new functionality can be added or modified easily without affecting existing logic (Freeman 623).
+
 
 ### Running Cloud Service
 

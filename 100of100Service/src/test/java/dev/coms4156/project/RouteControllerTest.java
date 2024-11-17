@@ -6,15 +6,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import dev.coms4156.project.stubs.DatabaseConnectionStub;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,7 +21,6 @@ import org.springframework.test.web.servlet.MvcResult;
  * An integration test class for the RouteController class.
  */
 @SpringBootTest
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @AutoConfigureMockMvc
 public class RouteControllerTest {
 
@@ -37,8 +31,7 @@ public class RouteControllerTest {
   private static final String CLIENT_ID_2 = "Mg";
   private static final String CLIENT_ID_99 = "OTk";
 
-  private static DatabaseConnection dbConnection;
-  private static DatabaseConnectionStub dbConnectionStub;
+  private static InmemConnection inmemConnection;
 
   /**
    * Set up the test environment.
@@ -46,17 +39,16 @@ public class RouteControllerTest {
    */
   @BeforeAll
   public static void setUp() {
-    dbConnectionStub = (DatabaseConnectionStub) DatabaseConnectionStub.getInstance();
-    HrDatabaseFacade.setTestMode(dbConnectionStub);
+    inmemConnection = InmemConnection.getInstance();
+    HrDatabaseFacade.setConnection(inmemConnection);
   }
 
   @BeforeEach
   public void resetDatabase() {
-    dbConnectionStub.resetTestData();
+    inmemConnection.resetTestData();
   }
 
   @Test
-  @Order(1)
   public void testGetEmployeeInfo() throws Exception {
     MvcResult mvcResult1 = mockMvc.perform(get("/getEmpInfo")
         .param("cid", CLIENT_ID_1)
@@ -70,7 +62,6 @@ public class RouteControllerTest {
   }
 
   @Test
-  @Order(2)
   public void testGetDeptInfo() throws Exception {
     MvcResult mvcResult1 = mockMvc.perform(get("/getDeptInfo")
         .param("cid", CLIENT_ID_1)
@@ -83,7 +74,6 @@ public class RouteControllerTest {
   }
 
   @Test
-  @Order(3)
   public void testGetOrganizationInfo() throws Exception {
     MvcResult mvcResult1 = mockMvc.perform(get("/getOrgInfo")
         .param("cid", CLIENT_ID_1)
@@ -96,7 +86,6 @@ public class RouteControllerTest {
   }
 
   @Test
-  @Order(4)
   public void testGetOrganizationInfoNotExist() throws Exception {
     mockMvc.perform(get("/getOrgInfo")
             .param("cid", CLIENT_ID_99)
@@ -111,7 +100,6 @@ public class RouteControllerTest {
   }
 
   @Test
-  @Order(5)
   public void testSetDeptHead() throws Exception {
     // patch for test
     mockMvc.perform(patch("/setDeptHead")
@@ -133,7 +121,6 @@ public class RouteControllerTest {
   }
 
   @Test
-  @Order(6)
   public void testSetDeptHeadNotExist() throws Exception {
     mockMvc.perform(patch("/setDeptHead")
             .param("cid", CLIENT_ID_1)
@@ -152,7 +139,6 @@ public class RouteControllerTest {
 
   // Test: Client cannot access another client's employee
   @Test
-  @Order(7)
   public void testClientCannotAccessAnotherClientsEmployee() throws Exception {
     // Client 1 tries to access Client 2's Employee ID 1
     MvcResult mvcResult = mockMvc.perform(get("/getEmpInfo")
@@ -169,7 +155,6 @@ public class RouteControllerTest {
 
   // Test: Accessing a non-existent employee returns an error
   @Test
-  @Order(8)
   public void testAccessNonExistentEmployee() throws Exception {
     // Client 1 tries to access Employee ID 99 (does not exist)
     mockMvc.perform(get("/getEmpInfo")
@@ -181,7 +166,6 @@ public class RouteControllerTest {
 
   // Test: Invalid client ID returns an error
   @Test
-  @Order(9)
   public void testInvalidClientId() throws Exception {
     // Client ID 99 does not exist
     mockMvc.perform(get("/getEmpInfo")
@@ -193,7 +177,6 @@ public class RouteControllerTest {
 
   // Test: Boundary case - negative employee ID
   @Test
-  @Order(10)
   public void testNegativeEmployeeId() throws Exception {
     mockMvc.perform(get("/getEmpInfo")
                     .param("cid", CLIENT_ID_1)
@@ -203,7 +186,6 @@ public class RouteControllerTest {
   }
 
   @Test
-  @Order(11)
   public void testAddEmpToDept() throws Exception {
     // post for the test
     mockMvc.perform(post("/addEmpToDept")
@@ -226,7 +208,6 @@ public class RouteControllerTest {
   }
 
   @Test
-  @Order(12)
   public void testRemoveEmpFromDept() throws Exception {
     mockMvc.perform(delete("/removeEmpFromDept")
         .param("cid", CLIENT_ID_1)
@@ -258,7 +239,6 @@ public class RouteControllerTest {
   }
 
   @Test
-  @Order(13)
   public void testSetEmpPosition() throws Exception {
     mockMvc.perform(patch("/setEmpPos")
         .param("cid", CLIENT_ID_1)
@@ -269,7 +249,6 @@ public class RouteControllerTest {
   }
 
   @Test
-  @Order(14)
   public void testSetEmpPositionNotExist() throws Exception {
     MvcResult mvcResultErr = mockMvc.perform(patch("/setEmpPos")
             .param("cid", CLIENT_ID_1)
@@ -285,7 +264,6 @@ public class RouteControllerTest {
   }
 
   @Test
-  @Order(15)
   public void testStatDeptPos() throws Exception {
     mockMvc.perform(post("/addEmpToDept")
             .param("cid", CLIENT_ID_1)
@@ -308,7 +286,6 @@ public class RouteControllerTest {
   }
 
   @Test
-  @Order(16)
   public void testSetEmpSalary() throws Exception {
     MvcResult mvcResult = mockMvc.perform(patch("/setEmpSalary")
         .param("cid", CLIENT_ID_1)
@@ -322,7 +299,6 @@ public class RouteControllerTest {
   }
 
   @Test
-  @Order(17)
   public void testSetEmpSalaryNotExist() throws Exception {
     mockMvc.perform(patch("/setEmpSalary")
             .param("cid", CLIENT_ID_1)
@@ -333,7 +309,6 @@ public class RouteControllerTest {
   }
 
   @Test
-  @Order(18)
   public void testStatDeptBudget() throws Exception {
     MvcResult mvcResult1 = mockMvc.perform(get("/statDeptBudget")
         .param("cid", CLIENT_ID_1)
@@ -347,7 +322,6 @@ public class RouteControllerTest {
   }
 
   @Test
-  @Order(19)
   public void testStatDeptBudgetNotExist() throws Exception {
     mockMvc.perform(get("/statDeptBudget")
             .param("cid", CLIENT_ID_1)
@@ -357,7 +331,6 @@ public class RouteControllerTest {
   }
 
   @Test
-  @Order(20)
   public void testSetEmpPerformance() throws Exception {
     MvcResult mvcResult = mockMvc.perform(patch("/setEmpPerf")
         .param("cid", CLIENT_ID_1)
@@ -371,7 +344,6 @@ public class RouteControllerTest {
   }
 
   @Test
-  @Order(21)
   public void testSetEmpPerformanceNotExist() throws Exception {
     mockMvc.perform(patch("/setEmpPerf")
             .param("cid", CLIENT_ID_1)
@@ -382,7 +354,6 @@ public class RouteControllerTest {
   }
 
   @Test
-  @Order(22)
   public void testStatDeptPerf() throws Exception {
     MvcResult mvcResult1 = mockMvc.perform(get("/statDeptPerf")
         .param("cid", CLIENT_ID_1)
@@ -396,7 +367,6 @@ public class RouteControllerTest {
   }
 
   @Test
-  @Order(23)
   public void testStatDeptPerfNotExist() throws Exception {
     mockMvc.perform(get("/statDeptPerf")
             .param("cid", CLIENT_ID_1)
@@ -406,7 +376,6 @@ public class RouteControllerTest {
   }
 
   @Test
-  @Order(24)
   public void testUpdateEmpInfo() throws Exception {
     mockMvc.perform(patch("/updateEmpInfo")
         .param("cid", CLIENT_ID_1)
@@ -449,7 +418,6 @@ public class RouteControllerTest {
   }
 
   @Test
-  @Order(25)
   public void testLogin() throws Exception {
     // For successful login
     mockMvc.perform(post("/login")
@@ -472,7 +440,6 @@ public class RouteControllerTest {
   }
 
   @Test
-  @Order(26)
   public void testRegister() throws Exception {
     // For successful registration
     MvcResult mvcResultPost = mockMvc.perform(post("/register")
@@ -485,12 +452,4 @@ public class RouteControllerTest {
     System.out.println(content);
   }
 
-  /**
-   * Tear down the test environment.
-   * Reset the database connection to the real database.
-   */
-  @AfterAll
-  public static void tearDown() {
-    HrDatabaseFacade.setTestMode(dbConnectionStub);
-  }
 }
