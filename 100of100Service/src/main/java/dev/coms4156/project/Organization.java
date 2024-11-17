@@ -27,14 +27,40 @@ public class Organization extends OrganizationComposite {
   }
 
   /**
+   * Set the employees of the organization in batch.
+   *
+   * @param employees the employees list to be set
+   */
+  public void setEmployees(List<Employee> employees) {
+    //this.employees = employees;
+    this.employees.clear();
+    for (Employee employee : employees) {
+      this.addEmployee(employee);
+    }
+  }
+
+  /**
+   * Set the departments of the organization in batch.
+   *
+   * @param departments the departments list to be set
+   */
+  public void setDepartments(List<Department> departments) {
+    //this.departments = departments;
+    this.departments.clear();
+    for (Department department : departments) {
+      this.addDepartment(department);
+    }
+  }
+
+  /**
    * Onboarding an employee to the organization.
    *
    * @param employee the employee to be onboarded
    * @return true if the employee is onboarded, false otherwise
    */
   public boolean addEmployee(Employee employee) {
-    this.employees.add(employee);
-    return this.add(employee);
+    this.add(employee);
+    return this.employees.add(employee);
   }
 
   /**
@@ -44,6 +70,7 @@ public class Organization extends OrganizationComposite {
    * @return true if the employee is offboarded, false otherwise
    */
   public boolean removeEmployee(Employee employee) {
+    this.remove(employee);
     return this.employees.remove(employee);
   }
 
