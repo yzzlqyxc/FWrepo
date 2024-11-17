@@ -60,6 +60,7 @@ public class Organization extends OrganizationComposite {
    * @return true if the employee is onboarded, false otherwise
    */
   public boolean addEmployee(Employee employee) {
+    this.add(employee);
     return this.employees.add(employee);
   }
 
@@ -70,6 +71,7 @@ public class Organization extends OrganizationComposite {
    * @return true if the employee is offboarded, false otherwise
    */
   public boolean removeEmployee(Employee employee) {
+    this.remove(employee);
     return this.employees.remove(employee);
   }
 
