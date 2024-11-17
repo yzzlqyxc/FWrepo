@@ -22,7 +22,6 @@ public class Organization extends OrganizationComposite {
   public Organization(int id, String name) {
     super(id, name);
     this.typeName = "Organization";
-    this.children.clear();
     this.employees = new ArrayList<>();
     this.departments = new ArrayList<>();
   }
