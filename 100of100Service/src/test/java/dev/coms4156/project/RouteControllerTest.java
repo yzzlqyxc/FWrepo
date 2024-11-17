@@ -6,8 +6,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import dev.coms4156.project.stubs.DatabaseConnectionStub;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,8 +31,7 @@ public class RouteControllerTest {
   private static final String CLIENT_ID_2 = "Mg";
   private static final String CLIENT_ID_99 = "OTk";
 
-  private static DatabaseConnection dbConnection;
-  private static DatabaseConnectionStub dbConnectionStub;
+  private static InmemConnection inmemConnection;
 
   /**
    * Set up the test environment.
@@ -42,13 +39,13 @@ public class RouteControllerTest {
    */
   @BeforeAll
   public static void setUp() {
-    dbConnectionStub = (DatabaseConnectionStub) DatabaseConnectionStub.getInstance();
-    HrDatabaseFacade.setTestMode(dbConnectionStub);
+    inmemConnection = InmemConnection.getInstance();
+    HrDatabaseFacade.setConnection(inmemConnection);
   }
 
   @BeforeEach
   public void resetDatabase() {
-    dbConnectionStub.resetTestData();
+    inmemConnection.resetTestData();
   }
 
   @Test
@@ -455,12 +452,4 @@ public class RouteControllerTest {
     System.out.println(content);
   }
 
-  /**
-   * Tear down the test environment.
-   * Reset the database connection to the real database.
-   */
-  @AfterAll
-  public static void tearDown() {
-    HrDatabaseFacade.setTestMode(null);
-  }
 }
