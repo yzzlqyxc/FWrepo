@@ -16,6 +16,10 @@ public class InmemConnection implements DatabaseConnection {
   private final Map<Integer, List<Department>> testDepartments = new HashMap<>();
   private final Map<Integer, Organization> testOrganizations = new HashMap<>();
 
+  public String connectionName() {
+    return "In-memory Database::null";
+  }
+
   /**
    * Constructs a DatabaseConnectionStub and initializes test data.
    */

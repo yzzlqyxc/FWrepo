@@ -19,6 +19,11 @@ public class MysqlConnection implements DatabaseConnection {
   private static volatile MysqlConnection instance;
   private Connection connection;
 
+  @Override
+  public String connectionName() {
+    return "MysqlConnection::us-east-1.rds.amazonaws.com";
+  }
+
   private MysqlConnection() {
     try {
       String url = "jdbc:mysql://new-db.c3uqsummqbeu.us-east-1.rds.amazonaws.com:3306/"

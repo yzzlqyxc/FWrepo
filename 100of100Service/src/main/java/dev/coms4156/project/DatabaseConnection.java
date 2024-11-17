@@ -9,6 +9,8 @@ import java.util.List;
  */
 public interface DatabaseConnection {
 
+  String connectionName();
+
   // Employee CRUD methods //
 
   /**
