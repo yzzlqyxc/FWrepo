@@ -5,6 +5,7 @@ import java.util.List;
 /**
  * Interface for interacting with the database.
  * It provides methods for CRUD operations on employees, departments, and organizations.
+ * Designed under Strategy Pattern & Data Access Object Pattern
  */
 public interface DatabaseConnection {
 
