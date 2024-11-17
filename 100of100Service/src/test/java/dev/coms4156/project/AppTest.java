@@ -32,4 +32,9 @@ public class AppTest {
     // This test case is intentionally left blank. It just verifies the context loading.
     System.out.println("Spring Boot context loaded successfully.");
   }
+
+  @Test
+  void testApp() {
+    ServiceApplication.main(new String[] {});
+  }
 }

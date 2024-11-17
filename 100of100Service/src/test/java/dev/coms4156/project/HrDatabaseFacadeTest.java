@@ -3,12 +3,19 @@ package dev.coms4156.project;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 /**
  * A test class for the HrDatabaseFacade class.
  */
 public class HrDatabaseFacadeTest {
+
+  @BeforeAll
+  public static void setup() {
+    DatabaseConnection realConnection = MysqlConnection.getInstance();
+    HrDatabaseFacade.setConnection(realConnection);
+  }
 
   @Test
   public void testGetOrganization() {
