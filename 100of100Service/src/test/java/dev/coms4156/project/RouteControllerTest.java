@@ -491,6 +491,6 @@ public class RouteControllerTest {
    */
   @AfterAll
   public static void tearDown() {
-    HrDatabaseFacade.setTestMode(null);
+    HrDatabaseFacade.setTestMode(dbConnectionStub);
   }
 }
