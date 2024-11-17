@@ -4,8 +4,6 @@ import dev.coms4156.project.exception.NotFoundException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import dev.coms4156.project.interceptor.ParameterDecodingInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,11 +15,8 @@ import org.slf4j.LoggerFactory;
 public class HrDatabaseFacade {
   private static final Logger logger = LoggerFactory.getLogger(HrDatabaseFacade.class);
   private static final Map<Integer, HrDatabaseFacade> instances = new HashMap<>();
-  // This boolean is used to switch between the real database and the test database
-  private static boolean isTestMode = false;
-  private static DatabaseConnection dbConnectionStub = null;
+  private static DatabaseConnection dbConnection = null;
 
-  private final DatabaseConnection dbConnection;
   private final int organizationId;
   private List<Employee> employees;
   private List<Department> departments;
@@ -33,7 +28,9 @@ public class HrDatabaseFacade {
    * @param organizationId the organization id
    */
   private HrDatabaseFacade(int organizationId) {
-    this.dbConnection = isTestMode ? dbConnectionStub : DatabaseConnection.getInstance();
+    if (dbConnection == null) {
+      throw new IllegalStateException("Database connection is not initialized");
+    }
     this.organizationId = organizationId;
     // Initialize the in-memory cache
     this.organization = dbConnection.getOrganization(organizationId);
@@ -254,7 +251,9 @@ public class HrDatabaseFacade {
   // TODO: How to insert(register) / remove(deregister) an organization?
 
   public static Organization insertOrganization(Organization organization) {
-    DatabaseConnection dbConnection = isTestMode ? dbConnectionStub : DatabaseConnection.getInstance();
+    if (dbConnection == null) {
+      throw new IllegalStateException("Database connection is not initialized");
+    }
     Organization newOrganization = dbConnection.insertOrganization(organization);
     if (newOrganization != null) {
       // Create a new instance of HrDatabaseFacade for the new organization
@@ -267,7 +266,9 @@ public class HrDatabaseFacade {
 
 
   public static boolean removeOrganization(int organizationId) {
-    DatabaseConnection dbConnection = isTestMode ? dbConnectionStub : DatabaseConnection.getInstance();
+    if (dbConnection == null) {
+      throw new IllegalStateException("Database connection is not initialized");
+    }
     boolean success = dbConnection.removeOrganization(organizationId);
     if (success) {
       // Remove the HrDatabaseFacade instance for the organization
@@ -298,18 +299,12 @@ public class HrDatabaseFacade {
   }
 
   /**
-   * Sets the test mode and test database for the HR database facade.
+   * Sets the database connection for the HR database facade.
+   * Notice: This method must be called before any other methods.
    *
-   * @param testDatabaseConnection the test database connection
-   *                               (null to disable the test mode)
+   * @param databaseConnection the concrete database connection object
    */
-  public static void setTestMode(DatabaseConnection testDatabaseConnection) {
-    if (testDatabaseConnection != null) {
-      isTestMode = true;
-      HrDatabaseFacade.dbConnectionStub = testDatabaseConnection;
-    } else {
-      isTestMode = false;
-      HrDatabaseFacade.dbConnectionStub = null;
-    }
+  public static void setConnection(DatabaseConnection databaseConnection) {
+    dbConnection = databaseConnection;
   }
 }
