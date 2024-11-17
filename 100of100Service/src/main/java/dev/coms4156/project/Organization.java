@@ -27,6 +27,30 @@ public class Organization extends OrganizationComposite {
   }
 
   /**
+   * Set the employees of the organization in batch.
+   *
+   * @param employees the employees list to be set
+   */
+  public void setEmployees(List<Employee> employees) {
+    //this.employees = employees;
+    for (Employee employee : employees) {
+      this.addEmployee(employee);
+    }
+  }
+
+  /**
+   * Set the departments of the organization in batch.
+   *
+   * @param departments the departments list to be set
+   */
+  public void setDepartments(List<Department> departments) {
+    //this.departments = departments;
+    for (Department department : departments) {
+      this.addDepartment(department);
+    }
+  }
+
+  /**
    * Onboarding an employee to the organization.
    *
    * @param employee the employee to be onboarded
