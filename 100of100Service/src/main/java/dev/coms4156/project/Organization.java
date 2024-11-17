@@ -22,6 +22,7 @@ public class Organization extends OrganizationComposite {
   public Organization(int id, String name) {
     super(id, name);
     this.typeName = "Organization";
+    this.children.clear();
     this.employees = new ArrayList<>();
     this.departments = new ArrayList<>();
   }
@@ -33,6 +34,7 @@ public class Organization extends OrganizationComposite {
    */
   public void setEmployees(List<Employee> employees) {
     //this.employees = employees;
+    this.employees.clear();
     for (Employee employee : employees) {
       this.addEmployee(employee);
     }
@@ -45,6 +47,7 @@ public class Organization extends OrganizationComposite {
    */
   public void setDepartments(List<Department> departments) {
     //this.departments = departments;
+    this.departments.clear();
     for (Department department : departments) {
       this.addDepartment(department);
     }
@@ -57,8 +60,7 @@ public class Organization extends OrganizationComposite {
    * @return true if the employee is onboarded, false otherwise
    */
   public boolean addEmployee(Employee employee) {
-    this.employees.add(employee);
-    return this.add(employee);
+    return this.employees.add(employee);
   }
 
   /**
