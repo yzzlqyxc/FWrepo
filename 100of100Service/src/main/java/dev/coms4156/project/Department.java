@@ -93,16 +93,15 @@ public class Department extends OrganizationComposite {
     this.head = head;
     return true;
   }
-
   /**
    * Returns a statistic of the employees' positions in the department.
-   *
    * @return a Map of the statistic that can be easily converted to JSON
    */
   public Map<String, Integer> getEmployeePositionStatisticMap() {
     Map<String, Integer> result = new HashMap<>();
     for (Employee e : this.employees) {
       String position = e.getPosition();
+      position = (position == null || position.trim().isEmpty()) ? "unassigned" : position.trim().toLowerCase();
       result.put(position, result.getOrDefault(position, 0) + 1);
     }
     return result;
@@ -110,78 +109,109 @@ public class Department extends OrganizationComposite {
 
   /**
    * Returns a statistic of the employees' salaries in the department.
-   * The statistic includes the total salary, average salary,
-   * and the highest and lowest salaries and the corresponding employees.
-   * If there are multiple employees with the same highest or lowest salary,
-   * only the first one will be shown.
-   *
    * @return a Map of the statistic that can be easily converted to JSON
    */
   public Map<String, Object> getEmployeeSalaryStatisticMap() {
-    double totalSalary = 0;
+    if (this.employees.isEmpty()) {
+      Map<String, Object> emptyResult = new HashMap<>();
+      emptyResult.put("total", 0.0);
+      emptyResult.put("average", 0.0);
+      emptyResult.put("highest", 0.0);
+      emptyResult.put("lowest", 0.0);
+      emptyResult.put("highestEmployee", null);
+      emptyResult.put("lowestEmployee", null);
+      return emptyResult;
+    }
+
+    double totalSalary = 0.0;
     double highestSalary = Double.MIN_VALUE;
     double lowestSalary = Double.MAX_VALUE;
     Employee highestEmployee = null;
     Employee lowestEmployee = null;
 
-    // Gather statistics
     for (Employee e : this.employees) {
-      totalSalary += e.getSalary();
-      if (e.getSalary() > highestSalary) {
-        highestSalary = e.getSalary();
+      double salary = e.getSalary();
+
+      totalSalary += salary;
+
+      if (salary > highestSalary) {
+        highestSalary = salary;
         highestEmployee = e;
       }
-      if (e.getSalary() < lowestSalary) {
-        lowestSalary = e.getSalary();
+
+      if (salary < lowestSalary) {
+        lowestSalary = salary;
         lowestEmployee = e;
       }
     }
+
     double averageSalary = totalSalary / this.employees.size();
 
-    // Construct the result map
     Map<String, Object> result = new HashMap<>();
-    result.put("Total", totalSalary);
-    result.put("Average", averageSalary);
-    result.put("Highest", highestSalary);
-    result.put("Lowest", lowestSalary);
-    result.put("HighestEmployee", highestEmployee != null ? highestEmployee.getId() : null);
-    result.put("LowestEmployee", lowestEmployee != null ? lowestEmployee.getId() : null);
+    result.put("total", totalSalary);
+    result.put("average", averageSalary);
+    result.put("highest", highestSalary);
+    result.put("lowest", lowestSalary);
+    result.put("highestEmployee", highestEmployee != null ? highestEmployee.getId() : null);
+    result.put("lowestEmployee", lowestEmployee != null ? lowestEmployee.getId() : null);
     return result;
   }
 
   /**
    * Returns a statistic of the employees' performance in the department.
-   * The statistic includes the highest, average, xth quartile, median, and lowest scores.
-   * In addition, a list of employee id sorted by performance is also included.
-   *
    * @return a Map of the statistic that can be easily converted to JSON
    */
   public Map<String, Object> getEmployeePerformanceStatisticMap() {
+    Map<String, Object> result = new HashMap<>();
+
+    if (this.employees.isEmpty()) {
+      result.put("highest", 0.0);
+      result.put("percentile25", 0.0);
+      result.put("median", 0.0);
+      result.put("percentile75", 0.0);
+      result.put("lowest", 0.0);
+      result.put("average", 0.0);
+      result.put("sortedEmployeeIds", new int[0]);
+      return result;
+    }
+
     List<Double> performances = new ArrayList<>();
     for (Employee e : this.employees) {
       performances.add(e.getPerformance());
     }
     performances.sort(Double::compareTo);
 
-    // Construct the result map
-    Map<String, Object> result = new HashMap<>();
-    // Quartiles
-    result.put("Highest", performances.get(performances.size() - 1));
-    result.put("25thPercentile", performances.get(performances.size() / 4));
-    result.put("Median", performances.get(performances.size() / 2));
-    result.put("75thPercentile", performances.get(performances.size() * 3 / 4));
-    result.put("Lowest", performances.get(0));
-    // Average
-    result.put(
-        "Average",
-        performances.stream().mapToDouble(Double::doubleValue).average().orElse(0)
-    );
-    // Sorted employee IDs
-    int[] ids = this.employees.stream()
-        .sorted((e1, e2) -> Double.compare(e2.getPerformance(), e1.getPerformance()))
-        .mapToInt(Employee::getId)
-        .toArray();
-    result.put("SortedEmployeeIds", ids);
+    int size = performances.size();
+    double highest = performances.get(size - 1);
+    double lowest = performances.get(0);
+    double median = size % 2 == 0
+            ? (performances.get(size / 2 - 1) + performances.get(size / 2)) / 2
+            : performances.get(size / 2);
+
+    // Calculate quartiles safely
+    double q1 = size < 4 ? lowest : performances.get(Math.max(0, (size - 1) / 4));
+    double q3 = size < 4 ? highest : performances.get(Math.min(size - 1, (size - 1) * 3 / 4));
+
+    // Calculate average
+    double average = performances.stream()
+            .mapToDouble(Double::doubleValue)
+            .average()
+            .orElse(0.0);
+
+    result.put("highest", highest);
+    result.put("percentile25", q1);
+    result.put("median", median);
+    result.put("percentile75", q3);
+    result.put("lowest", lowest);
+    result.put("average", average);
+
+    // Sort employees by performance (descending) and get their IDs
+    int[] sortedIds = this.employees.stream()
+            .sorted((e1, e2) -> Double.compare(e2.getPerformance(), e1.getPerformance()))
+            .mapToInt(Employee::getId)
+            .toArray();
+    result.put("sortedEmployeeIds", sortedIds);
+
     return result;
   }
 
@@ -192,10 +222,23 @@ public class Department extends OrganizationComposite {
    */
   public Map<String, Object> toJson() {
     Map<String, Object> result = new HashMap<>();
-    result.put("ID", this.id);
-    result.put("Name", this.name);
-    result.put("Employees", this.employees.stream().map(Employee::getId).toArray());
-    result.put("Representation", this.toString());
+    result.put("id", this.id);
+    result.put("name", this.name);
+    result.put("head", this.head != null ? this.head.getName() : "");
+    result.put("employeeCount", this.employees.size());
+
+    // Add detailed employee information if needed
+    List<Map<String, Object>> employeesList = this.employees.stream().map(emp -> {
+      Map<String, Object> empInfo = new HashMap<>();
+      empInfo.put("id", emp.getId());
+      empInfo.put("name", emp.getName());
+      empInfo.put("position", emp.getPosition());
+      empInfo.put("performance", emp.getPerformance());
+      empInfo.put("salary", emp.getSalary());
+      return empInfo;
+    }).toList();
+    result.put("employees", employeesList);
+
     return result;
   }
 

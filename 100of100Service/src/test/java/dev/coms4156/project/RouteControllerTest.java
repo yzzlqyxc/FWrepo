@@ -282,7 +282,7 @@ public class RouteControllerTest {
 
     String res = mvcResult1.getResponse().getContentAsString();
     System.out.println(res);
-    Assertions.assertTrue(res.contains("SoftwareEngineer"));
+    Assertions.assertTrue(res.contains("softwareengineer"));
   }
 
   @Test
@@ -317,8 +317,8 @@ public class RouteControllerTest {
         .andExpect(status().isOk()).andReturn();
 
     String res = mvcResult1.getResponse().getContentAsString();
-    Assertions.assertTrue(res.contains("Total"));
-    Assertions.assertTrue(res.contains("LowestEmployee"));
+    Assertions.assertTrue(res.contains("total"));
+    Assertions.assertTrue(res.contains("lowestEmployee"));
   }
 
   @Test
@@ -362,8 +362,8 @@ public class RouteControllerTest {
         .andExpect(status().isOk()).andReturn();
 
     String res = mvcResult1.getResponse().getContentAsString();
-    Assertions.assertTrue(res.contains("75thPercentile"));
-    Assertions.assertTrue(res.contains("Average"));
+    Assertions.assertTrue(res.contains("percentile75"));
+    Assertions.assertTrue(res.contains("average"));
   }
 
   @Test
