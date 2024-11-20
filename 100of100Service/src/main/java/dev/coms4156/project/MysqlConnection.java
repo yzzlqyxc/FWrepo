@@ -53,11 +53,16 @@ public class MysqlConnection implements DatabaseConnection {
       pstmt.setInt(2, internalEmployeeId);
       ResultSet rs = pstmt.executeQuery();
       if (rs.next()) {
-        return new Employee(
+        Employee employee = new Employee(
                 externalEmployeeId,
                 rs.getString("name"),
-                rs.getDate("hire_date") // Assuming this field exists
+                rs.getDate("hire_date")
         );
+        // Set additional employee information
+        employee.setPosition(rs.getString("position"));
+        employee.setSalary(rs.getDouble("salary"));
+        employee.setPerformance(rs.getDouble("performance"));
+        return employee;
       }
     } catch (SQLException e) {
       e.printStackTrace();
@@ -113,8 +118,12 @@ public class MysqlConnection implements DatabaseConnection {
         Employee employee = new Employee(
                 externalId,
                 rs.getString("name"),
-                rs.getDate("hire_date") // Assuming this field exists
+                rs.getDate("hire_date")
         );
+        // Set additional employee information
+        employee.setPosition(rs.getString("position"));
+        employee.setSalary(rs.getDouble("salary"));
+        employee.setPerformance(rs.getDouble("performance"));
         employees.add(employee);
       }
     } catch (SQLException e) {
@@ -211,6 +220,10 @@ public class MysqlConnection implements DatabaseConnection {
                 rs.getString("name"),
                 rs.getDate("hire_date")
         );
+        // Set additional employee information
+        employee.setPosition(rs.getString("position"));
+        employee.setSalary(rs.getDouble("salary"));
+        employee.setPerformance(rs.getDouble("performance"));
         employees.add(employee);
       }
     } catch (SQLException e) {
