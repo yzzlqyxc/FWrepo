@@ -89,6 +89,9 @@ public class HrDatabaseFacade {
             .filter(d -> d.getId() == departmentId)
             .findFirst()
             .orElse(null);
+    if (department != null) {
+      System.out.println(department.toJson());
+    }
 
     if (department == null) {
       // If not found in cache, query the database
@@ -127,7 +130,25 @@ public class HrDatabaseFacade {
   public boolean updateEmployee(Employee employee) {
     boolean success = dbConnection.updateEmployee(this.organizationId, employee);
     if (success) {
+      // Update organization-level employee cache
       this.employees = dbConnection.getEmployees(this.organizationId);
+
+      // Update department-level employee cache
+      for (Department department : this.departments) {
+        List<Employee> deptEmployees = department.getEmployees();
+        for (int i = 0; i < deptEmployees.size(); i++) {
+          Employee deptEmployee = deptEmployees.get(i);
+          if (deptEmployee.getId() == employee.getId()) {
+            // replace the employee in the department cache
+            deptEmployees.set(i, employee);
+            break;
+          }
+        }
+      }
+//      System.out.println("Updated Employee List:");
+//      for (Employee emp : this.employees) {
+//        System.out.println(emp.toJson());
+//      }
     }
     return success;
   }

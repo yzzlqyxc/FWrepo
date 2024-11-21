@@ -179,12 +179,12 @@ public class Employee implements OrganizationComponent {
   public Map<String, Object> toJson() {
     Map<String, Object> result = new HashMap<>();
     result.put("ID", this.id);
-    result.put("Name", this.name);
-    result.put("HireDate", this.hireDate);
-    result.put("Position", this.position);
-    result.put("Salary", this.salary);
-    result.put("Performance", this.performance);
-    result.put("Representation", this.toString());
+    result.put("name", this.name);
+    result.put("hireDate", this.hireDate);
+    result.put("position", this.position);
+    result.put("salary", this.salary);
+    result.put("performance", this.performance);
+    result.put("representation", this.toString());
     return result;
   }
 
