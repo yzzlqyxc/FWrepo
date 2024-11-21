@@ -270,10 +270,9 @@ public class MysqlConnection implements DatabaseConnection {
 
     // Insert the new employee
     String insertEmployeeQuery =
-            "INSERT INTO employees "
-                    + "(employee_id, organization_id, "
-                    + "department_id, name, hire_date, position, salary) "
-                    + "VALUES (?, ?, ?, ?, ?, 'New Employee', 50000.00)";
+      "INSERT INTO employees "
+        + "(employee_id, organization_id, department_id, name, hire_date, position, salary, performance) "
+        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
     try (PreparedStatement pstmt = connection.prepareStatement(insertEmployeeQuery)) {
       pstmt.setInt(1, newEmployeeId);
@@ -281,6 +280,9 @@ public class MysqlConnection implements DatabaseConnection {
       pstmt.setInt(3, departmentId);
       pstmt.setString(4, employee.getName());
       pstmt.setDate(5, new java.sql.Date(employee.getHireDate().getTime()));
+      pstmt.setString(6, employee.getPosition());
+      pstmt.setDouble(7, employee.getSalary());
+      pstmt.setDouble(8, employee.getPerformance());
 
       int rowsAffected = pstmt.executeUpdate();
       if (rowsAffected > 0) {
