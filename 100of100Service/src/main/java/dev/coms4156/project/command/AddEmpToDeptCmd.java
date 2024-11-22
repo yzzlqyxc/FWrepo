@@ -8,6 +8,8 @@ import dev.coms4156.project.exception.NotFoundException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A command to add an employee to given department.
@@ -48,6 +50,7 @@ public class AddEmpToDeptCmd implements Command {
   @Override
   public Object execute() {
     HrDatabaseFacade dbFacade = HrDatabaseFacade.getInstance(clientId);
+    Map<String, Object> response = new HashMap<>();
 
     // Fetch the department from the in-memory cache or DB
     Department department = dbFacade.getDepartment(departmentId);
@@ -65,11 +68,14 @@ public class AddEmpToDeptCmd implements Command {
     }
 
     Employee tempEmployee = new Employee(-1, name, parsedHireDate, position, salary, performance);
+    System.out.println(tempEmployee.toJson());
     Employee newEmployee = dbFacade.addEmployeeToDepartment(departmentId, tempEmployee);
     if (newEmployee == null) {
       throw new BadRequestException("Failed to add employee to department");
     }
 
-    return "Employee [" + newEmployee.getId() + "] added to department: " + department.getName();
+    response.put("status", 200);
+    response.put("message", "Employee [" + newEmployee.getId() + "] added to department: " + department.getName());
+    return response;
   }
 }

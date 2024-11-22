@@ -232,23 +232,31 @@ public class RouteController {
       @RequestParam(value = "performance", required = false) Double performance
   ) {
     String component = " ";
-    if (position != null) {
-      Command command = new SetEmpPosiCmd(clientId, employeeId, position);
-      command.execute();
-      component += "position ";
+    Map<String, Object> response = new HashMap<>();
+    try {
+      if (position != null) {
+        Command command = new SetEmpPosiCmd(clientId, employeeId, position);
+        command.execute();
+        component += "position ";
+      }
+      if (salary != null) {
+        Command command = new SetEmpSalCmd(clientId, employeeId, salary);
+        command.execute();
+        component += "salary ";
+      }
+      if (performance != null) {
+        Command command = new SetEmpPerfCmd(clientId, employeeId, performance);
+        command.execute();
+        component += "performance ";
+      }
+      response.put("status", 200);
+      response.put("message", "Employee" + component + "information updated successfully");
+      return new ResponseEntity<>(response, HttpStatus.OK);
+    } catch (Exception e) {
+      response.put("status", 500);
+      response.put("message", "Failed to update employee information: " + e.getMessage());
+      return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    if (salary != null) {
-      Command command = new SetEmpSalCmd(clientId, employeeId, salary);
-      command.execute();
-      component += "salary ";
-    }
-    if (performance != null) {
-      Command command = new SetEmpPerfCmd(clientId, employeeId, performance);
-      command.execute();
-      component += "performance ";
-    }
-    String response = "Employee" + component + "information updated successfully";
-    return new ResponseEntity<>(response, HttpStatus.OK);
   }
 
   /* ***** POST METHODS ***** */

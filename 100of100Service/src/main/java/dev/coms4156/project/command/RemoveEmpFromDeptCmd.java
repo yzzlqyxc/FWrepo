@@ -5,6 +5,8 @@ import dev.coms4156.project.Employee;
 import dev.coms4156.project.HrDatabaseFacade;
 import dev.coms4156.project.exception.BadRequestException;
 import dev.coms4156.project.exception.NotFoundException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A command to remove an employee from given department.
@@ -30,6 +32,7 @@ public class RemoveEmpFromDeptCmd implements Command {
   @Override
   public Object execute() {
     HrDatabaseFacade dbFacade = HrDatabaseFacade.getInstance(clientId);
+    Map<String, Object> response = new HashMap<>();
 
     // Get the department from the database
     Department department = dbFacade.getDepartment(departmentId);
@@ -52,6 +55,8 @@ public class RemoveEmpFromDeptCmd implements Command {
       throw new BadRequestException("Failed to remove employee [" + employeeId
               + "] from department [" + departmentId + "]");
     }
-    return "Employee removed from department: " + department.getName();
+    response.put("status", 200);
+    response.put("message", "Employee removed from department: " + department.getName());
+    return response;
   }
 }

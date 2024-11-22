@@ -123,7 +123,7 @@ public class DepartmentTest {
   public void testGetEmployeePositionStatistic() {
     Map<String, Integer> ac = department.getEmployeePositionStatisticMap();
     System.out.println(ac);
-    Assertions.assertTrue(ac.containsKey(employee2.getPosition()));
+    Assertions.assertTrue(ac.containsKey(employee2.getPosition().trim().toLowerCase()));
   }
 
   @Test
@@ -139,14 +139,14 @@ public class DepartmentTest {
   public void testGetEmployeeSalaryStatistic() {
     Map<String, Object> ac = department.getEmployeeSalaryStatisticMap();
     System.out.println(ac);
-    Assertions.assertTrue(ac.containsKey("Total"));
-    Assertions.assertEquals(50.0, ac.get("Total"));
-    Assertions.assertTrue(ac.containsKey("Average"));
-    Assertions.assertTrue(ac.containsKey("Highest"));
-    Assertions.assertTrue(ac.containsKey("Lowest"));
-    Assertions.assertTrue(ac.containsKey("HighestEmployee"));
-    Assertions.assertEquals(employee2.getId(), ac.get("HighestEmployee"));
-    Assertions.assertTrue(ac.containsKey("LowestEmployee"));
+    Assertions.assertTrue(ac.containsKey("total"));
+    Assertions.assertEquals(50.0, ac.get("total"));
+    Assertions.assertTrue(ac.containsKey("average"));
+    Assertions.assertTrue(ac.containsKey("highest"));
+    Assertions.assertTrue(ac.containsKey("lowest"));
+    Assertions.assertTrue(ac.containsKey("highestEmployee"));
+    Assertions.assertEquals(employee2.getId(), ac.get("highestEmployee"));
+    Assertions.assertTrue(ac.containsKey("lowestEmployee"));
   }
 
   @Test
@@ -161,15 +161,15 @@ public class DepartmentTest {
 
     Map<String, Object> ac = d1.getEmployeePerformanceStatisticMap();
     System.out.println(ac);
-    Assertions.assertTrue(ac.containsKey("Average"));
-    Assertions.assertTrue(ac.containsKey("Highest"));
-    Assertions.assertEquals(100.0, ac.get("Highest"));
-    Assertions.assertTrue(ac.containsKey("25thPercentile"));
-    Assertions.assertTrue(ac.containsKey("Median"));
-    Assertions.assertTrue(ac.containsKey("75thPercentile"));
-    Assertions.assertTrue(ac.containsKey("Lowest"));
-    Assertions.assertTrue(ac.containsKey("SortedEmployeeIds"));
-    Assertions.assertArrayEquals(new int[]{1, 2, 3, 4, 5}, (int[]) ac.get("SortedEmployeeIds"));
+    Assertions.assertTrue(ac.containsKey("average"));
+    Assertions.assertTrue(ac.containsKey("highest"));
+    Assertions.assertEquals(100.0, ac.get("highest"));
+    Assertions.assertTrue(ac.containsKey("percentile25"));
+    Assertions.assertTrue(ac.containsKey("median"));
+    Assertions.assertTrue(ac.containsKey("percentile75"));
+    Assertions.assertTrue(ac.containsKey("lowest"));
+    Assertions.assertTrue(ac.containsKey("sortedEmployeeIds"));
+    Assertions.assertArrayEquals(new int[]{1, 2, 3, 4, 5}, (int[]) ac.get("sortedEmployeeIds"));
   }
 
 }

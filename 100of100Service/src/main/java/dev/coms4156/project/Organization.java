@@ -101,11 +101,26 @@ public class Organization extends OrganizationComposite {
    */
   public Map<String, Object> toJson() {
     Map<String, Object> result = new HashMap<>();
-    result.put("ID", this.id);
-    result.put("Name", this.name);
-    result.put("Departments", this.departments.stream().map(Department::getId).toArray());
-    result.put("Representation", this.toString());
-    result.put("Structure", displayStructure(this, 0));
+    result.put("id", this.id);
+    result.put("name", this.name);
+
+    // add departments
+    List<Map<String, Object>> departments = this.departments.stream().map(dept -> {
+      Map<String, Object> deptInfo = new HashMap<>();
+      deptInfo.put("id", dept.getId());
+      deptInfo.put("name", dept.getName() != null ? dept.getName() : "");
+      deptInfo.put("head", dept.getHead() != null ? dept.getHead().getName() : "");
+      deptInfo.put("employeeCount", dept.getEmployees() != null ? dept.getEmployees().size() : 0);
+      return deptInfo;
+    }).toList();
+    result.put("departments", departments);
+
+    // add ids
+    List<Integer> departmentIds = this.departments.stream()
+      .map(Department::getId)
+      .toList();
+    result.put("departments_id", departmentIds);
+
     return result;
   }
 

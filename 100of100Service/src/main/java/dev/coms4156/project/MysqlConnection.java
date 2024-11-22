@@ -53,11 +53,16 @@ public class MysqlConnection implements DatabaseConnection {
       pstmt.setInt(2, internalEmployeeId);
       ResultSet rs = pstmt.executeQuery();
       if (rs.next()) {
-        return new Employee(
+        Employee employee = new Employee(
                 externalEmployeeId,
                 rs.getString("name"),
-                rs.getDate("hire_date") // Assuming this field exists
+                rs.getDate("hire_date")
         );
+        // Set additional employee information
+        employee.setPosition(rs.getString("position"));
+        employee.setSalary(rs.getDouble("salary"));
+        employee.setPerformance(rs.getDouble("performance"));
+        return employee;
       }
     } catch (SQLException e) {
       e.printStackTrace();
@@ -113,8 +118,12 @@ public class MysqlConnection implements DatabaseConnection {
         Employee employee = new Employee(
                 externalId,
                 rs.getString("name"),
-                rs.getDate("hire_date") // Assuming this field exists
+                rs.getDate("hire_date")
         );
+        // Set additional employee information
+        employee.setPosition(rs.getString("position"));
+        employee.setSalary(rs.getDouble("salary"));
+        employee.setPerformance(rs.getDouble("performance"));
         employees.add(employee);
       }
     } catch (SQLException e) {
@@ -211,6 +220,10 @@ public class MysqlConnection implements DatabaseConnection {
                 rs.getString("name"),
                 rs.getDate("hire_date")
         );
+        // Set additional employee information
+        employee.setPosition(rs.getString("position"));
+        employee.setSalary(rs.getDouble("salary"));
+        employee.setPerformance(rs.getDouble("performance"));
         employees.add(employee);
       }
     } catch (SQLException e) {
@@ -257,10 +270,9 @@ public class MysqlConnection implements DatabaseConnection {
 
     // Insert the new employee
     String insertEmployeeQuery =
-            "INSERT INTO employees "
-                    + "(employee_id, organization_id, "
-                    + "department_id, name, hire_date, position, salary) "
-                    + "VALUES (?, ?, ?, ?, ?, 'New Employee', 50000.00)";
+      "INSERT INTO employees "
+        + "(employee_id, organization_id, department_id, name, hire_date, position, salary, performance) "
+        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
     try (PreparedStatement pstmt = connection.prepareStatement(insertEmployeeQuery)) {
       pstmt.setInt(1, newEmployeeId);
@@ -268,6 +280,9 @@ public class MysqlConnection implements DatabaseConnection {
       pstmt.setInt(3, departmentId);
       pstmt.setString(4, employee.getName());
       pstmt.setDate(5, new java.sql.Date(employee.getHireDate().getTime()));
+      pstmt.setString(6, employee.getPosition());
+      pstmt.setDouble(7, employee.getSalary());
+      pstmt.setDouble(8, employee.getPerformance());
 
       int rowsAffected = pstmt.executeUpdate();
       if (rowsAffected > 0) {

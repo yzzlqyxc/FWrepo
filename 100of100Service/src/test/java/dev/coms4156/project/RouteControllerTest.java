@@ -282,7 +282,7 @@ public class RouteControllerTest {
 
     String res = mvcResult1.getResponse().getContentAsString();
     System.out.println(res);
-    Assertions.assertTrue(res.contains("SoftwareEngineer"));
+    Assertions.assertTrue(res.contains("softwareengineer"));
   }
 
   @Test
@@ -317,8 +317,8 @@ public class RouteControllerTest {
         .andExpect(status().isOk()).andReturn();
 
     String res = mvcResult1.getResponse().getContentAsString();
-    Assertions.assertTrue(res.contains("Total"));
-    Assertions.assertTrue(res.contains("LowestEmployee"));
+    Assertions.assertTrue(res.contains("total"));
+    Assertions.assertTrue(res.contains("lowestEmployee"));
   }
 
   @Test
@@ -362,8 +362,8 @@ public class RouteControllerTest {
         .andExpect(status().isOk()).andReturn();
 
     String res = mvcResult1.getResponse().getContentAsString();
-    Assertions.assertTrue(res.contains("75thPercentile"));
-    Assertions.assertTrue(res.contains("Average"));
+    Assertions.assertTrue(res.contains("percentile75"));
+    Assertions.assertTrue(res.contains("average"));
   }
 
   @Test
@@ -392,7 +392,7 @@ public class RouteControllerTest {
         .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andReturn();
     String content = mvcResult1.getResponse().getContentAsString();
-    String expected = "Employee information updated successfully";
+    String expected = "{\"message\":\"Employee information updated successfully\",\"status\":200}";
     Assertions.assertEquals(expected, content);
 
     MvcResult mvcResult2 = mockMvc.perform(patch("/updateEmpInfo")
@@ -402,7 +402,7 @@ public class RouteControllerTest {
         .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andReturn();
     content = mvcResult2.getResponse().getContentAsString();
-    expected = "Employee position information updated successfully";
+    expected = "{\"message\":\"Employee position information updated successfully\",\"status\":200}";
     Assertions.assertEquals(expected, content);
 
     MvcResult mvcResult4 = mockMvc.perform(patch("/updateEmpInfo")
@@ -413,7 +413,7 @@ public class RouteControllerTest {
         .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andReturn();
     content = mvcResult4.getResponse().getContentAsString();
-    expected = "Employee salary performance information updated successfully";
+    expected = "{\"message\":\"Employee salary performance information updated successfully\",\"status\":200}";
     Assertions.assertEquals(expected, content);
   }
 
