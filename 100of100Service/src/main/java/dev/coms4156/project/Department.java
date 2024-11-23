@@ -225,6 +225,7 @@ public class Department extends OrganizationComposite {
     result.put("id", this.id);
     result.put("name", this.name);
     result.put("head", this.head != null ? this.head.getName() : "");
+    result.put("headId", this.head != null ? this.head.getId() : "");
     result.put("employeeCount", this.employees.size());
 
     // Add detailed employee information if needed
