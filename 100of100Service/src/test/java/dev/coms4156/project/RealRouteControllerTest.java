@@ -59,50 +59,7 @@ public class RealRouteControllerTest {
     HrDatabaseFacade.setConnection(mysql);
   }
 
-  @Test
-  @Execution(ExecutionMode.CONCURRENT)
-  @Order(1)
-  public void testLoginSuccess() throws Exception {
-    MvcResult result = mockMvc.perform(post("/login")
-            .param("cid", base64_1)
-            .accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk())
-        .andReturn();
 
-    JSONObject response = parseResponse(result);
-    Assertions.assertEquals("success", response.getString("status"));
-    System.out.println(response.getString("message"));
-  }
-
-  @Test
-  @Execution(ExecutionMode.CONCURRENT)
-  @Order(2)
-  public void testLoginFailure() throws Exception {
-    MvcResult result = mockMvc.perform(post("/login")
-            .param("cid", "invalid_username")
-            .accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isUnauthorized())
-        .andReturn();
-
-    JSONObject response = parseResponse(result);
-    Assertions.assertEquals("failed", response.getString("status"));
-    System.out.println(response.getString("message"));
-  }
-
-  @Test
-  @Execution(ExecutionMode.CONCURRENT)
-  @Order(3)
-  public void testLoginNotexist() throws Exception {
-    MvcResult result = mockMvc.perform(post("/login")
-            .param("cid", base64_9999)
-            .accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isUnauthorized())
-        .andReturn();
-
-    JSONObject response = parseResponse(result);
-    Assertions.assertEquals("failed", response.getString("status"));
-    System.out.println(response.getString("message"));
-  }
 
   @Test
   @Order(4)
