@@ -145,10 +145,6 @@ public class HrDatabaseFacade {
           }
         }
       }
-//      System.out.println("Updated Employee List:");
-//      for (Employee emp : this.employees) {
-//        System.out.println(emp.toJson());
-//      }
     }
     return success;
   }
@@ -163,7 +159,7 @@ public class HrDatabaseFacade {
     boolean success = dbConnection.updateDepartment(this.organizationId, department);
     if (success) {
       List<Department> updatedDepartments = dbConnection.getDepartments(this.organizationId);
-      for (Department dept: updatedDepartments) {
+      for (Department dept : updatedDepartments) {
         System.out.println(dept.toJson());
       }
       this.organization.setDepartments(updatedDepartments);
@@ -172,12 +168,12 @@ public class HrDatabaseFacade {
     return success;
   }
 
-    /**
-     * Updates the organization information.
-     *
-     * @param organization the updated organization object
-     * @return true if the organization is updated successfully, false otherwise
-     */
+  /**
+   * Updates the organization information.
+   *
+   * @param organization the updated organization object
+   * @return true if the organization is updated successfully, false otherwise
+   */
   public boolean updateOrganization(Organization organization) {
     boolean success = dbConnection.updateOrganization(organization);
     if (success) {
@@ -221,20 +217,18 @@ public class HrDatabaseFacade {
           break;
         }
       }
-//      this.departments = dbConnection.getDepartments(this.organizationId);
-
       return newEmployee;
     }
     return null;
   }
 
 
-    /**
-     * Inserts a new department into the database.
-     *
-     * @param department the partially filled department object
-     * @return the real department object with the ID assigned
-     */
+  /**
+   * Inserts a new department into the database.
+   *
+   * @param department the partially filled department object
+   * @return the real department object with the ID assigned
+   */
   public Department insertDepartment(Department department) {
     Department newDepartment = dbConnection.insertDepartment(this.organizationId, department);
     if (newDepartment != null) {
@@ -267,10 +261,10 @@ public class HrDatabaseFacade {
       for (Department department : this.departments) {
         if (department.getId() == departmentId) {
           Employee employeeToRemove = this.employees
-            .stream()
-            .filter(emp -> emp.getId() == employeeId)
-            .findFirst()
-            .orElse(null);
+              .stream()
+              .filter(emp -> emp.getId() == employeeId)
+              .findFirst()
+              .orElse(null);
 
           if (employeeToRemove != null) {
             department.removeEmployee(employeeToRemove);
@@ -278,18 +272,17 @@ public class HrDatabaseFacade {
           break;
         }
       }
-//      this.departments = dbConnection.getDepartments(this.organizationId);
     }
 
     return success;
   }
 
-    /**
-     * Removes a department from the database.
-     *
-     * @param departmentId the department ID
-     * @return true if the department is removed successfully, false otherwise
-     */
+  /**
+   * Removes a department from the database.
+   *
+   * @param departmentId the department ID
+   * @return true if the department is removed successfully, false otherwise
+   */
   public boolean removeDepartment(int departmentId) {
     boolean success = dbConnection.removeDepartment(this.organizationId, departmentId);
     if (success) {
@@ -299,9 +292,12 @@ public class HrDatabaseFacade {
     return success;
   }
 
-
-  // TODO: How to insert(register) / remove(deregister) an organization?
-
+  /**
+   * Inserts a new organization into the database.
+   *
+   * @param organization the partially filled organization object
+   * @return the real organization object with the ID assigned
+   */
   public static Organization insertOrganization(Organization organization) {
     if (dbConnection == null) {
       throw new IllegalStateException("Database connection is not initialized");
@@ -316,7 +312,12 @@ public class HrDatabaseFacade {
     return newOrganization;
   }
 
-
+  /**
+   * Removes an organization from the database.
+   *
+   * @param organizationId the organization ID
+   * @return true if the organization is removed successfully, false otherwise
+   */
   public static boolean removeOrganization(int organizationId) {
     if (dbConnection == null) {
       throw new IllegalStateException("Database connection is not initialized");
