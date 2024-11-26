@@ -28,6 +28,7 @@ public class RouteControllerTest {
   private MockMvc mockMvc;
 
   private static final String CLIENT_ID_1 = "MQ";
+  private static final String CLIENT_KEY_1 = "LWXYFtOBd1dVudC3c1qq-DSJhjWR518GLghZkzB5gXclIuY";
   private static final String CLIENT_ID_2 = "Mg";
   private static final String CLIENT_ID_99 = "OTk";
 
@@ -51,9 +52,10 @@ public class RouteControllerTest {
   @Test
   public void testGetEmployeeInfo() throws Exception {
     MvcResult mvcResult1 = mockMvc.perform(get("/getEmpInfo")
-        .param("cid", CLIENT_ID_1)
-        .param("eid", "1")
-        .accept(MediaType.APPLICATION_JSON))
+            .header("Authorization", CLIENT_KEY_1)
+            .param("cid", CLIENT_ID_1)
+            .param("eid", "1")
+            .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk()).andReturn();
 
     // String expected = "Employee: Alice (ID: 1)";
