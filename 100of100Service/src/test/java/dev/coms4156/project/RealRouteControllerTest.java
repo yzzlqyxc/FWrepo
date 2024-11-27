@@ -128,14 +128,24 @@ public class RealRouteControllerTest {
   @Order(7)
   public void testGetOrgNoparam() throws Exception {
     mockMvc.perform(get("/getOrgInfo")
-            .header("Authorization", apikey_1)
             .accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isForbidden())
+        .andExpect(status().isBadRequest())
         .andReturn();
   }
 
   @Test
+  @Execution(ExecutionMode.CONCURRENT)
   @Order(8)
+  public void testGetOrgWrongkeyformat() throws Exception {
+    mockMvc.perform(get("/getOrgInfo")
+            .header("Authorization", "ABCDEFGHIJKLMN")
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest())
+        .andReturn();
+  }
+
+  @Test
+  @Order(9)
   public void testGetDeptSuccess() throws Exception {
     org_1_employees = new ArrayList<>();
     for (Map.Entry<Integer, String> entry : org_1_depts.entrySet()) {
@@ -166,7 +176,7 @@ public class RealRouteControllerTest {
 
   @Test
   @Execution(ExecutionMode.CONCURRENT)
-  @Order(9)
+  @Order(10)
   public void testGetDeptNotexist() throws Exception {
     mockMvc.perform(get("/getDeptInfo")
             .header("Authorization", apikey_1)
@@ -179,7 +189,7 @@ public class RealRouteControllerTest {
 
   @Test
   @Execution(ExecutionMode.CONCURRENT)
-  @Order(10)
+  @Order(11)
   public void testGetEmployeeSuccess() throws Exception {
     for (int employeeId : org_1_employees) {
       MvcResult result = mockMvc.perform(get("/getEmpInfo")

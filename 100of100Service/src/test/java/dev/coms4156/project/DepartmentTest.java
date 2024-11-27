@@ -258,6 +258,19 @@ public class DepartmentTest {
 
   @Test
   @Order(19)
+  public void testGetEmployeePerformanceStatisticSmall() {
+    Employee e1 = new Employee(1, "A", new Date(), "DataScientist", 10.5, 100);
+    Employee e2 = new Employee(2, "B", new Date(), "DataScientist", 20.5, 90);
+    Department d1 = new Department(6, "D1", List.of(e1, e2));
+
+    Map<String, Object> ac = d1.getEmployeePerformanceStatisticMap();
+    System.out.println(ac);
+    Assertions.assertEquals(100.0, ac.get("highest"));
+    Assertions.assertEquals(90.0, ac.get("lowest"));
+  }
+
+  @Test
+  @Order(20)
   public void testGetEmployeePerformanceStatisticEmpty() {
     Department emptyDepartment = new Department(7, "Empty Department");
     Map<String, Object> ac = emptyDepartment.getEmployeePerformanceStatisticMap();

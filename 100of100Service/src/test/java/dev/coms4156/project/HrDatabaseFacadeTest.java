@@ -436,6 +436,21 @@ public class HrDatabaseFacadeTest {
     assertTrue(contains, "facade.departments should contain the inserted Department");
   }
 
+  @Test
+  @Order(29)
+  public void testNullDatabase() {
+    HrDatabaseFacade.setConnection(null);
+    assertThrows(IllegalStateException.class, () -> {
+      HrDatabaseFacade.getInstance(9999);
+    });
+    assertThrows(IllegalStateException.class, () -> {
+      HrDatabaseFacade.removeOrganization(9999);
+    });
+    assertThrows(IllegalStateException.class, () -> {
+      HrDatabaseFacade.insertOrganization(new Organization(0, "Test"));
+    });
+  }
+
   /**
    * Helper method to access the private static 'instances' map via reflection.
    *

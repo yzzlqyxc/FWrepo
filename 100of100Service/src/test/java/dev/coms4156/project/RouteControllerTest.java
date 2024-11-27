@@ -455,6 +455,54 @@ public class RouteControllerTest {
     Assertions.assertEquals(expected, content);
   }
 
+  @Test
+  public void testRegister() throws Exception {
+    MvcResult mvcResult = mockMvc.perform(post("/register")
+            .param("name", "TestOrgRegister")
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isCreated()).andReturn();
 
+    String content = mvcResult.getResponse().getContentAsString();
+    Assertions.assertTrue(content.contains("token") && content.contains("apikey"));
+    System.out.println(content);
+  }
 
+  @Test
+  public void testRegisterFailed() throws Exception {
+    InmemConnection notInsertConnection = new InmemConnection() {
+      @Override
+      public Organization insertOrganization(Organization organization) {
+        return null;
+      }
+    };
+    HrDatabaseFacade.setConnection(notInsertConnection);
+
+    mockMvc.perform(post("/register")
+            .param("name", "TestOrgRegister")
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest()).andReturn();
+
+    HrDatabaseFacade.setConnection(inmemConnection);
+  }
+
+  @Test
+  public void testSetEmpPositionBadConnection() throws Exception {
+    InmemConnection noUpdateConnection = new InmemConnection() {
+      @Override
+      public boolean updateEmployee(int organizationId, Employee employee) {
+        return false;
+      }
+    };
+    HrDatabaseFacade.setConnection(noUpdateConnection);
+
+    mockMvc.perform(patch("/setEmpPos")
+            .header("Authorization", CLIENT_KEY_1)
+            .param("cid", CLIENT_ID_1)
+            .param("eid", "1")
+            .param("position", "SoftwareEngineer")
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isInternalServerError()).andReturn();
+
+    HrDatabaseFacade.setConnection(inmemConnection);
+  }
 }

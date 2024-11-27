@@ -90,7 +90,6 @@ public class Department extends OrganizationComposite {
    * @return true if the validation passes, false otherwise
    */
   public boolean setHead(Employee head) {
-    // TODO: Any validation? Manager must in the department?
     this.head = head;
     return true;
   }
@@ -131,8 +130,8 @@ public class Department extends OrganizationComposite {
     double totalSalary = 0.0;
     double highestSalary = Double.NEGATIVE_INFINITY;
     double lowestSalary = Double.POSITIVE_INFINITY;
-    Employee highestEmployee = null;
-    Employee lowestEmployee = null;
+    Employee highestEmployee = this.employees.get(0);
+    Employee lowestEmployee = this.employees.get(0);
 
     for (Employee e : this.employees) {
       double salary = e.getSalary();
@@ -157,8 +156,8 @@ public class Department extends OrganizationComposite {
     result.put("average", averageSalary);
     result.put("highest", highestSalary);
     result.put("lowest", lowestSalary);
-    result.put("highestEmployee", highestEmployee != null ? highestEmployee.getId() : null);
-    result.put("lowestEmployee", lowestEmployee != null ? lowestEmployee.getId() : null);
+    result.put("highestEmployee", highestEmployee.getId());
+    result.put("lowestEmployee", lowestEmployee.getId());
     return result;
   }
 
