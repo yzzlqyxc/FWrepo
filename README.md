@@ -1,6 +1,7 @@
 # COMS 4156 Service: 100-of-100
 [![Maven build and test](https://github.com/Alex-XJK/100-of-100-service-team/actions/workflows/maven.yml/badge.svg)](https://github.com/Alex-XJK/100-of-100-service-team/actions/workflows/maven.yml)
 [![CodeQL](https://github.com/Alex-XJK/100-of-100-service-team/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/Alex-XJK/100-of-100-service-team/actions/workflows/github-code-scanning/codeql)
+[![codecov](https://codecov.io/github/Alex-XJK/100-of-100-service-team/graph/badge.svg?token=10CkTdL5TU)](https://codecov.io/github/Alex-XJK/100-of-100-service-team)
 
 GitHub repository for service of the Team Project associated with COMS 4156 Advanced Software Engineering.
 Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai Xu and Xintong Yu.
@@ -346,27 +347,42 @@ One of the latest checkstyle report is located at `./checkstyle.out` file.
 ![CheckStyle Report](./checkstyle.png)
 
 ### Static Analysis
+
+#### GitHub CodeQL Analysis CI
+We use [GitHub CodeQL](https://codeql.github.com/) to perform static analysis on our code.
+The CodeQL CI is run automatically on every PR to the main branch. The CodeQL analysis badge is displayed at the top of this README file.
+
+#### PMD Static Analysis Report
 We use PMD to perform static analysis on our code. To generate the static analysis report, you need to install the PMD tool as documented in I1. Then
 run the following command:
 ```bash
-pmd check -d . -R rulesets/java/quickstart.xml -f text
+pmd check -d src/main -R rulesets/java/quickstart.xml -f text
 ```
 The static analysis report is located at `./pmdcheck.out` file. We have solved amost all the static bugs found by PMD, but there are still some static bugs remaining. According to the assignment requirements,
 > If static bugs remain at the time of submission you must document these and explain why they remain.
 
 We document the reasons for the remaining static bugs here:
-1. **AvoidUsingVolatile**: [category/java/multithreading/AvoidUsingVolatile](https://docs.pmd-code.org/latest/pmd_rules_java_multithreading.html#avoidusingvolatile) - According to the PMD description, the use of volatile is discouraged because it is difficult to use correctly, and requires a good expertise of the Java Memory Model. However, we consulted both the official publication (Freeman 179) and the professor recommended website, refactoring.guru, and found that the use of volatile is a good way to ensure the multi-threading safety of the singleton pattern and follows the "double-checked locking" mechanism. Therefore, we decided to keep the volatile keyword in our singleton pattern implementation.
+1. **AvoidUsingVolatile**: [category/java/multithreading/AvoidUsingVolatile](https://docs.pmd-code.org/latest/pmd_rules_java_multithreading.html#avoidusingvolatile) - According to the PMD description, the use of volatile is discouraged because it is difficult to use correctly, and requires a good expertise of the Java Memory Model. However, we consulted both the official publication (Freeman 184) and the professor recommended website, refactoring.guru, and found that the use of volatile is a good way to ensure the multi-threading safety of the singleton pattern and follows the "double-checked locking" mechanism. Therefore, we decided to keep the volatile keyword in our singleton pattern implementation.
 2. **UseUtilityClass**: [category/java/design/UseUtilityClass](https://docs.pmd-code.org/latest/pmd_rules_java_design.html#useutilityclass) - We understand the PMD rule suggests that utility classes should be final and have a private constructor to prevent instantiation. However, in our case, `ServiceApplication` class is a Springboot special class that is used to start the Springboot application. It is not a utility class. If it is made non-instantiable, the Springboot will reports "IllegalState ApplicationContext failure" error. Therefore, we decided to keep the ServiceApplication class as it is.
 3. **UnusedPrivateMethod**: [category/java/bestpractices/UnusedPrivateMethod](https://docs.pmd-code.org/latest/pmd_rules_java_bestpractices.html#unusedprivatemethod) - This is false positive. After checking the code, we confirmed that the methods are used in the project, but PMD does not recognize it. For example, the `errorResponse()` was used in `handleItemNotFoundException()`, `handleForbiddenException()` and etc. The `throwBadRequestException()` was used in `testBadRequestException()`. The `throwForbiddenException()` was used in `testForbiddenException()`, and so on.
 
 ### Branch Coverage Report
+
+#### Codecov CI
+We use [GitHub Codecov](https://app.codecov.io/) to generate the branch coverage report. 
+The Codecov CI is run automatically on every PR to the main branch. The Codecov badge is displayed at the top of this README file.
+As a code quality management tool, we also set up the coverage policy to ensure that at each PR,
+the overall coverage does not decrease by more than 5%, and the changed code is covered by at least 75%, otherwise the PR will not be approved by Codecov automatically.
+![Codecov Graphs](https://codecov.io/github/Alex-XJK/100-of-100-service-team/graphs/icicle.svg?token=10CkTdL5TU)
+
+#### JaCoCo Branch Coverage Report
 We use JaCoCo Maven plugin to generate the branch coverage report. To generate the report, first make sure you have run the test suite. Then run the following command:
 ```bash
 mvn jacoco:report
 ```
 The report is located at `./target/site/jacoco/index.html` file.
 
-Currently, the branch coverage is at 64% for the service.
+Currently, the branch coverage is at 86% for the service.
 ![Branch Coverage](./coverage.png)
 
 ### Tool Used
