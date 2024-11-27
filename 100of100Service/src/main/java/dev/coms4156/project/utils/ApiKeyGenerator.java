@@ -5,9 +5,22 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
+/**
+ * Utility class for generating API keys.
+ */
 public final class ApiKeyGenerator {
   private static final String SECRET = "100of100-secret";
 
+  private ApiKeyGenerator() {
+    // Prevent instantiation
+  }
+
+  /**
+   * Generates an API key for the given client ID.
+   *
+   * @param cid the client ID
+   * @return the generated API key
+   */
   public static String generateApiKey(String cid) {
     String rawKey = cid + SECRET;
 
