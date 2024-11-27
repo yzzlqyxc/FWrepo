@@ -34,7 +34,10 @@ import org.springframework.test.web.servlet.MvcResult;
 public class RealRouteControllerTest {
 
   private static final String base64_1 = "MQ";
+  private static final String apikey_1 = "LWXYFtOBd1dVudC3c1qq-DSJhjWR518GLghZkzB5gXclIuY";
   private static final String base64_9999 = "OTk5OQ";
+  private static final String apikey_9999 = "LWXYJwyiohgSJfgDkxOnNeX-bD2sVIr511qM_8NvYs-ai9g";
+
 
   @Autowired
   private MockMvc mockMvc;
@@ -70,6 +73,7 @@ public class RealRouteControllerTest {
     org_1_depts = new HashMap<>();
 
     MvcResult result = mockMvc.perform(get("/getOrgInfo")
+            .header("Authorization", apikey_1)
             .param("cid", base64_1)
             .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
@@ -100,6 +104,7 @@ public class RealRouteControllerTest {
   @Order(5)
   public void testGetOrgNotexist() throws Exception {
     mockMvc.perform(get("/getOrgInfo")
+            .header("Authorization", apikey_9999)
             .param("cid", base64_9999)
             .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound())
@@ -111,9 +116,10 @@ public class RealRouteControllerTest {
   @Order(6)
   public void testGetOrgFailure() throws Exception {
     mockMvc.perform(get("/getOrgInfo")
+            .header("Authorization", apikey_1)
             .param("cid", "invalid_clienttoken")
             .accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isInternalServerError())
+        .andExpect(status().isForbidden())
         .andReturn();
   }
 
@@ -122,6 +128,7 @@ public class RealRouteControllerTest {
   @Order(7)
   public void testGetOrgNoparam() throws Exception {
     mockMvc.perform(get("/getOrgInfo")
+            .header("Authorization", apikey_1)
             .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isForbidden())
         .andReturn();
@@ -133,6 +140,7 @@ public class RealRouteControllerTest {
     org_1_employees = new ArrayList<>();
     for (Map.Entry<Integer, String> entry : org_1_depts.entrySet()) {
       MvcResult result = mockMvc.perform(get("/getDeptInfo")
+              .header("Authorization", apikey_1)
               .param("cid", base64_1)
               .param("did", entry.getKey().toString())
               .accept(MediaType.APPLICATION_JSON))
@@ -161,6 +169,7 @@ public class RealRouteControllerTest {
   @Order(9)
   public void testGetDeptNotexist() throws Exception {
     mockMvc.perform(get("/getDeptInfo")
+            .header("Authorization", apikey_1)
             .param("cid", base64_1)
             .param("did", "9999")
             .accept(MediaType.APPLICATION_JSON))
@@ -174,6 +183,7 @@ public class RealRouteControllerTest {
   public void testGetEmployeeSuccess() throws Exception {
     for (int employeeId : org_1_employees) {
       MvcResult result = mockMvc.perform(get("/getEmpInfo")
+              .header("Authorization", apikey_1)
               .param("cid", base64_1)
               .param("eid", String.valueOf(employeeId))
               .accept(MediaType.APPLICATION_JSON))
