@@ -228,24 +228,6 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
    - HTTP 404 Status Code is returned with "Department Not Found" in the response body.
    - HTTP 500 Status Code is returned with "An unexpected error has occurred" in the response body.
 
-### POST `/login`
-- **Expected Input Parameters**:
-   - `cid` (string) - The client's unique token.
-- **Expected Output**:
-   - A success message indicating the client has been logged in.
-   - Sample output:
-      ```json
-      {
-         "status": "success",
-         "message": "Logged in as CompanyICM"
-      }
-      ```
-- **Upon Success**:
-   - HTTP 200 Status Code is returned with a success message.
-- **Upon Failure**:
-   - HTTP 401 Status Code is returned if the client ID is invalid or not found.
-   - HTTP 500 Status Code is returned if any unexpected error occurs.
-
 ### POST `/register`
 - **Expected Input Parameters**:
    - `name` (string) - The name of the organization.
@@ -256,7 +238,8 @@ Our team name is 100-of-100 and our members are: Yifei Luo, Phoebe Wang, Jiakai 
    {
       "status": "success",
       "message": "Organization AdvSE created",
-      "token": "****"
+      "token": "****",
+      "apikey": "****"
    }
    ```
 - **Upon Success**:
