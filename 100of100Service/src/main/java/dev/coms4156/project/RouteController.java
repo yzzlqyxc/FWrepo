@@ -301,7 +301,7 @@ public class RouteController {
   ) {
     Command command = new RegisterCmd(name);
     Map<String, String> response = (Map<String, String>) command.execute();
-    if (response.get("status").equals("success")) {
+    if ("success".equals(response.get("status"))) {
       return new ResponseEntity<>(response, HttpStatus.CREATED);
     } else {
       return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);

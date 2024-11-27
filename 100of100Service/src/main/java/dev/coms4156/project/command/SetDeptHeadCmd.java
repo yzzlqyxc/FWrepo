@@ -3,7 +3,6 @@ package dev.coms4156.project.command;
 import dev.coms4156.project.Department;
 import dev.coms4156.project.Employee;
 import dev.coms4156.project.HrDatabaseFacade;
-import dev.coms4156.project.exception.BadRequestException;
 import dev.coms4156.project.exception.InternalServerErrorException;
 import dev.coms4156.project.exception.NotFoundException;
 import java.util.HashMap;
