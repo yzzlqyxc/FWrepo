@@ -5,6 +5,7 @@ import dev.coms4156.project.command.Command;
 import dev.coms4156.project.command.GetDeptInfoCmd;
 import dev.coms4156.project.command.GetEmpInfoCmd;
 import dev.coms4156.project.command.GetOrgInfoCmd;
+import dev.coms4156.project.command.RegisterCmd;
 import dev.coms4156.project.command.RemoveEmpFromDeptCmd;
 import dev.coms4156.project.command.SetDeptHeadCmd;
 import dev.coms4156.project.command.SetEmpPerfCmd;
@@ -285,6 +286,26 @@ public class RouteController {
         clientId, departmentId, name, hireDate, position, salary, performance
     );
     return new ResponseEntity<>(command.execute(), HttpStatus.CREATED);
+  }
+
+  /**
+   * Register a new client, namely to create a new organization.
+   *
+   * @param name the name of the organization
+   * @return a success message and client ID if the organization is successfully created,
+   *        or a failure message if the operation fails.
+   */
+  @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> register(
+      @RequestParam("name") String name
+  ) {
+    Command command = new RegisterCmd(name);
+    Map<String, String> response = (Map<String, String>) command.execute();
+    if ("success".equals(response.get("status"))) {
+      return new ResponseEntity<>(response, HttpStatus.CREATED);
+    } else {
+      return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
   }
 
   /* ***** DELETE METHODS ***** */

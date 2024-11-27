@@ -1,5 +1,6 @@
 package dev.coms4156.project.config;
 
+import dev.coms4156.project.interceptor.ApiKeyInterceptor;
 import dev.coms4156.project.interceptor.ParameterDecodingInterceptor;
 import dev.coms4156.project.interceptor.RrLoggingInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,17 @@ public class WebConfig implements WebMvcConfigurer {
   @Autowired
   private ParameterDecodingInterceptor parameterDecodingInterceptor;
 
+  @Autowired
+  private ApiKeyInterceptor apiKeyInterceptor;
+
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
     registry.addInterceptor(rrLoggingInterceptor).addPathPatterns("/**");
+    registry.addInterceptor(apiKeyInterceptor)
+        .addPathPatterns("/**")
+        .excludePathPatterns(
+            "/register"
+        );
     registry.addInterceptor(parameterDecodingInterceptor)
         .addPathPatterns("/**")
         .excludePathPatterns(
