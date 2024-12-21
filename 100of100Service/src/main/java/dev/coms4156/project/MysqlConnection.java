@@ -27,8 +27,8 @@ public final class MysqlConnection implements DatabaseConnection {
     try {
       String url = System.getProperty(
           "db.url",
-          "jdbc:mysql://new-db.c3uqsummqbeu.us-east-1.rds.amazonaws.com:3306"
-              + "/organization_management");
+          "jdbc:mysql://demo-db.c3uqsummqbeu.us-east-1.rds.amazonaws.com:3306"
+              + "/demo_db");
       String user = System.getProperty("db.user", "admin");
       String password = System.getProperty("db.password", "12345678");
 
